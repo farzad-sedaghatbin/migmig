@@ -104,7 +104,7 @@ App.controller('AppCtrl', function ($scope, $rootScope, $cordovaNetwork, $ionicM
     // $state.go('app.landing');
     if (form.$valid) {
       delete $http.defaults.headers.common.Authorization;
-      var url = "http://192.168.161.111:8080/api/1/user_authenticate";
+      var url = "https://migmig.cfapps.io/api/1/user_authenticate";
       var data = {
         username: $scope.login.mail,
         password: $scope.login.pwd,
@@ -147,7 +147,7 @@ App.controller('AppCtrl', function ($scope, $rootScope, $cordovaNetwork, $ionicM
         'Name': $scope.signUp.name,
       }
 
-      var url = "http://192.168.161.111:8080/api/1/signup";
+      var url = "https://migmig.cfapps.io/api/1/signup";
       var data = {
         firstName: $scope.signUp.name,
         lastName: $scope.signUp.name,
@@ -209,7 +209,7 @@ App.controller('AppCtrl', function ($scope, $rootScope, $cordovaNetwork, $ionicM
   $scope.load_trips = function () {
     $http({
       method: "POST",
-      url: "http://192.168.161.111:8080/api/1/clientTrips"
+      url: "https://migmig.cfapps.io/api/1/clientTrips"
     }).then(function (resp) {
       $rootScope.Trips = resp.data;
       $rootScope.active_trip = $rootScope.Trips.inProgressTrips;
