@@ -20,7 +20,7 @@ App.controller('peykCtrl', function ($scope, $rootScope, landInit, $state) {
   $scope.map = map;
   $scope.init_status = true;
 
-  var socket = new WebSocket("ws://192.168.161.111:8080/driverHandler");
+  var socket = new WebSocket("wss://migmig.cfapps.io:4443/driverHandler");
   socket.onopen = function () {
     socket.send("mylocation","1,35.770412, 51.444817")
   };
