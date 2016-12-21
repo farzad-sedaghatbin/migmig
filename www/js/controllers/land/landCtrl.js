@@ -200,7 +200,16 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
         resetAllThings();
         break;
       case "arrived":
-        $cordovaNativeAudio.play("driver");
+
+        $cordovaNativeAudio
+          .preloadSimple('migmig', 'audio/migmig.mp3')
+
+          .then(function (msg) {
+            console.log(msg);
+          }, function (error) {
+            console.log(error);
+          });
+        $cordovaNativeAudio.play("migmig");
         $ionicPopup.alert({
           title: '<p class="text-center color-yellow">' + $filter('langTranslate')("راننده رسید", $rootScope.appConvertedLang['FAILED']) + '</p>',
           template: '<p class="text-center color-gery">' + $filter('langTranslate')("راننده به محل مبدا رسیده است", $rootScope.appConvertedLang['Enter_pickup_location']) + '</p>'
