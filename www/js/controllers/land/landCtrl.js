@@ -264,7 +264,7 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
           });
           $scope.fromMarker.setPosition(event.latLng);
           $scope.fromMarker.setVisible(true);
-          var contentString = '<div ng-click="deleteFrom()">لغو مبدا</div>';
+          var contentString = '<div ng-click="deleteFrom()" class="myText">لغو مبدا</div>';
           var compiled = $compile(contentString)($scope);
           infowindow.setContent(compiled[0]);
           infowindow.open($scope.map, $scope.fromMarker);
@@ -283,6 +283,7 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
             alert("error");
           });
           $scope.map.fitBounds(bound);
+          client.send("aroundme,1," + $scope.start_box.lat + "," + $scope.start_box.lng);
         } else if (numOfClick == 1) {
           numOfClick = 2;
           bound = new google.maps.LatLngBounds(null);
@@ -294,7 +295,7 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
           });
           $scope.toMarker.setPosition(event.latLng);
           $scope.toMarker.setVisible(true);
-          var contentString = '<div ng-click="deleteTo()">لغو مقصد</div>';
+          var contentString = '<div ng-click="deleteTo()" class="myText">لغو مقصد</div>';
           var compiled = $compile(contentString)($scope);
           infowindow.setContent(compiled[0]);
           infowindow.open($scope.map, $scope.toMarker);
@@ -350,7 +351,7 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
         toInfowindow.close();
         fromInfowindow.open($scope.map, $scope.fromMarker);
       });
-      var contentString = '<div ng-click="deleteFrom()">لغو مبدا</div>';
+      var contentString = '<div ng-click="deleteFrom()" class="myText">لغو مبدا</div>';
       var compiled = $compile(contentString)($scope);
       fromInfowindow.setContent(compiled[0]);
       fromInfowindow.open($scope.map, $scope.fromMarker);
@@ -394,7 +395,7 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
         $scope.end_box.lat = $scope.to.getPlace().geometry.location.lat();
         $scope.end_box.lng = $scope.to.getPlace().geometry.location.lng();
       });
-      var contentString = '<div ng-click="deleteTo()">لغو مقصد</div>';
+      var contentString = '<div ng-click="deleteTo()" class="myText">لغو مقصد</div>';
       var compiled = $compile(contentString)($scope);
       toInfowindow.setContent(compiled[0]);
       toInfowindow.open($scope.map, $scope.toMarker);
