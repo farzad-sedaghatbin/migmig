@@ -19,10 +19,12 @@ App.controller('navigationCtrl', function ($scope, $rootScope, landInit, $timeou
   $scope.map = map;
   $scope.init_status = true;
 
-  var image = 'img/icons/google_marker.png';
+  var startImage = 'img/source.png';
+  var endImage = 'img/destination.png'; 
+  
   $scope.fromMarker = new google.maps.Marker({
     map: $scope.map,
-    icon: image
+    icon: startImage
   });
   $scope.fromMarker.setPosition(myLatlng);
   $scope.fromMarker.setVisible(true);
