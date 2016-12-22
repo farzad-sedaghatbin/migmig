@@ -73,29 +73,23 @@
             </div>
           </div>
         </div>
-        <div ng-if="showDriverInfo">
-          <div class="row no-padding b-border-light">
-            <div class="col  r-border-light p-10 text-center">
-              <p class='color-white p-head myText'>نام راننده</p>
-              <p class='color-gery'>{{driver.name}}</p>
-            </div>
+        <div class="row no-padding b-border-light" ng-if="showDriverInfo">
+          <div class="col  r-border-light p-10 text-center" >
+            <p class='color-white p-head myText'>نام راننده</p>
+            <p class='color-gery myText'>{{driver.name}}</p>
           </div>
-          <div class="row no-padding b-border-light">
-            <div class="col  r-border-light p-10 text-center">
-              <p class='color-white p-head myText'>شماره تلفن راننده</p>
-              <p class='color-gery'>{{driver.mobile}}</p>
-            </div>
+          <div class="col  r-border-light p-10 text-center" >
+            <p class='color-white p-head myText'>شماره تلفن راننده</p>
+            <p class='color-gery myText'>{{driver.mobile}}</p>
           </div>
-          <div class="row no-padding b-border-light">
-            <div class="col  p-10 text-center">
-              <p class='color-white p-head myText'>پلاک</p>
-              <p class='color-gery'>{{driver.number}}</p>
-            </div>
+          <div class="col  r-border-light p-10 text-center" >
+            <p class='color-white p-head myText'>پلاک</p>
+            <p class='color-gery myText'>{{driver.number}}</p>
           </div>
         </div>
       </div>
 
-      <ion-scroll delegate-handle="calendarScroll" direction="x" class='bg-dark2'>
+      <ion-scroll ng-if="!showDriverInfo" delegate-handle="calendarScroll" direction="x" class='bg-dark2'>
         <div class="row no-padding text-center ">
           <div class="col col-25" ng-class="{active_cab : active_cab == $index }" ng-click='clicked_item($index)'
                ng-repeat="cab in cabs">
