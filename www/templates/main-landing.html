@@ -10,7 +10,7 @@
           <label class=" item-input">
             <i class="icon ion-ios-search placeholder-icon color-yellow "></i>
             <!-- <input class='color-yellow' ng-autocomplete id="autocomplete-to" type="text" ng-model="sel_place"  placeholder="Pickup location" details="autocomplete.details" > -->
-            <input style="direction: rtl;text-align: right" ng-disabled='pop_status == 2' class='color-yellow myText'
+            <input style="direction: rtl;text-align: right" ng-disabled='!enableBox' class='color-yellow myText'
                    id="autocompletefrom" ng-model='start_box.location' type="text" ng-focus='disableTapFrom()'
                    placeholder="مبدا"/>
           </label>
@@ -20,7 +20,7 @@
           <label class=" item-input">
             <i class="icon ion-ios-search placeholder-icon color-yellow "></i>
             <!-- <input class='color-yellow' ng-autocomplete id="autocomplete-to" type="text" ng-model="sel_place"  placeholder="Pickup location" details="autocomplete.details" > -->
-            <input style="direction: rtl" ng-disabled='pop_status == 2' class='color-yellow myText' id="autocompleteto"
+            <input style="direction: rtl" ng-disabled='!enableBox' class='color-yellow myText' id="autocompleteto"
                    ng-model='end_box.location' type="text" ng-focus='disableTapTo()' placeholder="مقصد"/>
 
           </label>
@@ -39,7 +39,7 @@
       <my-date-time-picker placeholder="Enter Date here" title="Select Date" ng-model="my_model"/>
       <!---->
       <div id='tab-hide' class='bg-dark1 visible'>
-        <div ng-if="!showDriverInfo">
+        <div>
           <div class='head-box text-center'>
             <div class='vertical-middle'>
               <span class='color-yellow d-block '>{{selected_cab.cost}}</span>
@@ -73,29 +73,13 @@
             </div>
           </div>
         </div>
-        <div class="row no-padding b-border-light" ng-if="showDriverInfo">
-          <div class="col  r-border-light p-10 text-center" >
-            <p class='color-white p-head myText'>نام راننده</p>
-            <p class='color-gery myText'>{{driver.name}}</p>
-          </div>
-          <div class="col  r-border-light p-10 text-center" >
-            <p class='color-white p-head myText'>شماره تلفن راننده</p>
-            <p class='color-gery myText'>{{driver.mobile}}</p>
-          </div>
-          <div class="col  r-border-light p-10 text-center" >
-            <p class='color-white p-head myText'>پلاک</p>
-            <p class='color-gery myText'>{{driver.number}}</p>
-          </div>
-        </div>
       </div>
-
-      <ion-scroll ng-if="!showDriverInfo" delegate-handle="calendarScroll" direction="x" class='bg-dark2'>
+      <ion-scroll delegate-handle="calendarScroll" direction="x" class='bg-dark2'>
         <div class="row no-padding text-center ">
           <div class="col col-25" ng-class="{active_cab : active_cab == $index }" ng-click='clicked_item($index)'
                ng-repeat="cab in cabs">
-            <div class="col color-yellow">{{cab.vehicleType | limitTo:7 }}<span
-              ng-show='cab.cartype.length > 7'>..</span></div>
-            <img ng-src='img/{{cab.cartype}}.png' err-SRC="img/Sedan.png" style='width: 50px'/>
+            <div class="col color-yellow myText">{{cab.name}}</div>
+            <img ng-src='img/{{cab.vehicleType}}.png' style='width: 50px'/>
             <!-- <div class="col color-gery">{{day.number}}</div> -->
           </div>
         </div>
@@ -104,7 +88,21 @@
     <div class='color-white text-center net-error myText'>به اینترنت متصل نیستید</div>
   </ion-content>
 
-  <ion-footer-bar class="bg-dark">
+  <ion-footer-bar class="bg-dark" id="footer">
+    <div class="row no-padding" ng-if="showDriverInfo">
+      <div class="col  r-border-light p-10 text-center" >
+        <p class='color-white p-head myText'>نام راننده</p>
+        <p class='color-gery myText'>{{driver.name}}</p>
+      </div>
+      <div class="col  r-border-light p-10 text-center" ng-click="CallNumber(driver.mobile)">
+        <p id="phone" class='color-white p-head myText'><i class="ion-android-call" style="padding-right: 10px"></i> شماره تلفن راننده</p>
+        <p class='color-gery myText'>{{driver.mobile}}</p>
+      </div>
+      <div class="col  p-10 text-center" >
+        <p class='color-white p-head myText'>پلاک</p>
+        <p class='color-gery myText'>{{driver.number}}</p>
+      </div>
+    </div>
     <div class='footer-box bg-dark color-yellow' ng-show='pop_status == 1'>
       <div class='w-50-p pull-left my-button h-100-p text-center border-r-yellow myText' ng-click='ride("later")'>رزرو</div>
       <div class='w-50-p pull-left my-button h-100-p text-center myText' ng-click='ride("now")'>درخواست</div>
