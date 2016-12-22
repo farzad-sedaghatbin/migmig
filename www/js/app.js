@@ -62,7 +62,6 @@ angular.module('CallApp', ['ionic', 'ngCordova', 'CallAppcontrollers'])
     $ionicPlatform.ready(function () {
       // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
       // for form inputs)
-      $cordovaNativeAudio.preloadSimple('driver', 'audio/migmig.mp3');
       if (window.cordova && window.cordova.plugins.Keyboard) {
         cordova.plugins.Keyboard.hideKeyboardAccessoryBar(false);
         cordova.plugins.Keyboard.disableScroll(true);
@@ -315,7 +314,6 @@ angular.module('CallApp', ['ionic', 'ngCordova', 'CallAppcontrollers'])
             result = results.rows.item(0).log;
           }
           if (!result) {
-            delete $http.defaults.headers.common.Authorization;
             $location.path('app/landing');
           }
           else {
