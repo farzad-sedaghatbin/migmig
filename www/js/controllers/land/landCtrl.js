@@ -244,7 +244,8 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
     var from_el = document.getElementById('autocompletefrom');
     var to_el = document.getElementById('autocompleteto');
     var infowindow = new google.maps.InfoWindow();
-    var image = 'img/icons/google_marker.png';
+    var startImage = 'img/source.png';
+    var endImage = 'img/destination.png';  
     $scope.map.addListener("click", function (event) {
       if (numOfClick == 2) {
         alert("مبدا و مقصد قبلا انتخاب شده اند")
@@ -264,7 +265,7 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
           }
           $scope.fromMarker = new google.maps.Marker({
             map: $scope.map,
-            icon: image
+            icon: startImage
           });
           $scope.fromMarker.setPosition(event.latLng);
           $scope.fromMarker.setVisible(true);
@@ -295,7 +296,7 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
           bound.extend($scope.fromMarker.getPosition());
           $scope.toMarker = new google.maps.Marker({
             map: $scope.map,
-            icon: image
+            icon: endImage
           });
           $scope.toMarker.setPosition(event.latLng);
           $scope.toMarker.setVisible(true);
