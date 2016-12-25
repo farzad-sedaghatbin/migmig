@@ -103,7 +103,10 @@ App.controller('AppCtrl', function ($scope, $rootScope, $cordovaNetwork, $ionicM
     //$state.go('view', {movieid: 1});
     // $state.go('app.landing');
     if (form.$valid) {
-      delete $http.defaults.headers.common.Authorization;
+      try {
+        delete $http.defaults.headers.common.Authorization;
+      }catch (e){
+      }
       var url = "https://migmig.cfapps.io/api/1/user_authenticate";
       var data = {
         username: $scope.login.mail,

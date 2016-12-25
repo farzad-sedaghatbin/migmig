@@ -133,7 +133,9 @@ angular.module('CallApp', ['ionic', 'ngCordova', 'CallAppcontrollers'])
       if (result) {
         $http.defaults.headers.common.Authorization = result;
       } else {
-        delete $http.defaults.headers.common.Authorization;
+        try {
+          delete $http.defaults.headers.common.Authorization;
+        } catch (e){}
       }
     }
   })
@@ -316,7 +318,7 @@ angular.module('CallApp', ['ionic', 'ngCordova', 'CallAppcontrollers'])
           }
           if (!result) {
             delete $http.defaults.headers.common.Authorization;
-            $location.path('app/landing');
+            $location.path('landing');
           }
           else {
             $location.path('app/landing');
