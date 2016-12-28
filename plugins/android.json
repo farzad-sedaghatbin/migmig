@@ -30,6 +30,12 @@
         },
         "cordova-plugin-nativeaudio": {
             "PACKAGE_NAME": "com.ionicframework.myapp960421"
+        },
+        "org.apache.cordova.speech.speechrecognition": {
+            "PACKAGE_NAME": "com.ionicframework.myapp960421"
+        },
+        "cordova-plugin-vibration": {
+            "PACKAGE_NAME": "com.ionicframework.myapp960421"
         }
     },
     "dependent_plugins": {
