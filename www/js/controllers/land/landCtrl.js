@@ -1,4 +1,4 @@
-App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoading, $compile, $ionicModal, $window, $timeout, $ionicPopup, landInit, WebService, $filter) {
+App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoading, $compile, $ionicModal, $window, $timeout, $ionicPopup, landInit, WebService, $filter,  $cordovaNativeAudio,$cordovaVibration) {
 
 
 
@@ -188,7 +188,12 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
         resetAllThings();
         break;
       case "arrived":
-        // $cordovaNativeAudio.play("driver");
+        $cordovaNativeAudio
+          .preloadSimple('migmig', 'audio/migmig.mp3')
+
+        $cordovaNativeAudio.play("migmig");
+        $cordovaVibration.vibrate(100);
+        //todo alert
         $ionicPopup.alert({
           title: '<p class="text-center color-yellow">' + $filter('langTranslate')("راننده رسید", $rootScope.appConvertedLang['FAILED']) + '</p>',
           template: '<p class="text-center color-gery">' + $filter('langTranslate')("راننده به محل مبدا رسیده است", $rootScope.appConvertedLang['Enter_pickup_location']) + '</p>'
