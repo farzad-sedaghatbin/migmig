@@ -121,7 +121,7 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
   client.onopen = function () {
     client.send("join,1");
   };
-  var image = 'img/motor.png';
+  var image = 'img/motorcycle.png';
   var bound = new google.maps.LatLngBounds(null);
   var markers = [];
   var delivery = new google.maps.Marker({
