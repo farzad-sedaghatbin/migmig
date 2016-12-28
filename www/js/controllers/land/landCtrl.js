@@ -117,7 +117,7 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
   };
 
   var numOfClick = 0;
-  var client = new WebSocket("wss://migmig.cfapps.io:4443/myHandler");
+  var client = new WebSocket("ws://127.0.0.1:8080/myHandler");
   client.onopen = function () {
     client.send("join,1");
   };
@@ -540,7 +540,7 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
     $ionicLoading.show();
     $http({
       method: "POST",
-      url: "https://migmig.cfapps.io/api/1/calculate",
+      url: "http://127.0.0.1:8080/api/1/calculate",
       data: $scope.start_box.lat + "," + $scope.start_box.lng + "," + $scope.end_box.lat + "," + $scope.end_box.lng
     }).then(function (resp) {
       $ionicLoading.hide();
@@ -557,7 +557,7 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
     $ionicLoading.hide();
     $http({
       method: "POST",
-      url: "https://migmig.cfapps.io/api/1/rejectUser",
+      url: "http://127.0.0.1:8080/api/1/rejectUser",
       data: uid
     }).then(function (resp) {
     }, function (err) {
@@ -583,7 +583,7 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
       };
       $http({
         method: "POST",
-        url: "https://migmig.cfapps.io/api/1/confirmRequest",
+        url: "http://127.0.0.1:8080/api/1/confirmRequest",
         data: data
       }).then(function (resp) {
         uid = resp.data;
@@ -616,7 +616,7 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
       };
       $http({
         method: "POST",
-        url: "https://migmig.cfapps.io/api/1/confirmReserve",
+        url: "http://127.0.0.1:8080/api/1/confirmReserve",
         data: data
       }).then(function (resp) {
       }, function (err) {

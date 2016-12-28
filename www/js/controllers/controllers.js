@@ -107,14 +107,14 @@ App.controller('AppCtrl', function ($scope, $rootScope, $cordovaNetwork, $ionicM
         delete $http.defaults.headers.common.Authorization;
       }catch (e){
       }
-      var url = "https://migmig.cfapps.io/api/1/user_authenticate";
+      var url = "http://127.0.0.1:8080/api/1/user_authenticate";
       var data = {
         username: $scope.login.mail,
         password: $scope.login.pwd,
         rememberMe: false
       };
       $http.post(url, data).success(function (data, status, headers, config) {
-        $rootScope.username = username;
+        // $rootScope.username = username;
         $http.defaults.headers.common.Authorization = data.token;
         var sqldata = JSON.stringify(data);
         var db = openDatabase('mydb', '1.0', 'Test DB', 1024 * 1024);
@@ -122,6 +122,7 @@ App.controller('AppCtrl', function ($scope, $rootScope, $cordovaNetwork, $ionicM
           tx.executeSql('INSERT INTO ANIJUU (name, log) VALUES (?, ?)', ["username", username]);
           tx.executeSql('INSERT INTO ANIJUU (name, log) VALUES (?, ?)', ["myToken", data.token]);
         });
+        $scope.modal.sign_in.hide();
         $state.go('app.landing', {}, {reload: true});
       }).catch(function (err) {
       });
@@ -129,8 +130,7 @@ App.controller('AppCtrl', function ($scope, $rootScope, $cordovaNetwork, $ionicM
       form.mail.$setDirty();
       form.pwd.$setDirty();
     }
-    $scope.modal.sign_in.hide();
-    $state.go('app.landing', {}, {reload: true});
+
   };
 
   $scope.signUp = {};
@@ -150,7 +150,7 @@ App.controller('AppCtrl', function ($scope, $rootScope, $cordovaNetwork, $ionicM
         'Name': $scope.signUp.name,
       }
 
-      var url = "https://migmig.cfapps.io/api/1/signup";
+      var url = "http://127.0.0.1:8080/api/1/signup";
       var data = {
         firstName: $scope.signUp.name,
         lastName: $scope.signUp.name,
@@ -212,7 +212,7 @@ App.controller('AppCtrl', function ($scope, $rootScope, $cordovaNetwork, $ionicM
   $scope.load_trips = function () {
     $http({
       method: "POST",
-      url: "https://migmig.cfapps.io/api/1/clientTrips"
+      url: "http://127.0.0.1:8080/api/1/clientTrips"
     }).then(function (resp) {
       $rootScope.Trips = resp.data;
       $rootScope.active_trip = $rootScope.Trips.inProgressTrips;
