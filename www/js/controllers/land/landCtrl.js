@@ -35,32 +35,15 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
       content: 'Getting current location...',
       showBackdrop: false
     });
-    geocoder = new google.maps.Geocoder();
-
-    var latlng = new google.maps.LatLng(lat, lng);
-    geocoder.geocode({'latLng': latlng}, function (results, status) {
-      if (status == google.maps.GeocoderStatus.OK) {
-        // console.log(results)
-        if (results[1]) {
-
-          $scope.$apply(function () {
-            $scope.Location = results[0].formatted_address;
-            $scope.start_box.location = results[0].formatted_address;
-          });
-
-          $scope.start_box_copy = angular.copy($scope.start_box);
-          $scope.current_box = angular.copy($scope.start_box);
-
-        } else {
-          //alert("No results found");
-          // $scope.Location = "You are here";
-
-        }
-      } else {
-        // $scope.Location = "You are here";
-
-        //alert("Geocoder failed due to: " + status);
-      }
+    $http({
+      method: "POST",
+      url: "http://maps.googleapis.com/maps/api/geocode/json?latlng=" + lat + "," + lng + "&sensor=true&language=fa"
+    }).then(function (resp) {
+      document.getElementById('autocompletefrom').value = resp.data.results[1].formatted_address;
+      $scope.fromAddress = resp.data.results[1].formatted_address;
+      $scope.Location = resp.data.results[1].formatted_address;
+    }, function (err) {
+      alert("error");
     });
   }
 
@@ -117,7 +100,7 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
   };
 
   var numOfClick = 0;
-  var client = new WebSocket("ws://127.0.0.1:8080/myHandler");
+  var client = new WebSocket("ws://192.168.161.111:8080/myHandler");
   client.onopen = function () {
     client.send("join,1");
   };
@@ -545,7 +528,7 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
     $ionicLoading.show();
     $http({
       method: "POST",
-      url: "http://127.0.0.1:8080/api/1/calculate",
+      url: "http://192.168.161.111:8080/api/1/calculate",
       data: $scope.start_box.lat + "," + $scope.start_box.lng + "," + $scope.end_box.lat + "," + $scope.end_box.lng
     }).then(function (resp) {
       $ionicLoading.hide();
@@ -562,7 +545,7 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
     $ionicLoading.hide();
     $http({
       method: "POST",
-      url: "http://127.0.0.1:8080/api/1/rejectUser",
+      url: "http://192.168.161.111:8080/api/1/rejectUser",
       data: uid
     }).then(function (resp) {
     }, function (err) {
@@ -584,11 +567,12 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
         dlng: $scope.end_box.lng,
         source: $scope.fromAddress,
         destination: $scope.toAddress,
-        cost: $scope.selected_cab.cost
+        cost: $scope.selected_cab.cost,
+        description : $("#moreInfo").val()
       };
       $http({
         method: "POST",
-        url: "http://127.0.0.1:8080/api/1/confirmRequest",
+        url: "http://192.168.161.111:8080/api/1/confirmRequest",
         data: data
       }).then(function (resp) {
         uid = resp.data;
@@ -621,7 +605,7 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
       };
       $http({
         method: "POST",
-        url: "http://127.0.0.1:8080/api/1/confirmReserve",
+        url: "http://192.168.161.111:8080/api/1/confirmReserve",
         data: data
       }).then(function (resp) {
       }, function (err) {

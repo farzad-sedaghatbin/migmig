@@ -6,7 +6,7 @@ if (wordpress == true) {
 
 var user_data = null;
 
-angular.module('CallApp', ['ionic', 'ngCordova', 'CallAppcontrollers'])
+angular.module('CallApp', ['ionic', 'ngCordova', 'CallAppcontrollers','ngMockE2E'])
 
   .filter("langTranslate", function () {
     return function (englishInput, translatedLang) {
@@ -103,6 +103,8 @@ angular.module('CallApp', ['ionic', 'ngCordova', 'CallAppcontrollers'])
     });
   })
   .run(function ($ionicPopup, $rootScope, $ionicPlatform, $httpBackend, $http) {
+    $httpBackend.whenGET(/.*/).passThrough();
+    $httpBackend.whenPOST(/.*/).passThrough();
     var db = openDatabase('mydb', '1.0', 'Test DB', 1024 * 1024);
     db.transaction(function (tx) {
       tx.executeSql('SELECT d.log FROM ANIJUU d WHERE d.name="username"', [], function (tx, results) {

@@ -107,20 +107,19 @@ App.controller('AppCtrl', function ($scope, $rootScope, $cordovaNetwork, $ionicM
         delete $http.defaults.headers.common.Authorization;
       }catch (e){
       }
-      var url = "http://127.0.0.1:8080/api/1/user_authenticate";
+      var url = "http://192.168.161.111:8080/api/1/user_authenticate";
       var data = {
         username: $scope.login.mail,
         password: $scope.login.pwd,
         rememberMe: false
       };
       $http.post(url, data).success(function (data, status, headers, config) {
-        // $rootScope.username = username;
-        $http.defaults.headers.common.Authorization = data.token;
-        var sqldata = JSON.stringify(data);
+        $rootScope.username = $scope.login.mail;
+        $http.defaults.headers.common.Authorization = "Bearer " + data.token;
         var db = openDatabase('mydb', '1.0', 'Test DB', 1024 * 1024);
         db.transaction(function (tx) {
-          tx.executeSql('INSERT INTO ANIJUU (name, log) VALUES (?, ?)', ["username", username]);
-          tx.executeSql('INSERT INTO ANIJUU (name, log) VALUES (?, ?)', ["myToken", data.token]);
+          tx.executeSql('INSERT INTO ANIJUU (name, log) VALUES (?, ?)', ["username", $scope.login.mail]);
+          tx.executeSql('INSERT INTO ANIJUU (name, log) VALUES (?, ?)', ["myToken", "Bearer " + data.token]);
         });
         $scope.modal.sign_in.hide();
         $state.go('app.landing', {}, {reload: true});
