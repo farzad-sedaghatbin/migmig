@@ -100,6 +100,7 @@ App.controller('AppCtrl', function ($scope, $rootScope, $cordovaNetwork, $ionicM
 
   // Perform the login action when the user submits the login form
   $scope.doLogin = function (form) {
+    WebService.startLoading();
     //$state.go('view', {movieid: 1});
     // $state.go('app.landing');
     if (form.$valid) {
@@ -114,6 +115,7 @@ App.controller('AppCtrl', function ($scope, $rootScope, $cordovaNetwork, $ionicM
         rememberMe: false
       };
       $http.post(url, data).success(function (data, status, headers, config) {
+        WebService.stopLoading();
         $rootScope.username = $scope.login.mail;
         $http.defaults.headers.common.Authorization = "Bearer " + data.token;
         var db = openDatabase('mydb', '1.0', 'Test DB', 1024 * 1024);
@@ -124,6 +126,8 @@ App.controller('AppCtrl', function ($scope, $rootScope, $cordovaNetwork, $ionicM
         $scope.modal.sign_in.hide();
         $state.go('app.landing', {}, {reload: true});
       }).catch(function (err) {
+        WebService.stopLoading();
+        WebService.myErrorHandler(err,true);
       });
     } else {
       form.mail.$setDirty();
@@ -134,6 +138,7 @@ App.controller('AppCtrl', function ($scope, $rootScope, $cordovaNetwork, $ionicM
 
   $scope.signUp = {};
   $scope.do_signUp = function (form) {
+    WebService.startLoading();
     //$state.go('view', {movieid: 1});
     if (
       form.$valid
@@ -159,20 +164,11 @@ App.controller('AppCtrl', function ($scope, $rootScope, $cordovaNetwork, $ionicM
       };
       $http.post(url, data)
         .success(function (suc) {
-          if (suc == "201") {
-            $ionicPopup.alert({
-              title: '<span class="myText">خطا</span>',
-              template: '<div class="myText" style="text-align: right">کاربر دیگری با نام کاربری شما قبلا ثبت نام کرده</div>'
-            });
-          } else {
-            $ionicPopup.alert({
-              title: '<span class="myText">پیام</span>',
-              template: '<div class="myText" style="text-align: right">ثبت نام با شما با موفقیت انجام شد</div>'
-            });
-            $(".popup").css("width", "90%");
-          }
+          WebService.stopLoading();
           $state.go("app.landing");
         }).error(function (err) {
+        WebService.stopLoading();
+        WebService.myErrorHandler(err,false);
       });
     } else {
       form.pwd.$setDirty();
@@ -209,33 +205,19 @@ App.controller('AppCtrl', function ($scope, $rootScope, $cordovaNetwork, $ionicM
   };
 
   $scope.load_trips = function () {
+    WebService.startLoading();
     $http({
       method: "POST",
       url: "http://127.0.0.1:8080/api/1/clientTrips"
     }).then(function (resp) {
+      WebService.stopLoading();
       $rootScope.Trips = resp.data;
       $rootScope.active_trip = $rootScope.Trips.inProgressTrips;
       $state.go("app.mytrip")
     }, function (err) {
+      WebService.stopLoading();
+      WebService.myErrorHandler(err,false);
     });
-  };
-  $scope.load_card_rate = function () {
-
-    WebService.show_loading();
-    $rootScope.rateCard_menu_selected = 0;
-
-    var link = 'load_card_rate';
-    var post_data = {
-      'transfertype': 'Point to Point Transfer'
-    };
-    var promise = WebService.send_data(link, post_data);
-
-    promise.then(function (data) {
-      $rootScope.All_cabs = data;
-      $rootScope.active_rateCard = $rootScope.All_cabs.day;
-      $ionicLoading.hide();
-    });
-
   };
 });
 

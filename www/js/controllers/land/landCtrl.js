@@ -32,7 +32,7 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
    ==================================================*/
   function codeLatLng(lat, lng) {
     $scope.loading = $ionicLoading.show({
-      content: 'Getting current location...',
+      content: 'در حال دریافت مکان موقعیت شما ...',
       showBackdrop: false
     });
     $http({
@@ -43,7 +43,7 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
       $scope.fromAddress = resp.data.results[1].formatted_address;
       $scope.Location = resp.data.results[1].formatted_address;
     }, function (err) {
-      alert("error");
+      WebService.myErrorHandler(err,false);
     });
   }
 
@@ -71,7 +71,7 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
       $scope.map.setCenter(myLatlng);
       $ionicLoading.hide();
     }, function (error) {
-      alert('Unable to get location: ' + error.message);
+      WebService.handleMyLocationError();
     });
   };
   $scope.newTrip = function () {
@@ -172,7 +172,7 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
         break;
       case "arrived":
         $cordovaNativeAudio
-          .preloadSimple('migmig', 'audio/migmig.mp3')
+          .preloadSimple('migmig', 'audio/migmig.mp3');
 
         $cordovaNativeAudio.play("migmig");
         $cordovaVibration.vibrate(100);
@@ -270,7 +270,7 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
             from_el.value = resp.data.results[1].formatted_address;
             $scope.fromAddress = resp.data.results[1].formatted_address;
           }, function (err) {
-            alert("error");
+            WebService.myErrorHandler(err,false);
           });
           $scope.map.fitBounds(bound);
           client.send("aroundme,1," + $scope.start_box.lat + "," + $scope.start_box.lng);
@@ -305,7 +305,7 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
             to_el.value = resp.data.results[1].formatted_address;
             $scope.toAddress = resp.data.results[1].formatted_address;
           }, function (err) {
-            alert("error");
+            WebService.myErrorHandler(err,false);
           });
           $scope.map.fitBounds(bound);
           tripCalculations();
@@ -455,16 +455,16 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
   $scope.ride = function (time) {
     if ($scope.start_box.lat == null) {
       var alertPopup = $ionicPopup.alert({
-        title: '<p class="text-center color-yellow">' + $filter('langTranslate')("FAILED", $rootScope.appConvertedLang['FAILED']) + '</p>',
-        template: '<p class="text-center color-gery">' + $filter('langTranslate')("Enter pickup location", $rootScope.appConvertedLang['Enter_pickup_location']) + '</p>'
+        title: '<p class="text-center color-yellow">' + $filter('langTranslate')("خطا", $rootScope.appConvertedLang['FAILED']) + '</p>',
+        template: '<p class="text-center color-gery">' + $filter('langTranslate')("لطفا مبدا را انتخاب نمایید", $rootScope.appConvertedLang['Enter_pickup_location']) + '</p>'
       });
       alertPopup.then(function (res) {
         console.log('');
       });
     } else if ($scope.end_box.lat == null) {
       alertPopup = $ionicPopup.alert({
-        title: '<p class="text-center color-yellow">' + $filter('langTranslate')("FAILED", $rootScope.appConvertedLang['FAILED']) + '</p>',
-        template: '<p class="text-center color-gery">' + $filter('langTranslate')("Enter Drop location", $rootScope.appConvertedLang['Enter_Drop_location']) + '</p>'
+        title: '<p class="text-center color-yellow">' + $filter('langTranslate')("خطا", $rootScope.appConvertedLang['FAILED']) + '</p>',
+        template: '<p class="text-center color-gery">' + $filter('langTranslate')("لطفا مقصد را انتخاب نمایید", $rootScope.appConvertedLang['Enter_Drop_location']) + '</p>'
       });
       alertPopup.then(function (res) {
 
@@ -479,8 +479,8 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
         min_date = new Date().toISOString();
         var myPopup = $ionicPopup.show({
           template: '<input   class="color-yellow" placeholder="Date:" style=" background-color: #3e3e3e; padding-left:20px;width:100%; line-Height: 20px" ng-model="date_data.Trip_Date" min=' + min_date + ' type="datetime-local">' +
-          '<div class="error  text-center" ng-show="past_date==true">Invalid Date and Time </div>',
-          title: '<p class="color-yellow">' + $filter('langTranslate')("Enter date and time", $rootScope.appConvertedLang['Enter_date_and_time']) + '</p>',
+          '<div class="error  text-center" ng-show="past_date==true">خطا</div>',
+          title: '<p class="color-yellow">' + $filter('langTranslate')("لطفا تاریخ درست را وارد نمایید", $rootScope.appConvertedLang['Enter_date_and_time']) + '</p>',
           scope: $scope,
           buttons: [
             {
@@ -519,6 +519,19 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
   };
   $scope.enableBox = true;
   function tripCalculations() {
+    var distance = 0;
+    var duration = 0;
+    var ser = new google.maps.DirectionsService();
+    ser.route({
+      'origin': $scope.fromMarker.getPosition(),
+      'destination': $scope.toMarker.getPosition(),
+      'travelMode': google.maps.DirectionsTravelMode.DRIVING
+    }, function (res, sts) {
+      if (sts == google.maps.DirectionsStatus.OK) {
+        distance = res.routes[0].legs[0].distance.value;
+        duration = res.routes[0].legs[0].duration_in_traffic.value;
+      }
+    });
     fromInfowindow.close();
     toInfowindow.close();
     google.maps.event.clearListeners($scope.map, 'click');
@@ -529,7 +542,7 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
     $http({
       method: "POST",
       url: "http://192.168.161.111:8080/api/1/calculate",
-      data: $scope.start_box.lat + "," + $scope.start_box.lng + "," + $scope.end_box.lat + "," + $scope.end_box.lng
+      data: $scope.start_box.lat + "," + $scope.start_box.lng + "," + $scope.end_box.lat + "," + $scope.end_box.lng + "," + distance + "," + duration
     }).then(function (resp) {
       $ionicLoading.hide();
       $scope.cabs = resp.data;
@@ -537,6 +550,7 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
       animateMyPop();
     }, function (err) {
       $ionicLoading.hide();
+      WebService.myErrorHandler(err,false);
     });
   }
 
@@ -549,6 +563,7 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
       data: uid
     }).then(function (resp) {
     }, function (err) {
+      WebService.myErrorHandler(err,false);
     });
   };
   var uid;
@@ -587,6 +602,7 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
         });
       }, function (err) {
         $ionicLoading.hide();
+        WebService.myErrorHandler(err,false);
       });
     } else {
       data = {
@@ -609,7 +625,7 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
         data: data
       }).then(function (resp) {
       }, function (err) {
-
+        WebService.myErrorHandler(err,false);
       });
     }
     animateMyPop();
