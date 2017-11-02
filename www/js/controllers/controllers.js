@@ -2,14 +2,6 @@ var App = angular.module('CallAppcontrollers', []);
 
 App.controller('AppCtrl', function ($scope, $rootScope, $cordovaNetwork, $ionicModal, $timeout, $state, $ionicLoading, $ionicPopup, $http, $cordovaOauth, $cordovaSplashscreen, $ionicHistory, serv, WebService) {
 
-  var link = 'fetchUserAppLanguage';
-  var post_data = "";
-  var promise = WebService.send_data(link, post_data);
-  promise.then(function (data) {
-    //console.log(data);
-    $rootScope.appConvertedLang = data;
-  });
-
   //localStorage.removeItem('user_data');
 
   //$cordovaSplashscreen.show();
@@ -100,39 +92,37 @@ App.controller('AppCtrl', function ($scope, $rootScope, $cordovaNetwork, $ionicM
 
   // Perform the login action when the user submits the login form
   $scope.doLogin = function (form) {
-    WebService.startLoading();
-    //$state.go('view', {movieid: 1});
-    // $state.go('app.landing');
-    if (form.$valid) {
-      try {
-        delete $http.defaults.headers.common.Authorization;
-      }catch (e){
-      }
-      var url = "http://192.168.161.111:8080/api/1/user_authenticate";
-      var data = {
-        username: $scope.login.mail,
-        password: $scope.login.pwd,
-        rememberMe: false
-      };
-      $http.post(url, data).success(function (data, status, headers, config) {
-        WebService.stopLoading();
-        $rootScope.username = $scope.login.mail;
-        $http.defaults.headers.common.Authorization = "Bearer " + data.token;
-        var db = openDatabase('mydb', '1.0', 'Test DB', 1024 * 1024);
-        db.transaction(function (tx) {
-          tx.executeSql('INSERT INTO ANIJUU (name, log) VALUES (?, ?)', ["username", $scope.login.mail]);
-          tx.executeSql('INSERT INTO ANIJUU (name, log) VALUES (?, ?)', ["myToken", "Bearer " + data.token]);
-        });
-        $scope.modal.sign_in.hide();
+    // WebService.startLoading();
+    // if (form.$valid) {
+    //   try {
+    //     delete $http.defaults.headers.common.Authorization;
+    //   }catch (e){
+    //   }
+    //   var url = "http://192.168.161.111:8080/api/1/user_authenticate";
+    //   var data = {
+    //     username: $scope.login.mail,
+    //     password: $scope.login.pwd,
+    //     rememberMe: false
+    //   };
+    //   $http.post(url, data).success(function (data, status, headers, config) {
+    //     WebService.stopLoading();
+    //     $rootScope.username = $scope.login.mail;
+    //     $http.defaults.headers.common.Authorization = "Bearer " + data.token;
+    //     var db = openDatabase('mydb', '1.0', 'Test DB', 1024 * 1024);
+    //     db.transaction(function (tx) {
+    //       tx.executeSql('INSERT INTO ANIJUU (name, log) VALUES (?, ?)', ["username", $scope.login.mail]);
+    //       tx.executeSql('INSERT INTO ANIJUU (name, log) VALUES (?, ?)', ["myToken", "Bearer " + data.token]);
+    //     });
+    //     $scope.modal.sign_in.hide();
         $state.go('app.landing', {}, {reload: true});
-      }).catch(function (err) {
-        WebService.stopLoading();
-        WebService.myErrorHandler(err,true);
-      });
-    } else {
-      form.mail.$setDirty();
-      form.pwd.$setDirty();
-    }
+    //   }).catch(function (err) {
+    //     WebService.stopLoading();
+    //     WebService.myErrorHandler(err,true);
+    //   });
+    // } else {
+    //   form.mail.$setDirty();
+    //   form.pwd.$setDirty();
+    // }
 
   };
 

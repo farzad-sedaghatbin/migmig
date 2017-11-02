@@ -1,4 +1,4 @@
-App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoading, $compile, $ionicModal, $window, $timeout, $ionicPopup, landInit, WebService, $filter,  $cordovaNativeAudio,$cordovaVibration) {
+App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoading, $compile, $ionicModal, $window, $timeout, $ionicPopup, landInit, WebService, $filter, $cordovaNativeAudio, $cordovaVibration) {
 
 
 
@@ -43,7 +43,7 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
       $scope.fromAddress = resp.data.results[1].formatted_address;
       $scope.Location = resp.data.results[1].formatted_address;
     }, function (err) {
-      WebService.myErrorHandler(err,false);
+      WebService.myErrorHandler(err, false);
     });
   }
 
@@ -76,25 +76,15 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
   };
   $scope.newTrip = function () {
     resetAllThingsWithoutApply();
-    if ($("#my-pop").hasClass("my-active")){
+    if ($("#my-pop").hasClass("my-active")) {
       animateMyPop();
     }
   };
   $scope.deleteFrom = function () {
-    if (numOfClick == 1) {
-      numOfClick = 0;
-    } else if (numOfClick == 2) {
-      numOfClick = 3;
-    }
     $scope.fromMarker.setMap(null);
     document.getElementById('autocompletefrom').value = "";
   };
   $scope.deleteTo = function () {
-    if (numOfClick == 2) {
-      numOfClick = 1;
-    } else if (numOfClick == 3) {
-      numOfClick = 0;
-    }
     $scope.toMarker.setMap(null);
     document.getElementById('autocompleteto').value = "";
   };
@@ -142,7 +132,7 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
         $scope.map.fitBounds(bound);
         break;
       case "driverinfo":
-        $("#footer").css("height","70px");
+        $("#footer").css("height", "70px");
         $scope.$apply(function () {
           $scope.driver = data.driverInfoDTO;
           $scope.pop_status = 4;
@@ -218,99 +208,48 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
     });
     setAutocompleteBoxes();
     $scope.enableBox = true;
-    $("#footer").css("height","44px");
+    $("#footer").css("height", "44px");
   }
+
   var fromInfowindow = new google.maps.InfoWindow();
   var toInfowindow = new google.maps.InfoWindow();
+
   function setAutocompleteBoxes(data) {
     var from_el = document.getElementById('autocompletefrom');
     var to_el = document.getElementById('autocompleteto');
     var startImage = 'img/source.png';
     var endImage = 'img/destination.png';
     $scope.map.addListener("click", function (event) {
-      if (numOfClick == 2) {
-        alert("مبدا و مقصد قبلا انتخاب شده اند")
-      } else {
-        if (numOfClick == 0 || numOfClick == 3) {
-          //reset bounds
-          bound = new google.maps.LatLngBounds(null);
-          bound.extend(event.latLng);
-          if (numOfClick == 3) {
-            bound.extend($scope.toMarker.getPosition());
-          }
-          //change states
-          if (numOfClick == 0) {
-            numOfClick = 1;
-          } else {
-            numOfClick = 2;
-          }
-          $scope.fromMarker = new google.maps.Marker({
-            map: $scope.map,
-            icon: startImage
-          });
-          $scope.fromMarker.setPosition(event.latLng);
-          $scope.fromMarker.setVisible(true);
-          var contentString = '<div ng-click="deleteFrom()" class="myText">لغو مبدا</div>';
-          var compiled = $compile(contentString)($scope);
-          fromInfowindow.setContent(compiled[0]);
-          fromInfowindow.open($scope.map, $scope.fromMarker);
-          $scope.fromMarker.addListener('click', function () {
-            toInfowindow.close();
-            fromInfowindow.open($scope.map, $scope.fromMarker);
-          });
-          $scope.$apply(function () {
-            $scope.start_box.location = '';
-            $scope.start_box.lat = event.latLng.lat();
-            $scope.start_box.lng = event.latLng.lng();
-          });
-          $http({
-            method: "POST",
-            url: "http://maps.googleapis.com/maps/api/geocode/json?latlng=" + event.latLng.lat() + "," + event.latLng.lng() + "&sensor=true&language=fa"
-          }).then(function (resp) {
-            from_el.value = resp.data.results[1].formatted_address;
-            $scope.fromAddress = resp.data.results[1].formatted_address;
-          }, function (err) {
-            WebService.myErrorHandler(err,false);
-          });
-          $scope.map.fitBounds(bound);
-          client.send("aroundme,1," + $scope.start_box.lat + "," + $scope.start_box.lng);
-        } else if (numOfClick == 1) {
-          numOfClick = 2;
-          bound = new google.maps.LatLngBounds(null);
-          bound.extend(event.latLng);
-          bound.extend($scope.fromMarker.getPosition());
-          $scope.toMarker = new google.maps.Marker({
-            map: $scope.map,
-            icon: endImage
-          });
-          $scope.toMarker.setPosition(event.latLng);
-          $scope.toMarker.setVisible(true);
-          var contentString = '<div ng-click="deleteTo()" class="myText">لغو مقصد</div>';
-          var compiled = $compile(contentString)($scope);
-          toInfowindow.setContent(compiled[0]);
-          toInfowindow.open($scope.map, $scope.toMarker);
-          $scope.toMarker.addListener('click', function () {
-            fromInfowindow.close();
-            toInfowindow.open($scope.map, $scope.toMarker);
-          });
-          $scope.$apply(function () {
-            $scope.end_box.location = '';
-            $scope.end_box.lat = event.latLng.lat();
-            $scope.end_box.lng = event.latLng.lng();
-          });
-          $http({
-            method: "POST",
-            url: "http://maps.googleapis.com/maps/api/geocode/json?latlng=" + event.latLng.lat() + "," + event.latLng.lng() + "&sensor=true&language=fa"
-          }).then(function (resp) {
-            to_el.value = resp.data.results[1].formatted_address;
-            $scope.toAddress = resp.data.results[1].formatted_address;
-          }, function (err) {
-            WebService.myErrorHandler(err,false);
-          });
-          $scope.map.fitBounds(bound);
-          tripCalculations();
-        }
-      }
+      $scope.fromMarker = new google.maps.Marker({
+        map: $scope.map,
+        icon: startImage
+      });
+      $scope.fromMarker.setPosition(event.latLng);
+      $scope.fromMarker.setVisible(true);
+      var contentString = '<div ng-click="deleteFrom()" class="myText">لغو مبدا</div>';
+      var compiled = $compile(contentString)($scope);
+      fromInfowindow.setContent(compiled[0]);
+      fromInfowindow.open($scope.map, $scope.fromMarker);
+      $scope.fromMarker.addListener('click', function () {
+        toInfowindow.close();
+        fromInfowindow.open($scope.map, $scope.fromMarker);
+      });
+      $scope.$apply(function () {
+        $scope.start_box.location = '';
+        $scope.start_box.lat = event.latLng.lat();
+        $scope.start_box.lng = event.latLng.lng();
+      });
+      $http({
+        method: "POST",
+        url: "http://maps.googleapis.com/maps/api/geocode/json?latlng=" + event.latLng.lat() + "," + event.latLng.lng() + "&sensor=true&language=fa"
+      }).then(function (resp) {
+        from_el.value = resp.data.results[1].formatted_address;
+        $scope.fromAddress = resp.data.results[1].formatted_address;
+      }, function (err) {
+        WebService.myErrorHandler(err, false);
+      });
+      client.send("aroundme,1," + $scope.start_box.lat + "," + $scope.start_box.lng);
+      animateMyPop();
     });
     var options = {
       // componentRestrictions: {country: "in"}
@@ -318,80 +257,12 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
     };
     $scope.from = new google.maps.places.Autocomplete(from_el, options);
     google.maps.event.addListener($scope.from, 'place_changed', function () {
-      if (numOfClick == 0 || numOfClick == 1) {
-        numOfClick = 1;
-      } else {
-        numOfClick = 2;
-      }
-      toInfowindow.close();
-      if ($scope.fromMarker) {
-        $scope.fromMarker.setMap(null);
-      }
-      bound = new google.maps.LatLngBounds(null);
-      bound.extend($scope.from.getPlace().geometry.location);
-      if (numOfClick == 3 || numOfClick == 2) {
-        bound.extend($scope.toMarker.getPosition());
-      }
-      $scope.map.fitBounds(bound);
-      $scope.fromMarker = new google.maps.Marker({
-        map: $scope.map,
-        anchorPoint: new google.maps.Point(0, -29)
-      });
-      $scope.fromMarker.setPosition($scope.from.getPlace().geometry.location);
-      $scope.fromMarker.setVisible(true);
-      $scope.fromMarker.addListener('click', function () {
-        toInfowindow.close();
-        fromInfowindow.open($scope.map, $scope.fromMarker);
-      });
-      var contentString = '<div ng-click="deleteFrom()" class="myText">لغو مبدا</div>';
-      var compiled = $compile(contentString)($scope);
-      fromInfowindow.setContent(compiled[0]);
-      fromInfowindow.open($scope.map, $scope.fromMarker);
-      $scope.$apply(function () {
-        $scope.start_box.location = $scope.from.getPlace().formatted_address;
-        $scope.start_box.lat = $scope.from.getPlace().geometry.location.lat();
-        $scope.start_box.lng = $scope.from.getPlace().geometry.location.lng();
-      });
-      client.send("aroundme,1," + $scope.start_box.lat + "," + $scope.start_box.lng);
+
     });
 
     $scope.to = new google.maps.places.Autocomplete(to_el, options);
     google.maps.event.addListener($scope.to, 'place_changed', function () {
-      if (numOfClick == 0) {
-        numOfClick = 3;
-      } else if (numOfClick == 1) {
-        numOfClick = 2;
-      }
-      fromInfowindow.close();
-      if ($scope.toMarker) {
-        $scope.toMarker.setMap(null);
-      }
-      bound = new google.maps.LatLngBounds(null);
-      if (numOfClick == 1 || numOfClick == 2) {
-        bound.extend($scope.fromMarker.getPosition());
-      }
-      bound.extend($scope.to.getPlace().geometry.location);
-      $scope.map.fitBounds(bound);
-      $scope.toMarker = new google.maps.Marker({
-        map: $scope.map,
-        anchorPoint: new google.maps.Point(0, -29)
-      });
-      $scope.toMarker.addListener('click', function () {
-        fromInfowindow.close();
-        toInfowindow.open($scope.map, $scope.toMarker);
-      });
-      $scope.toMarker.setPosition($scope.to.getPlace().geometry.location);
-      $scope.toMarker.setVisible(true);
-      $scope.$apply(function () {
-        $scope.end_box.location = $scope.to.getPlace().formatted_address;
-        $scope.end_box.lat = $scope.to.getPlace().geometry.location.lat();
-        $scope.end_box.lng = $scope.to.getPlace().geometry.location.lng();
-      });
-      var contentString = '<div ng-click="deleteTo()" class="myText">لغو مقصد</div>';
-      var compiled = $compile(contentString)($scope);
-      toInfowindow.setContent(compiled[0]);
-      toInfowindow.open($scope.map, $scope.toMarker);
-      tripCalculations();
+
     });
 
 
@@ -436,9 +307,9 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
 
     });
   }
-  $scope.CallNumber = function(number){
-    window.plugins.CallNumber.callNumber(function(){
-    }, function(){
+  $scope.CallNumber = function (number) {
+    window.plugins.CallNumber.callNumber(function () {
+    }, function () {
     }, number)
   };
   $scope.$on("$ionicView.enter", function (scopes, states) {
@@ -550,7 +421,7 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
       animateMyPop();
     }, function (err) {
       $ionicLoading.hide();
-      WebService.myErrorHandler(err,false);
+      WebService.myErrorHandler(err, false);
     });
   }
 
@@ -563,7 +434,7 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
       data: uid
     }).then(function (resp) {
     }, function (err) {
-      WebService.myErrorHandler(err,false);
+      WebService.myErrorHandler(err, false);
     });
   };
   var uid;
@@ -583,7 +454,7 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
         source: $scope.fromAddress,
         destination: $scope.toAddress,
         cost: $scope.selected_cab.cost,
-        description : $("#moreInfo").val()
+        description: $("#moreInfo").val()
       };
       $http({
         method: "POST",
@@ -602,7 +473,7 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
         });
       }, function (err) {
         $ionicLoading.hide();
-        WebService.myErrorHandler(err,false);
+        WebService.myErrorHandler(err, false);
       });
     } else {
       data = {
@@ -625,7 +496,7 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
         data: data
       }).then(function (resp) {
       }, function (err) {
-        WebService.myErrorHandler(err,false);
+        WebService.myErrorHandler(err, false);
       });
     }
     animateMyPop();
