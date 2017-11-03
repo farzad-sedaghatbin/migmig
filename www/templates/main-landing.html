@@ -1,6 +1,7 @@
 <ion-view>
   <ion-nav-title>
-    <div class='color-yellow text-center myText' ng-click="newTrip()">سفر جدید</div>
+    <div class='color-yellow text-center myText' ng-if="showStart" ng-click="start()">شروع پروژه</div>
+    <div class='color-yellow text-center myText' ng-if="showEnd" ng-click="end()">پایان پروژه</div>
   </ion-nav-title>
 
   <ion-content id="landingContent" scroll='false' drag-content="false">
@@ -16,15 +17,6 @@
           </label>
 
         </div>
-        <div class='wrap' style='margin-top: 10px;'>
-          <label class=" item-input">
-            <i class="icon ion-ios-search placeholder-icon color-yellow "></i>
-            <!-- <input class='color-yellow' ng-autocomplete id="autocomplete-to" type="text" ng-model="sel_place"  placeholder="Pickup location" details="autocomplete.details" > -->
-            <input style="direction: rtl" ng-disabled='!enableBox' class='color-yellow myText' id="autocompleteto"
-                   ng-model='end_box.location' type="text" ng-focus='disableTapTo()' placeholder="مقصد"/>
-
-          </label>
-        </div>
       </div>
 
       <!-- <input type="datetime-local"> -->
@@ -38,25 +30,47 @@
       <!--http://codepen.io/anon/pen/avNRwz -->
       <my-date-time-picker placeholder="Enter Date here" title="Select Date" ng-model="my_model"/>
       <!---->
-      <div id='tab-hide' class='bg-dark1 visible'>
+      <div id='tab-hide' class='bg-dark1 visible' style="display: none">
         <div>
           <div class='head-box text-center'>
             <div class='vertical-middle'>
-              <span class='color-yellow d-block '>{{selected_cab.cost}}</span>
-              <span class='color-gery d-block myText'>هزینه سفر</span>
+              <span class='color-yellow d-block '>{{selected_ph.price}}</span>
+              <span class='color-gery d-block myText'>{{selected_ph.description}}</span>
             </div>
           </div>
           <!---->
           <div id='fare-breakup-box' class='text-center'>
             <div class='head'>
-              <span class="myText">توضیحات بیشتر</span>
+              <span class="myText">فرم درخواست</span>
             </div>
             <div class='content-box'>
               <div id='login-from-box' class='m-top-20'>
                 <div class='main-container'>
                   <div class="input-box ">
+                    <div class='input-box row'>
+                      <div class="col col-10">
+                                <span ng-click="decrement_val('Adults')">
+                                   <i class="ion-minus"></i>
+                                </span>
+                      </div>
+                      <div class="col col-25">
+                        <label style="height: 30px" class="item item-input">
+                          <input class="myText" id="num" onkeydown="limitSize(event,'num',2)" type="number"
+                                 value="{{valueAdults}}">
+                        </label>
+                      </div>
+                      <div class="col col-10">
+                                <span ng-click="increment_val('Adults')">
+                                   <i class="ion-plus"></i>
+                                </span>
+                      </div>
+                      <div class="col col-50">
+                        تعداد عکاس
+                      </div>
+                    </div>
                     <div class='input-box'>
-                      <input name='moreInfo' id="moreInfo" ng-model='moreInfo' placeholder="آدرس دقیقتر یا ..." class='color-yellow myText'
+                      <input name='moreInfo' id="moreInfo" ng-model='moreInfo' placeholder="آدرس دقیقتر یا ..."
+                             class='color-yellow myText'
                              type='text' style="text-align: right;direction: rtl"/>
                       <img class='input-icon icon-20' src='img/icons/user.png'/>
                     </div>
@@ -70,9 +84,9 @@
       <ion-scroll delegate-handle="calendarScroll" direction="x" class='bg-dark2'>
         <div class="row no-padding text-center ">
           <div class="col col-25" ng-class="{active_cab : active_cab == $index }" ng-click='clicked_item($index)'
-               ng-repeat="cab in cabs">
-            <div class="col color-yellow myText">{{cab.name}}</div>
-            <img ng-src='img/{{cab.vehicleType}}.png' style='width: 50px'/>
+               ng-repeat="p in ph">
+            <div class="col color-yellow myText">{{p.name}}</div>
+            <img ng-src='img/{{p.icon}}.png' style='width: 50px'/>
             <!-- <div class="col color-gery">{{day.number}}</div> -->
           </div>
         </div>
@@ -83,26 +97,24 @@
 
   <ion-footer-bar class="bg-dark" id="footer">
     <div class="row no-padding" ng-if="showDriverInfo">
-      <div class="col  r-border-light p-10 text-center" >
+      <div class="col  r-border-light p-10 text-center">
         <p class='color-white p-head myText'>نام راننده</p>
         <p class='color-gery myText'>{{driver.name}}</p>
       </div>
       <div class="col  r-border-light p-10 text-center" ng-click="CallNumber(driver.mobile)">
-        <p id="phone" class='color-white p-head myText'><i class="ion-android-call" style="padding-right: 10px"></i> شماره تلفن راننده</p>
+        <p id="phone" class='color-white p-head myText'><i class="ion-android-call" style="padding-right: 10px"></i>
+          شماره تلفن راننده</p>
         <p class='color-gery myText'>{{driver.mobile}}</p>
       </div>
-      <div class="col  p-10 text-center" >
+      <div class="col  p-10 text-center">
         <p class='color-white p-head myText'>پلاک</p>
         <p class='color-gery myText'>{{driver.number}}</p>
       </div>
     </div>
-    <div class='footer-box bg-dark color-yellow' ng-show='pop_status == 1'>
-      <div class='w-50-p pull-left my-button h-100-p text-center border-r-yellow myText' ng-click='ride("later")'>رزرو</div>
-      <div class='w-50-p pull-left my-button h-100-p text-center myText' ng-click='ride("now")'>درخواست</div>
-    </div>
-
-    <div class='footer-box bg-dark color-yellow' ng-show='pop_status == 3'>
-      <div class='my-button h-100-p text-center myText' ng-click='cancel()'>لغو</div>
+    <div class='footer-box bg-dark color-yellow'>
+      <div id="request" class='my-button h-100-p text-center myText' style="display: none" ng-click='ride("now")'>
+        درخواست
+      </div>
     </div>
 
   </ion-footer-bar>

@@ -62,7 +62,7 @@ angular.module('CallApp', ['ionic', 'ngCordova', 'CallAppcontrollers','ngMockE2E
     $ionicPlatform.ready(function () {
       // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
       // for form inputs)
-      $cordovaNativeAudio.preloadSimple('driver', 'audio/migmig.mp3');
+      // $cordovaNativeAudio.preloadSimple('driver', 'audio/migmig.mp3');
       if (window.cordova && window.cordova.plugins.Keyboard) {
         cordova.plugins.Keyboard.hideKeyboardAccessoryBar(false);
         cordova.plugins.Keyboard.disableScroll(true);
@@ -99,7 +99,13 @@ angular.module('CallApp', ['ionic', 'ngCordova', 'CallAppcontrollers','ngMockE2E
         return false;
       }, 122);
 
-
+      $rootScope.valueAdults = 1;
+      $rootScope.increment_val = function (type) {
+        if (type == 'Adults' && $rootScope.valueAdults >= 0 && $rootScope.valueAdults < 90) $rootScope.valueAdults++;
+      };
+      $rootScope.decrement_val = function (type) {
+        if (type == 'Adults' && $rootScope.valueAdults > 0) $rootScope.valueAdults--;
+      };
     });
   })
   .run(function ($ionicPopup, $rootScope, $ionicPlatform, $httpBackend, $http) {
@@ -212,7 +218,7 @@ angular.module('CallApp', ['ionic', 'ngCordova', 'CallAppcontrollers','ngMockE2E
   // })
   .config(function ($stateProvider, $urlRouterProvider, $cordovaInAppBrowserProvider) {
     setTimeout(function () {
-      navigator.splashscreen.hide();
+      // navigator.splashscreen.hide();
     }, 3000);
     var browserOptions = {
       location: "yes",
@@ -296,6 +302,16 @@ angular.module('CallApp', ['ionic', 'ngCordova', 'CallAppcontrollers','ngMockE2E
         }
       })
 
+      .state('app.photographer', {
+        url: '/photographer',
+        views: {
+          'menuContent': {
+            templateUrl: 'templates/photographer.html',
+            controller: 'photographerCtrl'
+          }
+        }
+      })
+
       .state('app.settings', {
         url: '/settings',
         views: {
@@ -322,7 +338,19 @@ angular.module('CallApp', ['ionic', 'ngCordova', 'CallAppcontrollers','ngMockE2E
             $location.path('landing');
           }
           else {
-            $location.path('app/landing');
+            tx.executeSql('SELECT d.log FROM ANIJUU d WHERE d.name="type"', [], function (tx, results){
+              var len = results.rows.length, i, result = '';
+              if (!results.rows || results.rows.length == 0) {
+                result = null;
+              } else {
+                result = results.rows.item(0).log;
+              }
+              if (result === "2") {
+                $location.path('app/landing');
+              } else {
+                $location.path('app/photographer');
+              }
+            })
           }
         }, null);
       });

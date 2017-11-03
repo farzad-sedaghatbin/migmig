@@ -39,10 +39,10 @@
 .big-font{ font-size: 17px; }
 
 .content-box{ height: calc( 100% - 44px); }
-#login-from-box .input-box{ border-bottom: 1px solid #fff;position:relative}
+#login-from-box .input-box{/* border-bottom: 1px solid #fff;*/position:relative}
 #login-from-box.settings .input-box{ border-bottom: 1px solid #303030;position:relative}
 #login-from-box .input-box input{ background: none; width: calc(100% - 40px);border-radius: 0 !important;}
-#login-from-box .input-box .input-icon{position: absolute; left: 5px; bottom: 5px;}
+#login-from-box .input-box .input-icon{position: absolute; right: 5px; bottom: 5px;}
 
 
 

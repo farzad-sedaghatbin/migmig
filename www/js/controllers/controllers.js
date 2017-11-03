@@ -92,37 +92,39 @@ App.controller('AppCtrl', function ($scope, $rootScope, $cordovaNetwork, $ionicM
 
   // Perform the login action when the user submits the login form
   $scope.doLogin = function (form) {
-    // WebService.startLoading();
-    // if (form.$valid) {
-    //   try {
-    //     delete $http.defaults.headers.common.Authorization;
-    //   }catch (e){
-    //   }
-    //   var url = "http://192.168.161.111:8080/api/1/user_authenticate";
-    //   var data = {
-    //     username: $scope.login.mail,
-    //     password: $scope.login.pwd,
-    //     rememberMe: false
-    //   };
-    //   $http.post(url, data).success(function (data, status, headers, config) {
-    //     WebService.stopLoading();
-    //     $rootScope.username = $scope.login.mail;
-    //     $http.defaults.headers.common.Authorization = "Bearer " + data.token;
-    //     var db = openDatabase('mydb', '1.0', 'Test DB', 1024 * 1024);
-    //     db.transaction(function (tx) {
-    //       tx.executeSql('INSERT INTO ANIJUU (name, log) VALUES (?, ?)', ["username", $scope.login.mail]);
-    //       tx.executeSql('INSERT INTO ANIJUU (name, log) VALUES (?, ?)', ["myToken", "Bearer " + data.token]);
-    //     });
-    //     $scope.modal.sign_in.hide();
+    WebService.startLoading();
+    if (form.$valid) {
+      try {
+        delete $http.defaults.headers.common.Authorization;
+      }catch (e){
+      }
+      var url = "http://spot.cfapps.io/api/1/user_authenticate";
+      var data = {
+        username: $scope.login.mail,
+        password: $scope.login.pwd,
+        rememberMe: false
+      };
+      $http.post(url, data).success(function (data, status, headers, config) {
+        WebService.stopLoading();
+        $rootScope.username = $scope.login.mail;
+        $rootScope.type = data.type;
+        $http.defaults.headers.common.Authorization = "Bearer " + data.token;
+        var db = openDatabase('mydb', '1.0', 'Test DB', 1024 * 1024);
+        db.transaction(function (tx) {
+          tx.executeSql('INSERT INTO ANIJUU (name, log) VALUES (?, ?)', ["username", $scope.login.mail]);
+          tx.executeSql('INSERT INTO ANIJUU (name, log) VALUES (?, ?)', ["type", $rootScope.type]);
+          tx.executeSql('INSERT INTO ANIJUU (name, log) VALUES (?, ?)', ["myToken", "Bearer " + data.token]);
+        });
+        $scope.modal.sign_in.hide();
         $state.go('app.landing', {}, {reload: true});
-    //   }).catch(function (err) {
-    //     WebService.stopLoading();
-    //     WebService.myErrorHandler(err,true);
-    //   });
-    // } else {
-    //   form.mail.$setDirty();
-    //   form.pwd.$setDirty();
-    // }
+      }).catch(function (err) {
+        WebService.stopLoading();
+        WebService.myErrorHandler(err,true);
+      });
+    } else {
+      form.mail.$setDirty();
+      form.pwd.$setDirty();
+    }
 
   };
 
@@ -144,7 +146,7 @@ App.controller('AppCtrl', function ($scope, $rootScope, $cordovaNetwork, $ionicM
         'Name': $scope.signUp.name,
       }
 
-      var url = "http://127.0.0.1:8080/api/1/signup";
+      var url = "http://spot.cfapps.io/api/1/signup";
       var data = {
         firstName: $scope.signUp.name,
         lastName: $scope.signUp.name,
@@ -198,7 +200,7 @@ App.controller('AppCtrl', function ($scope, $rootScope, $cordovaNetwork, $ionicM
     WebService.startLoading();
     $http({
       method: "POST",
-      url: "http://127.0.0.1:8080/api/1/clientTrips"
+      url: "http://spot.cfapps.io/api/1/clientOrders"
     }).then(function (resp) {
       WebService.stopLoading();
       $rootScope.Trips = resp.data;

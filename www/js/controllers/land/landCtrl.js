@@ -25,6 +25,7 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
     map.setMapTypeId('map_style');
     $scope.map = map;
     $scope.init_status = true;
+    setAutocompleteBoxes();
   }
 
 
@@ -82,7 +83,9 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
   };
   $scope.deleteFrom = function () {
     $scope.fromMarker.setMap(null);
+    $scope.fromMarker = null;
     document.getElementById('autocompletefrom').value = "";
+    animateMyPop();
   };
   $scope.deleteTo = function () {
     $scope.toMarker.setMap(null);
@@ -90,7 +93,7 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
   };
 
   var numOfClick = 0;
-  var client = new WebSocket("ws://192.168.161.111:8080/myHandler");
+  var client = new WebSocket("wss://spot.cfapps.io/myHandler");
   client.onopen = function () {
     client.send("join,1");
   };
@@ -216,10 +219,11 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
 
   function setAutocompleteBoxes(data) {
     var from_el = document.getElementById('autocompletefrom');
-    var to_el = document.getElementById('autocompleteto');
     var startImage = 'img/source.png';
-    var endImage = 'img/destination.png';
     $scope.map.addListener("click", function (event) {
+      if ($scope.fromMarker){
+        return;
+      }
       $scope.fromMarker = new google.maps.Marker({
         map: $scope.map,
         icon: startImage
@@ -248,8 +252,16 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
       }, function (err) {
         WebService.myErrorHandler(err, false);
       });
-      client.send("aroundme,1," + $scope.start_box.lat + "," + $scope.start_box.lng);
-      animateMyPop();
+      $http({
+        method: "POST",
+        url: "http://spot.cfapps.io/api/1/listService",
+        data : "jkj"
+      }).then(function (resp) {
+        animateMyPop();
+        $scope.ph = resp.data;
+      }, function (err) {
+        WebService.myErrorHandler(err, false);
+      });
     });
     var options = {
       // componentRestrictions: {country: "in"}
@@ -259,12 +271,6 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
     google.maps.event.addListener($scope.from, 'place_changed', function () {
 
     });
-
-    $scope.to = new google.maps.places.Autocomplete(to_el, options);
-    google.maps.event.addListener($scope.to, 'place_changed', function () {
-
-    });
-
 
   }
 
@@ -321,72 +327,80 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
     $scope.Trip_Date = null;
   }
 
-  /* RIDE NOW
-   ======================================*/
+  $scope.start = function () {
+    cordova.plugins.barcodeScanner.scan(
+      function (result) {
+        WebService.startLoading();
+        $http({
+          method: "POST",
+          url: "http://spot.cfapps.io/api/1/arrived",
+          data : result.text
+        }).then(function (resp) {
+          WebService.stopLoading();
+          $ionicPopup.alert({
+            title: '<p class="text-center color-yellow">' + $filter('langTranslate')("پیام") + '</p>',
+            template: '<p class="text-center color-gery">' + $filter('langTranslate')("شروع پروژه با موفقیت ثبت شد") + '</p>'
+          });
+          $scope.showStart = false;
+          $scope.showEnd = true;
+        }, function (err) {
+          WebService.stopLoading();
+          WebService.myErrorHandler(err, false);
+        });
+      },
+      function (error) {
+        alert("اسکن انجام نشد");
+      }
+    );
+  };
+  $scope.end = function () {
+    cordova.plugins.barcodeScanner.scan(
+      function (result) {
+        WebService.startLoading();
+        $http({
+          method: "POST",
+          url: "http://spot.cfapps.io/api/1/endOfShooting",
+          data : result.text
+        }).then(function (resp) {
+          WebService.stopLoading();
+          $ionicPopup.alert({
+            title: '<p class="text-center color-yellow">' + $filter('langTranslate')("پیام") + '</p>',
+            template: '<p class="text-center color-gery">' + $filter('langTranslate')("پایان پروژه با موفقیت ثبت شد") + '</p>'
+          });
+          $scope.showStart = false;
+          $scope.showEnd = false;
+        }, function (err) {
+          WebService.stopLoading();
+          WebService.myErrorHandler(err, false);
+        });
+      },
+      function (error) {
+        alert("اسکن انجام نشد");
+      }
+    );
+  };
   $scope.ride = function (time) {
-    if ($scope.start_box.lat == null) {
-      var alertPopup = $ionicPopup.alert({
-        title: '<p class="text-center color-yellow">' + $filter('langTranslate')("خطا", $rootScope.appConvertedLang['FAILED']) + '</p>',
-        template: '<p class="text-center color-gery">' + $filter('langTranslate')("لطفا مبدا را انتخاب نمایید", $rootScope.appConvertedLang['Enter_pickup_location']) + '</p>'
-      });
-      alertPopup.then(function (res) {
-        console.log('');
-      });
-    } else if ($scope.end_box.lat == null) {
-      alertPopup = $ionicPopup.alert({
-        title: '<p class="text-center color-yellow">' + $filter('langTranslate')("خطا", $rootScope.appConvertedLang['FAILED']) + '</p>',
-        template: '<p class="text-center color-gery">' + $filter('langTranslate')("لطفا مقصد را انتخاب نمایید", $rootScope.appConvertedLang['Enter_Drop_location']) + '</p>'
-      });
-      alertPopup.then(function (res) {
-
-      });
-    } else {
-      if (time == 'later') {
-        $scope.Trip_now = false;
-        $scope.past_date = false;
-        //$scope.book_date = $scope.Trip_Date;
-        $scope.date_data = {};
-        //if(appConvertedLang['Enter_date_and_time']!='')
-        min_date = new Date().toISOString();
-        var myPopup = $ionicPopup.show({
-          template: '<input   class="color-yellow" placeholder="Date:" style=" background-color: #3e3e3e; padding-left:20px;width:100%; line-Height: 20px" ng-model="date_data.Trip_Date" min=' + min_date + ' type="datetime-local">' +
-          '<div class="error  text-center" ng-show="past_date==true">خطا</div>',
-          title: '<p class="color-yellow">' + $filter('langTranslate')("لطفا تاریخ درست را وارد نمایید", $rootScope.appConvertedLang['Enter_date_and_time']) + '</p>',
-          scope: $scope,
-          buttons: [
-            {
-              text: $filter('langTranslate')("Cancel", $rootScope.appConvertedLang['Cancel']),
-              onTap: function (e) {
-                return false;
-              }
-            },
-            {
-              text: $filter('langTranslate')("Save", $rootScope.appConvertedLang['Save']),
-              onTap: function (e) {
-                //alert($scope.date_data.Trip_Date);
-                if ($scope.date_data.Trip_Date == null) {
-                  //don't allow the user to close unless he enters wifi password
-                  $scope.past_date = true;
-                  e.preventDefault();
-                } else {
-                  return $scope.date_data.Trip_Date;
-                }
-              }
-            }
-          ]
-        });
-        myPopup.then(function (res) {
-          if (res != false) {
-            $scope.book_date = res;
-            $scope.book();
-          }
-        });
+    WebService.startLoading();
+    $http({
+      method: "POST",
+      url: "http://spot.cfapps.io/api/1/submitRequest",
+      data : {
+        slat : $scope.start_box.lat,
+        slong : $scope.start_box.lng,
+        desc : $("#moreInfo").val(),
+        number : $("#num").val(),
+        id : $scope.selected_ph.id
       }
-      else {
-        $scope.Trip_now = true;
-        $scope.book();
-      }
-    }
+    }).then(function (resp) {
+      WebService.stopLoading();
+      $ionicPopup.alert({
+        title: '<p class="text-center color-yellow">' + $filter('langTranslate')("پیام") + '</p>',
+        template: '<p class="text-center color-gery">' + $filter('langTranslate')("درخواست شما با موفقیت ثبت شد") + '</p>'
+      });
+    }, function (err) {
+      WebService.stopLoading();
+      WebService.myErrorHandler(err, false);
+    });
   };
   $scope.enableBox = true;
   function tripCalculations() {
@@ -412,7 +426,7 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
     $ionicLoading.show();
     $http({
       method: "POST",
-      url: "http://192.168.161.111:8080/api/1/calculate",
+      url: "http://spot.cfapps.io/api/1/calculate",
       data: $scope.start_box.lat + "," + $scope.start_box.lng + "," + $scope.end_box.lat + "," + $scope.end_box.lng + "," + distance + "," + duration
     }).then(function (resp) {
       $ionicLoading.hide();
@@ -430,7 +444,7 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
     $ionicLoading.hide();
     $http({
       method: "POST",
-      url: "http://192.168.161.111:8080/api/1/rejectUser",
+      url: "http://spot.cfapps.io/api/1/rejectUser",
       data: uid
     }).then(function (resp) {
     }, function (err) {
@@ -458,7 +472,7 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
       };
       $http({
         method: "POST",
-        url: "http://192.168.161.111:8080/api/1/confirmRequest",
+        url: "http://spot.cfapps.io/api/1/confirmRequest",
         data: data
       }).then(function (resp) {
         uid = resp.data;
@@ -492,7 +506,7 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
       };
       $http({
         method: "POST",
-        url: "http://192.168.161.111:8080/api/1/confirmReserve",
+        url: "http://spot.cfapps.io/api/1/confirmReserve",
         data: data
       }).then(function (resp) {
       }, function (err) {
@@ -506,10 +520,11 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
   };
   $scope.clicked_item = function (index) {
     // $window.alert(item);
+    $("#tab-hide").css("display","block");
+    $("#request").css("display","block");
     $scope.active_cab = index;
     animate_tab();
-    $scope.selected_cab = $scope.cabs[index];
-
+    $scope.selected_ph = $scope.ph[index];
   };
 
   $scope.disableTapTo = function () {
@@ -532,6 +547,468 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
     });
   }
 });
+App.controller('photographerCtrl', function ($rootScope, $state, $scope, $q, $cordovaToast, $http, $ionicLoading, $compile, $ionicModal, $window, $timeout, $ionicPopup, landInit, WebService, $interval, $cordovaNativeAudio, $cordovaVibration) {
+
+
+
+  /* Funtion For set Map
+   =========================================================== */
+
+  function set_map() {
+    // Create an array of styles.
+    var styles = landInit.mapStyles();
+
+    // Create a new StyledMapType object, passing it the array of styles,
+    var styledMap = new google.maps.StyledMapType(styles,
+      {name: "Styled Map"});
+    var myLatlng = new google.maps.LatLng(35.705097,51.385516);
+    var mapOptions = {
+      center: myLatlng,
+      zoom: 16,
+      disableDefaultUI: true,
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+    };
+    var map = new google.maps.Map(document.getElementById("map"),
+      mapOptions);
+    map.mapTypes.set('map_style', styledMap);
+    map.setMapTypeId('map_style');
+    $rootScope.map = map;
+    $rootScope.init_status = true;
+    $ionicLoading.hide();
+  }
+
+
+  /* Function For Get place from LatLng
+   ==================================================*/
+  function codeLatLng(lat, lng) {
+    geocoder = new google.maps.Geocoder();
+    var latlng = new google.maps.LatLng(lat, lng);
+    geocoder.geocode({'latLng': latlng}, function (results, status) {
+      if (status == google.maps.GeocoderStatus.OK) {
+        if (results[1]) {
+          $rootScope.$apply(function () {
+            $rootScope.Location = results[0].formatted_address;
+          });
+          $rootScope.current_box = angular.copy($rootScope.start_box);
+        } else {
+          //alert("No results found");
+          // $rootScope.Location = "You are here";
+
+        }
+      } else {
+        // $rootScope.Location = "You are here";
+
+        //alert("Geocoder failed due to: " + status);
+      }
+    });
+  }
+
+  var lat;
+  var lng;
+  var marker;
+
+  $rootScope.getCurrentLocation = function () {
+    if (!$rootScope.map) {
+      return;
+    }
+    var image = 'img/icons/google_marker.png';
+    navigator.geolocation.getCurrentPosition(function (pos) {
+      //console.log(pos);
+      //alert(JSON.stringify(pos));
+      lat = pos.coords.latitude;
+      lng = pos.coords.longitude;
+      var myLatlng = new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude);
+      codeLatLng(pos.coords.latitude, pos.coords.longitude);
+      if (marker)
+        marker.setMap(null);
+      marker = new google.maps.Marker({
+        position: myLatlng,
+        map: $rootScope.map,
+        title: '',
+        icon: image
+      });
+      $rootScope.map.setCenter(myLatlng);
+      $ionicLoading.hide();
+    }, function (error) {
+      $ionicLoading.hide();
+    });
+  };
+  function prepareSocket(){
+    $rootScope.socket = new WebSocket("wss://migmig.cfapps.io:4443/driverHandler");
+    $rootScope.interval;
+    $rootScope.socket.onopen = function () {
+      if (!$rootScope.userid) {
+        var db = openDatabase('mydb', '1.0', 'Test DB', 1024 * 1024);
+        db.transaction(function (tx) {
+          tx.executeSql('SELECT d.log FROM ANIJUU d WHERE d.name="userid"', [], function (tx, results) {
+            var len = results.rows.length, i, result = '';
+            if (!results.rows || results.rows.length == 0) {
+              result = null;
+            } else {
+              result = results.rows.item(0).log;
+            }
+            setUserId(result)
+          }, null);
+        });
+        var setUserId = function (result) {
+          if (!result) {
+            $state.go("landing")
+          } else {
+            $rootScope.userid = result;
+            $rootScope.interval = $interval(function () {
+              $rootScope.socket.send("mylocation," + $rootScope.userid + "," + lat + "," + lng)
+            }, 1000);
+          }
+        };
+      } else {
+        $rootScope.interval = $interval(function () {
+          $rootScope.socket.send("mylocation," + $rootScope.userid + "," + lat + "," + lng)
+        }, 1000);
+      }
+    };
+    $rootScope.socket.onmessage = function (msg) {
+      var data = JSON.parse(msg.data);
+      switch (data.command) {
+        case "request":
+          if ($rootScope.startMarker) {
+            $rootScope.startMarker.setMap(null);
+            $rootScope.endMarker.setMap(null);
+            $rootScope.ren.setMap(null);
+          }
+          $rootScope.$apply(function () {
+            $rootScope.tripInfo = data.tripInfo;
+            $rootScope.pop_status = 1;
+          });
+          var start = new google.maps.LatLng(data.tripInfo.slat, data.tripInfo.slng);
+          $rootScope.startMarker = new google.maps.Marker({
+            position: start,
+            map: $rootScope.map,
+            title: '',
+            icon: startImage
+          });
+          var end = new google.maps.LatLng(data.tripInfo.dlat, data.tripInfo.dlng);
+          $rootScope.endMarker = new google.maps.Marker({
+            position: end,
+            map: $rootScope.map,
+            title: '',
+            icon: endImage
+          });
+          bound.extend(start);
+          bound.extend(end);
+          $rootScope.map.fitBounds(bound);
+          animateMyPop();
+          $rootScope.ren = new google.maps.DirectionsRenderer({
+            'draggable': false,
+            suppressMarkers: true
+          });
+          $rootScope.ren.setMap($rootScope.map);
+          var ser = new google.maps.DirectionsService();
+          ser.route({
+            'origin': $rootScope.startMarker.getPosition(),
+            'destination': $rootScope.endMarker.getPosition(),
+            'travelMode': google.maps.DirectionsTravelMode.DRIVING
+          }, function (res, sts) {
+            if (sts == google.maps.DirectionsStatus.OK) {
+              $rootScope.ren.setDirections(res);
+              edame(data);
+            } else {
+              edame(data);
+            }
+          });
+
+          break;
+        case "rejectuser":
+          nextElementAfterRemove($rootScope.active_cab);
+          $rootScope.trips.splice($rootScope.active_cab, 1);
+          $rootScope.$apply();
+          break;
+      }
+    };
+  }
+  var startImage = 'img/source.png';
+  var endImage = 'img/destination.png';
+  $rootScope.pop_status = 0;
+  $rootScope.startMarker;
+  $rootScope.endMarker;
+  $rootScope.ren;
+  var bound;
+  $rootScope.trips = [];
+
+  function initialVars(){
+    bound = new google.maps.LatLngBounds(null);
+  }
+
+  function nextElementAfterRemove(index) {
+    if ($rootScope.trips.length == 1) {
+      $rootScope.startMarker.setVisible(false);
+      $rootScope.endMarker.setVisible(false);
+      $rootScope.ren.setMap(null);
+    } else if ($rootScope.trips.length == index + 1) {
+      $rootScope.clicked_item(index - 1);
+    } else {
+      $rootScope.clicked_item(index + 1);
+    }
+  }
+
+  function edame(data) {
+    $rootScope.tripInfo.state = "request";
+    var trip = {
+      tripInfo: data.tripInfo,
+      start: $rootScope.startMarker,
+      end: $rootScope.endMarker,
+      ren: $rootScope.ren
+    };
+    $rootScope.trips.push(trip);
+
+    $cordovaNativeAudio
+      .preloadSimple('migmig', 'audio/migmig.mp3')
+
+      .then(function (msg) {
+        console.log(msg);
+      }, function (error) {
+        console.log(error);
+      });
+    $cordovaNativeAudio.play("migmig");
+    $cordovaVibration.vibrate(1000);
+  }
+
+  $scope.$on('ngRepeatFinished', function (ngRepeatFinishedEvent) {
+    $rootScope.clicked_item($rootScope.indexOfNg);
+  });
+  $rootScope.clicked_item = function (index) {
+    // $window.alert(item);
+    $rootScope.active_cab = index;
+    animate_tab();
+    $rootScope.startMarker.setVisible(false);
+    $rootScope.endMarker.setVisible(false);
+    $rootScope.ren.setMap(null);
+    $rootScope.tripInfo = $rootScope.trips[index].tripInfo;
+    $rootScope.startMarker = $rootScope.trips[index].start;
+    $rootScope.endMarker = $rootScope.trips[index].end;
+    $rootScope.ren = $rootScope.trips[index].ren;
+    $rootScope.ren.setMap($rootScope.map);
+    $rootScope.startMarker.setVisible(true);
+    $rootScope.startMarker.setMap($rootScope.map);
+    $rootScope.endMarker.setVisible(true);
+    $rootScope.endMarker.setMap($rootScope.map);
+    var element = $("#my-pop");
+    switch ($rootScope.tripInfo.state) {
+      case "request":
+        $rootScope.pop_status = 1;
+        if (!element.hasClass("my-active")) {
+          element.addClass("my-active")
+        }
+        break;
+      case "accept":
+        $rootScope.pop_status = 2;
+        if (element.hasClass("my-active")) {
+          element.removeClass("my-active")
+        }
+        break;
+      case "rejectBeforeAccept":
+        resetAllThings();
+        if (element.hasClass("my-active")) {
+          element.removeClass("my-active")
+        }
+        break;
+      case "arrived":
+        $rootScope.pop_status = 3;
+        if (element.hasClass("my-active")) {
+          element.removeClass("my-active")
+        }
+        break;
+      case "cancelAfterAccept":
+        resetAllThings();
+        if (element.hasClass("my-active")) {
+          element.removeClass("my-active")
+        }
+        break;
+      case "endOfTrip":
+        nextElementAfterRemove(index);
+        $rootScope.trips.splice(index, 1);
+        $rootScope.ren.setMap(null);
+        resetAllThings();
+        if (element.hasClass("my-active")) {
+          element.removeClass("my-active")
+        }
+        break;
+    }
+  };
+  function animate_tab() {
+    $('#tab-hide').addClass('hidden');
+    $timeout(function () {
+      $('#tab-hide').removeClass('hidden');
+    }, 300);
+  }
+
+  var available = true;
+  $rootScope.availableOrNot = function () {
+    if (available) {
+      available = false;
+      $("#availableText").html("خارج از دسترس");
+      $http({
+        method: "POST",
+        url: "https://migmig.cfapps.io/api/1/unavailable"
+      }).then(function (resp) {
+      }, function (err) {
+      });
+      $interval.cancel($rootScope.interval);
+    } else {
+      available = true;
+      $("#availableText").html("در دسترس");
+      $rootScope.getCurrentLocation();
+      if ($rootScope.tripInfo && ($rootScope.tripInfo.state == "accept" || $rootScope.tripInfo.state == "arrived")) {
+        $rootScope.interval = $interval(function () {
+          $rootScope.socket.send("delivery," + $rootScope.userid + "," + lat + "," + lng);
+        }, 1000);
+      } else {
+        $rootScope.interval = $interval(function () {
+          $rootScope.socket.send("mylocation," + $rootScope.userid + "," + lat + "," + lng)
+        }, 1000);
+      }
+    }
+  };
+  $rootScope.CallNumber = function () {
+    window.plugins.CallNumber.callNumber(function () {
+    }, function () {
+    }, $rootScope.tripInfo.mobile)
+  };
+  $rootScope.arrived = function () {
+    WebService.startLoading();
+    $rootScope.tripInfo.state = "arrived";
+    $rootScope.pop_status = 3;
+    $http({
+      method: "POST",
+      url: "https://migmig.cfapps.io/api/1/arrived",
+      data: $rootScope.tripInfo.uid
+    }).then(function (resp) {
+      WebService.stopLoading();
+    }, function (err) {
+      WebService.stopLoading();
+      WebService.myErrorHandler(err, false);
+    });
+  };
+  $rootScope.accept = function () {
+    WebService.startLoading();
+    $rootScope.tripInfo.state = "accept";
+    animateMyPop();
+    $http({
+      method: "POST",
+      url: "https://migmig.cfapps.io/api/1/approvedDriver",
+      data: $rootScope.tripInfo.uid
+    }).then(function (resp) {
+      $rootScope.pop_status = 2;
+      $interval.cancel($rootScope.interval);
+      if (!lat)
+        $rootScope.getCurrentLocation();
+      $rootScope.interval = $interval(function () {
+        $rootScope.socket.send("delivery," + $rootScope.userid + "," + lat + "," + lng + "," + $rootScope.tripInfo.userID);
+      }, 1000);
+      WebService.stopLoading();
+    }, function (err) {
+      if (err.status == 404) {
+        nextElementAfterRemove($rootScope.active_cab);
+        $rootScope.trips.splice($rootScope.active_cab, 1);
+        $cordovaToast.showShortBottom('این سفر توسط مسافر لغو شد');
+      } else {
+        WebService.myErrorHandler(err, false);
+      }
+      WebService.stopLoading();
+    });
+  };
+  $rootScope.rejectBeforeAccept = function () {
+    WebService.startLoading();
+    $rootScope.tripInfo.state = "rejectBeforeAccept";
+    resetAllThings();
+    animateMyPop();
+    $http({
+      method: "POST",
+      url: "https://migmig.cfapps.io/api/1/rejectBeforeDriver",
+      data: $rootScope.tripInfo.uid
+    }).then(function (resp) {
+      WebService.stopLoading();
+    }, function (err) {
+      WebService.stopLoading();
+      WebService.myErrorHandler(err, false);
+    });
+  };
+  $rootScope.cancelAfterAccept = function () {
+    WebService.startLoading();
+    $rootScope.tripInfo.state = "cancelAfterAccept";
+    resetAllThings();
+    $http({
+      method: "POST",
+      url: "https://migmig.cfapps.io/api/1/rejectAfterDriver",
+      data: $rootScope.tripInfo.uid
+    }).then(function (resp) {
+      WebService.stopLoading();
+    }, function (err) {
+      WebService.stopLoading();
+      WebService.myErrorHandler(err, false);
+    });
+  };
+  function resetAllThings() {
+    if ($rootScope.startMarker) {
+      $rootScope.startMarker.setMap(null);
+      $rootScope.endMarker.setMap(null);
+    }
+    $rootScope.pop_status = 0;
+    $interval.cancel($rootScope.interval);
+    $rootScope.getCurrentLocation();
+    $rootScope.interval = $interval(function () {
+      $rootScope.socket.send("mylocation," + $rootScope.userid + "," + lat + "," + lng)
+    }, 1000);
+  }
+
+  $rootScope.endOfTrip = function () {
+    WebService.startLoading();
+    $rootScope.tripInfo.state = "endOfTrip";
+    $rootScope.ren.setMap(null);
+    nextElementAfterRemove($rootScope.active_cab);
+    $rootScope.trips.splice($rootScope.active_cab, 1);
+    resetAllThings();
+    $http({
+      method: "POST",
+      url: "https://migmig.cfapps.io/api/1/endOfTrip",
+      data: $rootScope.tripInfo.uid
+    }).then(function (resp) {
+      WebService.stopLoading();
+    }, function (err) {
+      WebService.stopLoading();
+      WebService.myErrorHandler(err, false);
+    });
+  };
+  if ($rootScope.init_status === undefined) {
+    $.getScript("http://maps.googleapis.com/maps/api/js?key=AIzaSyBksdkjWFIfdMS_IhY8sEit6r9IPrPq-lA&sensor=true&libraries=places", function (data, textStatus, jqxhr) {
+      if (typeof google === 'object' && typeof google.maps === 'object') {
+        var s = document.createElement("script");
+        s.type = "text/javascript";
+        s.data = data;
+        $("head").append(s);
+        initialMainPage();
+      } else {
+        $cordovaToast.showShortBottom('لطفا اتصال اینترنت خود را بررسی کنید');
+      }
+    });
+  }
+  function initialMainPage(){
+    prepareSocket();
+    set_map();
+    initialVars();
+    $rootScope.getCurrentLocation();
+    google.maps.event.trigger($rootScope.map, 'resize');
+  }
+  document.addEventListener("online", onOnline, false);
+  function onOnline() {
+    if ($rootScope.init_status === undefined) {
+      initialMainPage();
+    }
+  }
+
+  function animateMyPop() {
+    $('#my-pop').toggleClass('my-active');
+  }
+});
 
 App.service('serv', function ($rootScope) {
 
@@ -551,3 +1028,12 @@ function cancelTrip() {
   });
 }
 
+function limitSize(e, id, size) {
+  var keys = [8, 9, 16, 17, 18, 19, 20, 27, 33, 34, 35, 36, 37, 38, 39, 40, 45, 46, 144, 145];
+  if ($.inArray(e.keyCode, keys) == -1) {
+    if ($("#" + id).val().length >= size) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+  }
+}
