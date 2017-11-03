@@ -1,5 +1,5 @@
 
-App.controller('myTripCtrl', function($scope,$rootScope, $ionicLoading, $compile, $ionicModal,$window,$timeout,$state,$http) {
+App.controller('myTripCtrl', function($scope,$rootScope, $ionicLoading, $compile, $ionicModal,$window,$timeout,$state,$http,WebService) {
 
 	/* JAVASCRIPT
 	===========================*/
@@ -12,9 +12,9 @@ App.controller('myTripCtrl', function($scope,$rootScope, $ionicLoading, $compile
 	 }
 
 	$scope.myTrip_menu = [
-												{'name':'سفرهای درحال انجام'},
-												{'name':'سفرهای رزرو شده'},
-												{'name':'سفرهای کامل شده'}
+												{'name':'درحال انجام'},
+												{'name':'رزرو شده'},
+												{'name':'کامل شده'}
 											 ];
 	//$scope.myTrip_menu_selected = 0;
 	$scope.Trip_menu_click = function (index){
@@ -22,23 +22,28 @@ App.controller('myTripCtrl', function($scope,$rootScope, $ionicLoading, $compile
 
 			$rootScope.myTrip_menu_selected = index;
 			if( index == 0 ){
-				$rootScope.active_trip = $rootScope.Trips.inProgressTrips;
+				$rootScope.active_trip = $rootScope.inProgress;
 			}else if( index ==  1 ){
-				$rootScope.active_trip = $rootScope.Trips.reservedTrips;
+				$rootScope.active_trip = $rootScope.reserved;
 			}else if( index ==  2){
-				$rootScope.active_trip = $rootScope.Trips.compeletedTrips;
+				$rootScope.active_trip = $rootScope.complete;
 			}
 			animate_Trip_item();
 		}
 	};
-	$scope.show_details = function( index ){
+	$scope.show_details = function(uid){
+    WebService.startLoading();
     $http({
       method: "POST",
-      url: "http://127.0.0.1:8080/api/1/detail"
+      url: "https://spot.cfapps.io/api/1/detail",
+      data : uid
     }).then(function (resp) {
+      WebService.stopLoading();
       $rootScope.details = resp.data;
       $state.go("app.tripDetials")
     }, function (err) {
+      WebService.stopLoading();
+      WebService.myErrorHandler(err,false);
     });
 	};
   $scope.showFrom = function(){

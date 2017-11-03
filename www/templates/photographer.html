@@ -28,15 +28,9 @@
       <input id='Tripdate' type='datetime-local' ng-model='Trip_Date'/>
     </div>
 
-    <div id='my-pop' class='animation-styles bg-dark1' style="padding-bottom: 80px;border-top : none">
+    <div id='my-pop' class='animation-styles bg-dark1'>
       <div id='tab-hide' class='bg-dark1 visible'>
         <div>
-          <div class="row no-padding b-border-light">
-            <div class="col  r-border-light p-10 text-center">
-              <p class='color-white p-head myText'>مبدا</p>
-              <p class='color-gery'>{{tripInfo.source}}</p>
-            </div>
-          </div>
           <div class="row no-padding b-border-light">
             <div class="col  r-border-light p-10 text-center">
               <p class='color-white p-head myText'>مقصد</p>
@@ -49,43 +43,55 @@
               <p class='color-gery'>{{tripInfo.cost}}</p>
             </div>
           </div>
+          <div class="row no-padding b-border-light">
+            <div class="col  r-border-light p-10 text-center">
+              <p class='color-white p-head myText'>تاریخ</p>
+              <p class='color-gery'>{{tripInfo.date}} {{tripInfo.time}}</p>
+            </div>
+          </div>
+          <div class="row no-padding b-border-light">
+            <div class="col  r-border-light p-10 text-center">
+              <p class='color-white p-head myText'>شماره</p>
+              <p class='color-gery'>{{tripInfo.tel}}</p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
     <div class='color-white text-center net-error myText'>به اینترنت متصل نیستید</div>
   </ion-content>
 
-  <ion-footer-bar style="background-color: transparent !important;height: 88px;z-index: 100;background-image: none" class="bg-dark">
-    <div style="padding-top: 40px;">
-      <ion-scroll delegate-handle="calendarScroll" direction="x" class='bg-dark2' style="position: absolute">
-        <div class="row no-padding text-center ">
-          <div class="col col-25" ng-class="{active_cab : active_cab == $index }" ng-click='clicked_item($index)'
-               ng-repeat="trip in trips">
-            <div class="col color-yellow"><span class="myText">سفر {{$index + 1}}</span></div>
-            <img ng-src='img/{{cab.cartype}}.png' err-SRC="img/Sedan.png" style='width: 50px'/>
-            <!-- <div class="col color-gery">{{day.number}}</div> -->
-          </div>
-        </div>
-      </ion-scroll>
-    </div>
-    <div class='footer-box bg-dark color-yellow' ng-show='pop_status == 1'>
-      <div class='w-50-p pull-left my-button h-100-p text-center border-r-yellow myText'
-           ng-click='rejectBeforeAccept()'>لغو
-      </div>
-      <div class='w-50-p pull-left my-button h-100-p text-center myText' ng-click='accept()'>تایید</div>
-    </div>
+  <!--<ion-footer-bar style="background-color: transparent !important;height: 88px;z-index: 100;background-image: none" class="bg-dark">-->
+    <!--<div style="padding-top: 40px;">-->
+      <!--<ion-scroll delegate-handle="calendarScroll" direction="x" class='bg-dark2' style="position: absolute">-->
+        <!--<div class="row no-padding text-center ">-->
+          <!--<div class="col col-25" ng-class="{active_cab : active_cab == $index }" ng-click='clicked_item($index)'-->
+               <!--ng-repeat="trip in trips">-->
+            <!--<div class="col color-yellow"><span class="myText">سفر {{$index + 1}}</span></div>-->
+            <!--<img ng-src='img/{{cab.cartype}}.png' err-SRC="img/Sedan.png" style='width: 50px'/>-->
+            <!--&lt;!&ndash; <div class="col color-gery">{{day.number}}</div> &ndash;&gt;-->
+          <!--</div>-->
+        <!--</div>-->
+      <!--</ion-scroll>-->
+    <!--</div>-->
+    <!--<div class='footer-box bg-dark color-yellow' ng-show='pop_status == 1'>-->
+      <!--<div class='w-50-p pull-left my-button h-100-p text-center border-r-yellow myText'-->
+           <!--ng-click='rejectBeforeAccept()'>لغو-->
+      <!--</div>-->
+      <!--<div class='w-50-p pull-left my-button h-100-p text-center myText' ng-click='accept()'>تایید</div>-->
+    <!--</div>-->
 
-    <div class='footer-box bg-dark color-yellow' ng-show='pop_status == 2'>
-      <div class='w-50-p pull-left my-button h-100-p text-center border-r-yellow myText' ng-click='cancelAfterAccept()'>
-        لغو
-      </div>
-      <div class='w-50-p pull-left my-button h-100-p text-center myText' ng-click='arrived()'>من رسیدم</div>
-    </div>
+    <!--<div class='footer-box bg-dark color-yellow' ng-show='pop_status == 2'>-->
+      <!--<div class='w-50-p pull-left my-button h-100-p text-center border-r-yellow myText' ng-click='cancelAfterAccept()'>-->
+        <!--لغو-->
+      <!--</div>-->
+      <!--<div class='w-50-p pull-left my-button h-100-p text-center myText' ng-click='arrived()'>من رسیدم</div>-->
+    <!--</div>-->
 
-    <div class='footer-box bg-dark color-yellow' ng-show='pop_status == 3'>
-      <div class='my-button h-100-p text-center myText' ng-click='endOfTrip()'>اتمام سفر</div>
-    </div>
+    <!--<div class='footer-box bg-dark color-yellow' ng-show='pop_status == 3'>-->
+      <!--<div class='my-button h-100-p text-center myText' ng-click='endOfTrip()'>اتمام سفر</div>-->
+    <!--</div>-->
 
-  </ion-footer-bar>
+  <!--</ion-footer-bar>-->
 
 </ion-view>

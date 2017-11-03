@@ -98,7 +98,7 @@ App.controller('AppCtrl', function ($scope, $rootScope, $cordovaNetwork, $ionicM
         delete $http.defaults.headers.common.Authorization;
       }catch (e){
       }
-      var url = "http://spot.cfapps.io/api/1/user_authenticate";
+      var url = "https://spot.cfapps.io/api/1/user_authenticate";
       var data = {
         username: $scope.login.mail,
         password: $scope.login.pwd,
@@ -146,7 +146,7 @@ App.controller('AppCtrl', function ($scope, $rootScope, $cordovaNetwork, $ionicM
         'Name': $scope.signUp.name,
       }
 
-      var url = "http://spot.cfapps.io/api/1/signup";
+      var url = "https://spot.cfapps.io/api/1/signup";
       var data = {
         firstName: $scope.signUp.name,
         lastName: $scope.signUp.name,
@@ -200,11 +200,12 @@ App.controller('AppCtrl', function ($scope, $rootScope, $cordovaNetwork, $ionicM
     WebService.startLoading();
     $http({
       method: "POST",
-      url: "http://spot.cfapps.io/api/1/clientOrders"
+      url: "https://spot.cfapps.io/api/1/clientOrders"
     }).then(function (resp) {
       WebService.stopLoading();
-      $rootScope.Trips = resp.data;
-      $rootScope.active_trip = $rootScope.Trips.inProgressTrips;
+      $rootScope.complete = resp.data.completedOrders;
+      $rootScope.inProgress = resp.data.inProgressOrders;
+      $rootScope.reserved = resp.data.reservedOrders;
       $state.go("app.mytrip")
     }, function (err) {
       WebService.stopLoading();

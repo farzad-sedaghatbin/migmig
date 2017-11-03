@@ -1,6 +1,6 @@
 <ion-view  class='bg-grey'>
 	<ion-nav-title>
-	 <div class='color-yellow text-center myText'>جزییات سفر</div>
+	 <div class='color-yellow text-center myText'>جزییات پروژه</div>
   </ion-nav-title>
 	<ion-content style="direction: rtl">
 		<div class='h-100-p  '>
@@ -15,16 +15,13 @@
 				</div>
 				<div class="row" ng-click="showFrom()">
 						<div class="col col-50 col-center" >
-								<p class='color-white myText'>مبدا</p>
-							<div class=" color-gery myText">{{details.source}}</div>
-						</div>
-						<div class="col col-50 col-center" >
-							<div class="m-top-30 color-gery myText">{{details.time}} , {{details.date}}</div>
+								<p class='color-white myText'>نام پروژه</p>
+							<div class=" color-gery myText">{{details.name}}</div>
 						</div>
 				</div>
 				<div class='m-top-30 text-center'>
 					<hr class='yellow-hr'></hr>
-					<span class='mid-item bg-grey color-white myText'>به</span>
+					<span class='mid-item bg-grey color-white myText'>در</span>
 				</div>
 
 				<div class="row ">
@@ -38,24 +35,16 @@
 				</div>
 
 			</div>
-	<p class='text-center color-yellow bg-light p-head no-margin myText'>جرییات پیک</p>
+	<p class='text-center color-yellow bg-light p-head no-margin myText'>مشخصات عکاس</p>
 
 			<div class="row no-padding b-border-light">
 						<div class="col  r-border-light p-10 text-center" >
-							<p class='color-white p-head myText'>نوع پیک</p>
-							<p class='color-gery myText'>{{details.taxi_type}}</p>
+							<p class='color-white p-head myText'>نام عکاس</p>
+							<p class='color-gery myText'>{{details.photographer}}</p>
 						</div>
 						<div class="col  r-border-light p-10 text-center" >
-							<p class='color-white p-head myText'>نام راننده</p>
-							<p class='color-gery myText'>{{details.driver}}</p>
-						</div>
-						<div class="col  r-border-light p-10 text-center" >
-							<p class='color-white p-head myText'>شماره راننده</p>
+							<p class='color-white p-head myText'>شماره</p>
 							<p class='color-gery myText'>{{details.tel}}</p>
-						</div>
-						<div class="col  r-border-light p-10 text-center" >
-							<p class='color-white p-head '>پلاک</p>
-							<p class='color-gery myText'>{{details.number}}</p>
 						</div>
 			</div>
 
@@ -65,10 +54,10 @@
 				</div>
 				<div class="row p-top-5  b-border-light">
 						<div class="col  p-10 col-center" >
-							<p class='color-gery no-margin myText'>مصافت</p>
+							<p class='color-gery no-margin myText'>مسافت</p>
 						</div>
 						<div class="col   p-10 text-center col-center" >
-							<p class='pull-right'><span class='color-gery myText'>{{details.km}}</span> <span class='color-yellow'>km</span></p>
+							<p class='pull-right'><span class='color-gery myText'>{{details.distance}}</span> <span class='color-yellow'>km</span></p>
 						</div>
 				</div>
 				<div class="row p-top-5 b-border-light">

@@ -38,7 +38,7 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
     });
     $http({
       method: "POST",
-      url: "http://maps.googleapis.com/maps/api/geocode/json?latlng=" + lat + "," + lng + "&sensor=true&language=fa"
+      url: "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + lat + "," + lng + "&sensor=true&language=fa"
     }).then(function (resp) {
       document.getElementById('autocompletefrom').value = resp.data.results[1].formatted_address;
       $scope.fromAddress = resp.data.results[1].formatted_address;
@@ -221,7 +221,7 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
     var from_el = document.getElementById('autocompletefrom');
     var startImage = 'img/source.png';
     $scope.map.addListener("click", function (event) {
-      if ($scope.fromMarker){
+      if ($scope.fromMarker) {
         return;
       }
       $scope.fromMarker = new google.maps.Marker({
@@ -245,7 +245,7 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
       });
       $http({
         method: "POST",
-        url: "http://maps.googleapis.com/maps/api/geocode/json?latlng=" + event.latLng.lat() + "," + event.latLng.lng() + "&sensor=true&language=fa"
+        url: "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + event.latLng.lat() + "," + event.latLng.lng() + "&sensor=true&language=fa"
       }).then(function (resp) {
         from_el.value = resp.data.results[1].formatted_address;
         $scope.fromAddress = resp.data.results[1].formatted_address;
@@ -254,8 +254,8 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
       });
       $http({
         method: "POST",
-        url: "http://spot.cfapps.io/api/1/listService",
-        data : "jkj"
+        url: "https://spot.cfapps.io/api/1/listService",
+        data: "jkj"
       }).then(function (resp) {
         animateMyPop();
         $scope.ph = resp.data;
@@ -333,8 +333,8 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
         WebService.startLoading();
         $http({
           method: "POST",
-          url: "http://spot.cfapps.io/api/1/arrived",
-          data : result.text
+          url: "https://spot.cfapps.io/api/1/arrived",
+          data: result.text
         }).then(function (resp) {
           WebService.stopLoading();
           $ionicPopup.alert({
@@ -359,8 +359,8 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
         WebService.startLoading();
         $http({
           method: "POST",
-          url: "http://spot.cfapps.io/api/1/endOfShooting",
-          data : result.text
+          url: "https://spot.cfapps.io/api/1/endOfShooting",
+          data: result.text
         }).then(function (resp) {
           WebService.stopLoading();
           $ionicPopup.alert({
@@ -383,13 +383,13 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
     WebService.startLoading();
     $http({
       method: "POST",
-      url: "http://spot.cfapps.io/api/1/submitRequest",
-      data : {
-        slat : $scope.start_box.lat,
-        slong : $scope.start_box.lng,
-        desc : $("#moreInfo").val(),
-        number : $("#num").val(),
-        id : $scope.selected_ph.id
+      url: "https://spot.cfapps.io/api/1/submitRequest",
+      data: {
+        slat: $scope.start_box.lat,
+        slong: $scope.start_box.lng,
+        desc: $("#moreInfo").val(),
+        number: $("#num").val(),
+        id: $scope.selected_ph.id
       }
     }).then(function (resp) {
       WebService.stopLoading();
@@ -426,7 +426,7 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
     $ionicLoading.show();
     $http({
       method: "POST",
-      url: "http://spot.cfapps.io/api/1/calculate",
+      url: "https://spot.cfapps.io/api/1/calculate",
       data: $scope.start_box.lat + "," + $scope.start_box.lng + "," + $scope.end_box.lat + "," + $scope.end_box.lng + "," + distance + "," + duration
     }).then(function (resp) {
       $ionicLoading.hide();
@@ -444,7 +444,7 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
     $ionicLoading.hide();
     $http({
       method: "POST",
-      url: "http://spot.cfapps.io/api/1/rejectUser",
+      url: "https://spot.cfapps.io/api/1/rejectUser",
       data: uid
     }).then(function (resp) {
     }, function (err) {
@@ -472,7 +472,7 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
       };
       $http({
         method: "POST",
-        url: "http://spot.cfapps.io/api/1/confirmRequest",
+        url: "https://spot.cfapps.io/api/1/confirmRequest",
         data: data
       }).then(function (resp) {
         uid = resp.data;
@@ -506,7 +506,7 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
       };
       $http({
         method: "POST",
-        url: "http://spot.cfapps.io/api/1/confirmReserve",
+        url: "https://spot.cfapps.io/api/1/confirmReserve",
         data: data
       }).then(function (resp) {
       }, function (err) {
@@ -520,8 +520,8 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
   };
   $scope.clicked_item = function (index) {
     // $window.alert(item);
-    $("#tab-hide").css("display","block");
-    $("#request").css("display","block");
+    $("#tab-hide").css("display", "block");
+    $("#request").css("display", "block");
     $scope.active_cab = index;
     animate_tab();
     $scope.selected_ph = $scope.ph[index];
@@ -561,7 +561,7 @@ App.controller('photographerCtrl', function ($rootScope, $state, $scope, $q, $co
     // Create a new StyledMapType object, passing it the array of styles,
     var styledMap = new google.maps.StyledMapType(styles,
       {name: "Styled Map"});
-    var myLatlng = new google.maps.LatLng(35.705097,51.385516);
+    var myLatlng = new google.maps.LatLng(35.705097, 51.385516);
     var mapOptions = {
       center: myLatlng,
       zoom: 16,
@@ -633,8 +633,8 @@ App.controller('photographerCtrl', function ($rootScope, $state, $scope, $q, $co
       $ionicLoading.hide();
     });
   };
-  function prepareSocket(){
-    $rootScope.socket = new WebSocket("wss://migmig.cfapps.io:4443/driverHandler");
+  function prepareSocket() {
+    $rootScope.socket = new WebSocket("wss://spot.cfapps.io:4443/driverHandler");
     $rootScope.interval;
     $rootScope.socket.onopen = function () {
       if (!$rootScope.userid) {
@@ -725,6 +725,7 @@ App.controller('photographerCtrl', function ($rootScope, $state, $scope, $q, $co
       }
     };
   }
+
   var startImage = 'img/source.png';
   var endImage = 'img/destination.png';
   $rootScope.pop_status = 0;
@@ -734,7 +735,7 @@ App.controller('photographerCtrl', function ($rootScope, $state, $scope, $q, $co
   var bound;
   $rootScope.trips = [];
 
-  function initialVars(){
+  function initialVars() {
     bound = new google.maps.LatLngBounds(null);
   }
 
@@ -841,31 +842,74 @@ App.controller('photographerCtrl', function ($rootScope, $state, $scope, $q, $co
     }, 300);
   }
 
-  var available = true;
+  var available = false;
+  var oldUid = null;
   $rootScope.availableOrNot = function () {
+    $http({
+      method: "POST",
+      url: "https://spot.cfapps.io/api/1/changeStatus"
+    }).then(function (resp) {
+    }, function (err) {
+    });
     if (available) {
       available = false;
-      $("#availableText").html("خارج از دسترس");
-      $http({
-        method: "POST",
-        url: "https://migmig.cfapps.io/api/1/unavailable"
-      }).then(function (resp) {
-      }, function (err) {
-      });
       $interval.cancel($rootScope.interval);
+      $interval.cancel($rootScope.interval2);
     } else {
       available = true;
-      $("#availableText").html("در دسترس");
       $rootScope.getCurrentLocation();
-      if ($rootScope.tripInfo && ($rootScope.tripInfo.state == "accept" || $rootScope.tripInfo.state == "arrived")) {
-        $rootScope.interval = $interval(function () {
-          $rootScope.socket.send("delivery," + $rootScope.userid + "," + lat + "," + lng);
-        }, 1000);
-      } else {
-        $rootScope.interval = $interval(function () {
-          $rootScope.socket.send("mylocation," + $rootScope.userid + "," + lat + "," + lng)
-        }, 1000);
-      }
+      $rootScope.interval = $interval(function () {
+        $rootScope.socket.send("delivery," + $rootScope.userid + "," + lat + "," + lng)
+      }, 60000);
+      $rootScope.interval2 = $interval(function () {
+        $http({
+          method: "POST",
+          url: "https://spot.cfapps.io/api/1/current"
+        }).then(function (resp) {
+          if (resp.data.uid !== oldUid) {
+            $scope.tripInfo = resp.data;
+            oldUid = resp.data.uid;
+            var start = new google.maps.LatLng(lat, lng);
+            $rootScope.startMarker = new google.maps.Marker({
+              position: start,
+              map: $rootScope.map,
+              title: '',
+              icon: startImage
+            });
+            var end = new google.maps.LatLng(resp.data.dlat, resp.data.dlng);
+            $rootScope.endMarker = new google.maps.Marker({
+              position: end,
+              map: $rootScope.map,
+              title: '',
+              icon: endImage
+            });
+            bound.extend(start);
+            bound.extend(end);
+            $rootScope.map.fitBounds(bound);
+            animateMyPop();
+            $rootScope.ren = new google.maps.DirectionsRenderer({
+              'draggable': false,
+              suppressMarkers: true
+            });
+            $rootScope.ren.setMap($rootScope.map);
+            var ser = new google.maps.DirectionsService();
+            ser.route({
+              'origin': $rootScope.startMarker.getPosition(),
+              'destination': $rootScope.endMarker.getPosition(),
+              'travelMode': google.maps.DirectionsTravelMode.DRIVING
+            }, function (res, sts) {
+              if (sts == google.maps.DirectionsStatus.OK) {
+                $rootScope.ren.setDirections(res);
+                // edame(data);
+              } else {
+                // edame(data);
+              }
+            });
+          }
+        }, function (err) {
+          alert(err)
+        });
+      }, 60000);
     }
   };
   $rootScope.CallNumber = function () {
@@ -879,7 +923,7 @@ App.controller('photographerCtrl', function ($rootScope, $state, $scope, $q, $co
     $rootScope.pop_status = 3;
     $http({
       method: "POST",
-      url: "https://migmig.cfapps.io/api/1/arrived",
+      url: "https://spot.cfapps.io/api/1/arrived",
       data: $rootScope.tripInfo.uid
     }).then(function (resp) {
       WebService.stopLoading();
@@ -894,7 +938,7 @@ App.controller('photographerCtrl', function ($rootScope, $state, $scope, $q, $co
     animateMyPop();
     $http({
       method: "POST",
-      url: "https://migmig.cfapps.io/api/1/approvedDriver",
+      url: "https://spot.cfapps.io/api/1/approvedDriver",
       data: $rootScope.tripInfo.uid
     }).then(function (resp) {
       $rootScope.pop_status = 2;
@@ -923,7 +967,7 @@ App.controller('photographerCtrl', function ($rootScope, $state, $scope, $q, $co
     animateMyPop();
     $http({
       method: "POST",
-      url: "https://migmig.cfapps.io/api/1/rejectBeforeDriver",
+      url: "https://spot.cfapps.io/api/1/rejectBeforeDriver",
       data: $rootScope.tripInfo.uid
     }).then(function (resp) {
       WebService.stopLoading();
@@ -938,7 +982,7 @@ App.controller('photographerCtrl', function ($rootScope, $state, $scope, $q, $co
     resetAllThings();
     $http({
       method: "POST",
-      url: "https://migmig.cfapps.io/api/1/rejectAfterDriver",
+      url: "https://spot.cfapps.io/api/1/rejectAfterDriver",
       data: $rootScope.tripInfo.uid
     }).then(function (resp) {
       WebService.stopLoading();
@@ -969,7 +1013,7 @@ App.controller('photographerCtrl', function ($rootScope, $state, $scope, $q, $co
     resetAllThings();
     $http({
       method: "POST",
-      url: "https://migmig.cfapps.io/api/1/endOfTrip",
+      url: "https://spot.cfapps.io/api/1/endOfTrip",
       data: $rootScope.tripInfo.uid
     }).then(function (resp) {
       WebService.stopLoading();
@@ -979,7 +1023,7 @@ App.controller('photographerCtrl', function ($rootScope, $state, $scope, $q, $co
     });
   };
   if ($rootScope.init_status === undefined) {
-    $.getScript("http://maps.googleapis.com/maps/api/js?key=AIzaSyBksdkjWFIfdMS_IhY8sEit6r9IPrPq-lA&sensor=true&libraries=places", function (data, textStatus, jqxhr) {
+    $.getScript("https://maps.googleapis.com/maps/api/js?key=AIzaSyBksdkjWFIfdMS_IhY8sEit6r9IPrPq-lA&sensor=true&libraries=places", function (data, textStatus, jqxhr) {
       if (typeof google === 'object' && typeof google.maps === 'object') {
         var s = document.createElement("script");
         s.type = "text/javascript";
@@ -991,13 +1035,14 @@ App.controller('photographerCtrl', function ($rootScope, $state, $scope, $q, $co
       }
     });
   }
-  function initialMainPage(){
+  function initialMainPage() {
     prepareSocket();
     set_map();
     initialVars();
     $rootScope.getCurrentLocation();
     google.maps.event.trigger($rootScope.map, 'resize');
   }
+
   document.addEventListener("online", onOnline, false);
   function onOnline() {
     if ($rootScope.init_status === undefined) {
