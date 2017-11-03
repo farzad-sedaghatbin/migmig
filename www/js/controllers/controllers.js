@@ -116,7 +116,11 @@ App.controller('AppCtrl', function ($scope, $rootScope, $cordovaNetwork, $ionicM
           tx.executeSql('INSERT INTO ANIJUU (name, log) VALUES (?, ?)', ["myToken", "Bearer " + data.token]);
         });
         $scope.modal.sign_in.hide();
-        $state.go('app.landing', {}, {reload: true});
+        if (data.type === "2") {
+          $state.go('app.landing', {}, {reload: true});
+        } else {
+          $state.go('app.photographer', {}, {reload: true});
+        }
       }).catch(function (err) {
         WebService.stopLoading();
         WebService.myErrorHandler(err,true);

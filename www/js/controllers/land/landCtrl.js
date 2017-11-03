@@ -216,7 +216,36 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
 
   var fromInfowindow = new google.maps.InfoWindow();
   var toInfowindow = new google.maps.InfoWindow();
-
+  var rate;
+  $scope.ratingsObject = {
+    iconOn: 'ion-ios-star',
+    iconOff: 'ion-ios-star-outline',
+    iconOnColor: 'rgb(200, 200, 100)',
+    iconOffColor: 'rgb(200, 100, 100)',
+    rating: 0,
+    minRating: 0,
+    readOnly: false,
+    callback: function (rating) {
+      rate = rating;
+    }
+  };
+  $scope.submitRate = function () {
+    WebService.startLoading();
+    $http({
+      method: "POST",
+      url: "https://spot.cfapps.io/api/1/rating",
+      data : $scope.selected_ph.uid + "," + rate
+    }).then(function (resp) {
+      WebService.stopLoading();
+      $ionicPopup.alert({
+        title: '<p class="text-center color-yellow">' + $filter('langTranslate')("پیام") + '</p>',
+        template: '<p class="text-center color-gery">' + $filter('langTranslate')("امتیاز شما با موفقیت ثبت شد") + '</p>'
+      });
+    }, function (err) {
+      WebService.stopLoading();
+      WebService.myErrorHandler(err,false);
+    });
+  };
   function setAutocompleteBoxes(data) {
     var from_el = document.getElementById('autocompletefrom');
     var startImage = 'img/source.png';
@@ -363,9 +392,12 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
           data: result.text
         }).then(function (resp) {
           WebService.stopLoading();
-          $ionicPopup.alert({
-            title: '<p class="text-center color-yellow">' + $filter('langTranslate')("پیام") + '</p>',
-            template: '<p class="text-center color-gery">' + $filter('langTranslate')("پایان پروژه با موفقیت ثبت شد") + '</p>'
+          $ionicModal.fromTemplateUrl('templates/rate.html', {
+            scope: $scope,
+            animation: 'slide-in-up'
+          }).then(function (modal) {
+            $scope.rate = modal;
+            modal.show();
           });
           $scope.showStart = false;
           $scope.showEnd = false;
