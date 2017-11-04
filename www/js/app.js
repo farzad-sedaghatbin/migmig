@@ -127,6 +127,20 @@ angular.module('CallApp', ['ionic', 'ngCordova', 'CallAppcontrollers','ngMockE2E
       $rootScope.username = result;
     };
     db.transaction(function (tx) {
+      tx.executeSql('SELECT d.log FROM ANIJUU d WHERE d.name="userid"', [], function (tx, results) {
+        var len = results.rows.length, i, result = '';
+        if (!results.rows || results.rows.length == 0) {
+          result = null;
+        } else {
+          result = results.rows.item(0).log;
+        }
+        setUserid(result)
+      }, null);
+    });
+    var setUserid = function (result) {
+      $rootScope.userid = result;
+    };
+    db.transaction(function (tx) {
       tx.executeSql('SELECT d.log FROM ANIJUU d WHERE d.name="myToken"', [], function (tx, results) {
         var len = results.rows.length, i, result = '';
         if (!results.rows || results.rows.length == 0) {

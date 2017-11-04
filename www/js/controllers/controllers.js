@@ -1,6 +1,6 @@
 var App = angular.module('CallAppcontrollers', []);
 
-App.controller('AppCtrl', function ($scope, $rootScope, $cordovaNetwork, $ionicModal, $timeout, $state, $ionicLoading, $ionicPopup, $http, $cordovaOauth, $cordovaSplashscreen, $ionicHistory, serv, WebService) {
+App.controller('AppCtrl', function ($scope, $rootScope, $cordovaNetwork, $ionicModal, $timeout,$interval, $state, $ionicLoading, $ionicPopup, $http, $cordovaOauth, $cordovaSplashscreen, $ionicHistory, serv, WebService) {
 
   //localStorage.removeItem('user_data');
 
@@ -108,11 +108,13 @@ App.controller('AppCtrl', function ($scope, $rootScope, $cordovaNetwork, $ionicM
         WebService.stopLoading();
         $rootScope.username = $scope.login.mail;
         $rootScope.type = data.type;
+        $rootScope.userid = data.userid;
         $http.defaults.headers.common.Authorization = "Bearer " + data.token;
         var db = openDatabase('mydb', '1.0', 'Test DB', 1024 * 1024);
         db.transaction(function (tx) {
           tx.executeSql('INSERT INTO ANIJUU (name, log) VALUES (?, ?)', ["username", $scope.login.mail]);
           tx.executeSql('INSERT INTO ANIJUU (name, log) VALUES (?, ?)', ["type", $rootScope.type]);
+          tx.executeSql('INSERT INTO ANIJUU (name, log) VALUES (?, ?)', ["userid", $rootScope.userid]);
           tx.executeSql('INSERT INTO ANIJUU (name, log) VALUES (?, ?)', ["myToken", "Bearer " + data.token]);
         });
         $scope.modal.sign_in.hide();
@@ -189,6 +191,9 @@ App.controller('AppCtrl', function ($scope, $rootScope, $cordovaNetwork, $ionicM
         disableAnimate: true,
         disableBack: true
       });
+      $interval.cancel($rootScope.interval);
+      $interval.cancel($rootScope.interval2);
+      $interval.cancel($rootScope.interval3);
       $state.go('landing', {}, {reload: true});
 
     }, 1000);

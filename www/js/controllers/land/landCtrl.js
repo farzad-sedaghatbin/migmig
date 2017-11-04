@@ -887,18 +887,22 @@ App.controller('photographerCtrl', function ($rootScope, $state, $scope, $q, $co
       available = false;
       $interval.cancel($rootScope.interval);
       $interval.cancel($rootScope.interval2);
+      $interval.cancel($rootScope.interval3);
     } else {
       available = true;
       $rootScope.getCurrentLocation();
       $rootScope.interval = $interval(function () {
-        $rootScope.socket.send("delivery," + $rootScope.userid + "," + lat + "," + lng)
-      }, 60000);
+        $rootScope.socket.send("mylocation," + $rootScope.userid + "," + lat + "," + lng)
+      }, 3600000);
       $rootScope.interval2 = $interval(function () {
         $http({
           method: "POST",
           url: "https://spot.cfapps.io/api/1/current"
         }).then(function (resp) {
           if (resp.data.uid !== oldUid) {
+            $rootScope.interval3 = $interval(function () {
+              $rootScope.socket.send("delivery," + $rootScope.userid + "," + lat + "," + lng + "," + resp.data.clientId)
+            }, 60000);
             $scope.tripInfo = resp.data;
             oldUid = resp.data.uid;
             var start = new google.maps.LatLng(lat, lng);
