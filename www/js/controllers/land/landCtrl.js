@@ -85,7 +85,6 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
     $scope.fromMarker.setMap(null);
     $scope.fromMarker = null;
     document.getElementById('autocompletefrom').value = "";
-    animateMyPop();
   };
   $scope.deleteTo = function () {
     $scope.toMarker.setMap(null);
@@ -453,10 +452,9 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
       }
     }).then(function (resp) {
       WebService.stopLoading();
-      $("#tab-hide").css("display", "none");
+      $("#my-pop").removeClass("my-active");
       $("#request").css("display", "none");
-      animateMyPop();
-      deleteFrom();
+      $scope.deleteFrom();
       $ionicPopup.alert({
         title: '<p class="text-center color-yellow">' + $filter('langTranslate')("پیام") + '</p>',
         template: '<p class="text-center color-gery">' + $filter('langTranslate')("درخواست شما با موفقیت ثبت شد. به زودی عکاس شما معرفی می شود") + '</p>'
