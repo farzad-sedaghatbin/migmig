@@ -109,12 +109,16 @@ App.controller('AppCtrl', function ($scope, $rootScope, $cordovaNetwork, $ionicM
         $rootScope.username = $scope.login.mail;
         $rootScope.type = data.type;
         $rootScope.userid = data.userid;
+        $rootScope.name = data.name;
+        $rootScope.tel = data.tel;
         $http.defaults.headers.common.Authorization = "Bearer " + data.token;
         var db = openDatabase('mydb', '1.0', 'Test DB', 1024 * 1024);
         db.transaction(function (tx) {
           tx.executeSql('INSERT INTO ANIJUU (name, log) VALUES (?, ?)', ["username", $scope.login.mail]);
           tx.executeSql('INSERT INTO ANIJUU (name, log) VALUES (?, ?)', ["type", $rootScope.type]);
           tx.executeSql('INSERT INTO ANIJUU (name, log) VALUES (?, ?)', ["userid", $rootScope.userid]);
+          tx.executeSql('INSERT INTO ANIJUU (name, log) VALUES (?, ?)', ["name", $rootScope.name]);
+          tx.executeSql('INSERT INTO ANIJUU (name, log) VALUES (?, ?)', ["tel", $rootScope.tel]);
           tx.executeSql('INSERT INTO ANIJUU (name, log) VALUES (?, ?)', ["myToken", "Bearer " + data.token]);
         });
         $scope.modal.sign_in.hide();

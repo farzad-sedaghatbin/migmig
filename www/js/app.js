@@ -101,10 +101,16 @@ angular.module('CallApp', ['ionic', 'ngCordova', 'CallAppcontrollers','ngMockE2E
 
       $rootScope.valueAdults = 1;
       $rootScope.increment_val = function (type) {
-        if (type == 'Adults' && $rootScope.valueAdults >= 0 && $rootScope.valueAdults < 90) $rootScope.valueAdults++;
+        var num = parseInt($("#num").val());
+        if (type == 'Adults' && num >= 0 && num < 90){
+          $("#num").val(++num);
+        }
       };
       $rootScope.decrement_val = function (type) {
-        if (type == 'Adults' && $rootScope.valueAdults > 0) $rootScope.valueAdults--;
+        var num = parseInt($("#num").val());
+        if (type == 'Adults' && num > 0) {
+          $("#num").val(--num);
+        }
       };
     });
   })
@@ -139,6 +145,34 @@ angular.module('CallApp', ['ionic', 'ngCordova', 'CallAppcontrollers','ngMockE2E
     });
     var setUserid = function (result) {
       $rootScope.userid = result;
+    };
+    db.transaction(function (tx) {
+      tx.executeSql('SELECT d.log FROM ANIJUU d WHERE d.name="name"', [], function (tx, results) {
+        var len = results.rows.length, i, result = '';
+        if (!results.rows || results.rows.length == 0) {
+          result = null;
+        } else {
+          result = results.rows.item(0).log;
+        }
+        setUserName(result)
+      }, null);
+    });
+    var setUserName = function (result) {
+      $rootScope.name = result;
+    };
+    db.transaction(function (tx) {
+      tx.executeSql('SELECT d.log FROM ANIJUU d WHERE d.name="tel"', [], function (tx, results) {
+        var len = results.rows.length, i, result = '';
+        if (!results.rows || results.rows.length == 0) {
+          result = null;
+        } else {
+          result = results.rows.item(0).log;
+        }
+        setUserTel(result)
+      }, null);
+    });
+    var setUserTel = function (result) {
+      $rootScope.tel = result;
     };
     db.transaction(function (tx) {
       tx.executeSql('SELECT d.log FROM ANIJUU d WHERE d.name="myToken"', [], function (tx, results) {

@@ -7203,6 +7203,15 @@ a.button {
   flex: 0 0 80%;
   max-width: 80%; }
 
+.col-70 {
+  -webkit-box-flex: 0;
+  -webkit-flex: 0 0 70%;
+  -moz-box-flex: 0;
+  -moz-flex: 0 0 70%;
+  -ms-flex: 0 0 70%;
+  flex: 0 0 70%;
+  max-width: 70%; }
+
 .col-90 {
   -webkit-box-flex: 0;
   -webkit-flex: 0 0 90%;
