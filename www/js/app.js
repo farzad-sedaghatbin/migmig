@@ -98,16 +98,16 @@ angular.module('CallApp', ['ionic', 'ngCordova', 'CallAppcontrollers','ngMockE2E
         e.preventDefault();
         return false;
       }, 122);
-
-      $rootScope.valueAdults = 1;
       $rootScope.increment_val = function (type) {
-        var num = parseInt($("#num").val());
+        var numInput = $("#num");
+        var num = numInput.val() === "" ? 0 : parseInt(numInput.val());
         if (type == 'Adults' && num >= 0 && num < 90){
-          $("#num").val(++num);
+          numInput.val(++num);
         }
       };
       $rootScope.decrement_val = function (type) {
-        var num = parseInt($("#num").val());
+        var numInput = $("#num");
+        var num = numInput.val() === "" ? 1 : parseInt(numInput.val());
         if (type == 'Adults' && num > 0) {
           $("#num").val(--num);
         }
