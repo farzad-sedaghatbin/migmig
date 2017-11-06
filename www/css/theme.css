@@ -103,7 +103,30 @@
 	transform: translate3d(0, 100%, 0);
 	transition: all 0.4s ease-in-out;
 }
+#my-pop2{
+
+	/* height: 50%; */
+	position: absolute;
+	z-index: 20;
+	left: 0;
+	top: 100%;
+	/* background-color: rgba(0,0,0,.8); */
+	width: 100%;
+
+	-webkit-transform: translate3d(0, 100%, 0);
+	-webkit-transition: all 0.4s ease-in-out;
+
+	transform: translate3d(0, 100%, 0);
+	transition: all 0.4s ease-in-out;
+}
 #my-pop.my-active{
+	-webkit-transform: translate3d(0, -100%, 0);
+	-webkit-transition: all 0.4s ease-in-out;
+
+	transform: translate3d(0, -100%, 0);
+	transition: all 0.4s ease-in-out;
+}
+#my-pop2.my-active{
 	-webkit-transform: translate3d(0, -100%, 0);
 	-webkit-transition: all 0.4s ease-in-out;
 

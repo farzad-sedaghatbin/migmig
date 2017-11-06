@@ -167,11 +167,17 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
           marker.myId = data.deliveryLocationDTO.id;
           google.maps.event.addListener(marker, 'click', function() {
             $("#my-pop").removeClass("my-active");
-            $scope.showDriverInfo = true;
-            $scope.driver = {
-              name : marker.name,
-              mobile : marker.tel
+            if (!$("#my-pop2").hasClass("my-active")){
+              $("#my-pop2").addClass("my-active");
             }
+            $scope.showDriverInfo = true;
+            $scope.showStart = true;
+            $scope.$apply(function () {
+              $scope.driver = {
+                name: marker.name,
+                mobile: marker.tel
+              }
+            })
           });
           ids.push(data.deliveryLocationDTO.id);
           markers.push(marker);

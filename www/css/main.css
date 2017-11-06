@@ -75,7 +75,9 @@ ion-scroll[direction=x] {
 .bar-footer{ border: none !important;}
 
 #my-pop{ border-top: 3px solid  #1C1C1C;	}
+#my-pop2{ border-top: 3px solid  #1C1C1C;	}
 #my-pop .head-box{ height: 70px; }
+#my-pop2 .head-box{ height: 70px; }
 #fare-breakup-box{border-top: 1px solid #1C1C1C; margin-top: 15px;}
 
 #fare-breakup-box .head{ position: relative; margin-top: -14px; }
