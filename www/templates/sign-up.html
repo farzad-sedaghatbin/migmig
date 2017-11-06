@@ -1,7 +1,7 @@
 <ion-modal-view id='sign-up-page' class='set-bg' class='bg-grey'>
 
 <ion-content  style="direction: rtl" >
-	<div  style='height: 100%;'>
+	<div  style='height: 100%;' class="myText">
 	  <div class='head-bar bg-black'>
 			<p class='vertical-middle text-center color-yellow big-font'>ثبت نام</p>
 			<div class='close-icon' ng-click="closeSignUp()">
@@ -22,7 +22,7 @@
 							<small class="error	 " ng-show="sign_up_form.name.$error.required">نام خود را وارد کنید</small>
 						</div>
 
-						<input name='name' ng-model='signUp.name' placeholder="نام" class='color-yellow' type='text' required/>
+						<input name='name' ng-model='signUp.name' placeholder="نام" class='color-yellow myText' type='text' required/>
 						<img class='input-icon icon-20' src='img/icons/user.png'/>
 					</div>
 					</br>
@@ -34,7 +34,7 @@
 
 						</div>
 
-					<input name='user_name' ng-model='signUp.user_name' placeholder="نام کاربری" class='color-yellow' type='text' ng-minlength='6' required/>
+					<input name='user_name' ng-model='signUp.user_name' placeholder="نام کاربری" class='color-yellow myText' type='text' ng-minlength='6' required/>
 						<img class='input-icon icon-20' src='img/icons/user.png'/>
 					</div>
 					</br>
@@ -47,7 +47,7 @@
 							<small class="error	 " ng-show="sign_up_form.number.$error.maxlength">یک شماره معتبر وارد کنید</small>
 						</div>
 
-						<input name='number' placeholder="شماره موبایل" ng-model='signUp.mobile' type='number' class='color-yellow' type='text' ng-minlength="10" ng-maxlength="10" required />
+						<input name='number' placeholder="شماره موبایل" ng-model='signUp.mobile' type='number' class='color-yellow myText' type='text' ng-minlength="10" ng-maxlength="10" required />
 						<img class='input-icon icon-20' src='img/icons/mobile.png'/>
 
 					</div>
@@ -59,7 +59,7 @@
 							<small class="error	 " ng-show="sign_up_form.mail.$error.email">یک ایمیل معتبر وارد کنید</small>
 						</div>
 
-						<input name='mail' type='email' required ng-model='signUp.mail' placeholder="ایمیل" class='color-yellow' type='text' />
+						<input name='mail' type='email' required ng-model='signUp.mail' placeholder="ایمیل" class='color-yellow myText' type='text' />
 						<img class='input-icon icon-20' src='img/icons/mail.png'/>
 					</div>
 					</br>
@@ -69,7 +69,7 @@
 							<small class="error	 " ng-show="sign_up_form.pwd.$error.required">رمز عبور</small>
 							<small class="error	 " ng-show="sign_up_form.pwd.$error.minlength">حداقل ۶ کراکتر</small>
 						</div>
-						<input name='pwd' ng-model='signUp.pwd' placeholder="رمز عبور" class='color-yellow' ng-minlength='6' type='password' required/>
+						<input name='pwd' ng-model='signUp.pwd' placeholder="رمز عبور" class='color-yellow myText' ng-minlength='6' type='password' required/>
 						<img class='input-icon icon-20' src='img/icons/lock.png'/>
 					</div>
 					</br>
@@ -79,11 +79,11 @@
 							<small class="error " ng-show="(signUp.pwd != signUp.c_pwd) ">رمز عبور یکسان نیست</small>
 
 						</div>
-						<input name='c_pwd' ng-model='signUp.c_pwd' placeholder="تایید رمز عبور" class='color-yellow' type='password' required/>
+						<input name='c_pwd' ng-model='signUp.c_pwd' placeholder="تایید رمز عبور" class='color-yellow myText' type='password' required/>
 						<img class='input-icon icon-20' src='img/icons/lockTick.png'/>
 					</div>
 
-					<input ng-click='do_signUp(sign_up_form)'  class='btn bg-yellow color-white big-font m-top-20' type='button' value="ثبت نام" />
+					<input ng-click='do_signUp(sign_up_form)'  class='btn bg-yellow color-white big-font m-top-20 myText' type='button' value="ثبت " />
 
 				</div>
 			</div>
