@@ -249,7 +249,7 @@
                       <input name='moreInfo' id="moreInfo" ng-model='moreInfo' placeholder="آدرس دقیقتر یا توضیحات"
                              class='color-yellow myText'
                              type='text' style="text-align: right;direction: rtl"/>
-                      <img class='input-icon icon-20' src='img/icons/user.png'/>
+                      <!--<img class='input-icon icon-20' src='img/icons/user.png'/>-->
                     </div>
                   </div>
                 </div>
@@ -282,6 +282,11 @@
         <p id="phone" class='color-white p-head myText'><i class="ion-android-call" style="padding-right: 10px"></i>
           شماره</p>
         <p class='color-gery myText'>{{driver.mobile}}</p>
+      </div>
+    </div>
+    <div class='footer-box bg-dark color-yellow' ng-if="showDriverInfo">
+      <div class='my-button h-100-p text-center myText'>
+        پرداخت
       </div>
     </div>
     <div class='footer-box bg-dark color-yellow'>
