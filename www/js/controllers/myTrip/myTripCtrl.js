@@ -35,7 +35,7 @@ App.controller('myTripCtrl', function($scope,$rootScope, $ionicLoading, $compile
     WebService.startLoading();
     $http({
       method: "POST",
-      url: "https://spot.cfapps.io/api/1/detail",
+      url: "http://127.0.0.1:8080/api/1/detail",
       data : uid
     }).then(function (resp) {
       WebService.stopLoading();
