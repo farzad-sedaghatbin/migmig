@@ -7,8 +7,8 @@
 			  <button class="button button-clear" ng-click="closeLogin()">Close</button>
 			</div>
 		</ion-header-bar> -->
-		<div class='head-bar bg-black'>
-			<p class='vertical-middle text-center color-yellow big-font'>ورود</p>
+		<div class='head-bar'>
+			<!--<p class='vertical-middle text-center color-yellow big-font'>ورود</p>-->
 			<div class='close-icon' ng-click="closeLogin()">
 				<img class='vertical-middle icon-25 ' src='img/icons/close.png'   />
 			</div>
@@ -39,7 +39,7 @@
 						<input name='pwd' ng-model='login.pwd' required placeholder="رمز عبور" class='color-yellow myText m-top-20' type='password' />
 						<img class='input-icon icon-20' src='img/icons/lock.png'/>
 					</div>
-					<input ng-click='doLogin(login_form)'  class='btn bg-yellow color-white m-top-30 big-font myText' type='button' value="ورود" />
+					<input ng-click='doLogin(login_form)'  class='btn bg-grey color-white border-white myText m-top-30' type='button' value="ورود" />
 				</div>
 			</div>
 		</div>
