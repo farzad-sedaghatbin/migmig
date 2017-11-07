@@ -28,10 +28,14 @@
 
 
 
-#login-page{ background-image: url('../img/login_bg.jpg');}
+#login-page{
+  /*background-image: url('../img/login_bg.jpg');*/
+  background: #2e2f32;
+}
 #sign-up-page{
-  background-image: url('../img/sign_up_bg.jpg');
-  background-size: 100% 100%;
+  /*background-image: url('../img/sign_up_bg.jpg');*/
+  /*background-size: 100% 100%;*/
+  background: #2e2f32;
 }
 
 .item{ background: none !important;}
