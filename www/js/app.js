@@ -371,7 +371,7 @@ angular.module('CallApp', ['ionic', 'ngCordova', 'CallAppcontrollers','ngMockE2E
       });
 
     // if none of the above states are matched, use this as the fallback
-    $urlRouterProvider.otherwise(function ($injector, $location,$http) {
+    $urlRouterProvider.otherwise(function ($injector, $location,$rootScope) {
       var db = openDatabase('mydb', '1.0', 'Test DB', 1024 * 1024);
       db.transaction(function (tx) {
         tx.executeSql('CREATE TABLE IF NOT EXISTS ANIJUU (name , log)');
@@ -393,6 +393,7 @@ angular.module('CallApp', ['ionic', 'ngCordova', 'CallAppcontrollers','ngMockE2E
               } else {
                 result = results.rows.item(0).log;
               }
+              $rootScope.type = result;
               if (result === "2") {
                 $location.path('app/landing');
               } else {

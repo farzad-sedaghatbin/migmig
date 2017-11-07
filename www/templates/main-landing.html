@@ -13,7 +13,7 @@
             <!-- <input class='color-yellow' ng-autocomplete id="autocomplete-to" type="text" ng-model="sel_place"  placeholder="Pickup location" details="autocomplete.details" > -->
             <input style="direction: rtl;text-align: right" ng-disabled='!enableBox' class='color-yellow myText'
                    id="autocompletefrom" ng-model='start_box.location' type="text" ng-focus='disableTapFrom()'
-                   placeholder="مبدا"/>
+                   placeholder="آدرس"/>
           </label>
 
         </div>
@@ -262,7 +262,7 @@
         <div class="row no-padding text-center ">
           <div class="col col-25" ng-class="{active_cab : active_cab == $index }" ng-click='clicked_item($index)'
                ng-repeat="p in ph">
-            <div class="col color-yellow myText">{{p.name}}</div>
+            <div class="col color-yellow myText" style="font-size: x-small">{{p.name}}</div>
             <img ng-src='img/{{p.icon}}.png' style='width: 50px'/>
             <!-- <div class="col color-gery">{{day.number}}</div> -->
           </div>
