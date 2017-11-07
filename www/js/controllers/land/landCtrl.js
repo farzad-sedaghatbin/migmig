@@ -983,7 +983,6 @@ App.controller('photographerCtrl', function ($rootScope, $state, $scope, $q, $co
             });
           }
         }, function (err) {
-          alert(err)
         });
       }, 60000);
     }
