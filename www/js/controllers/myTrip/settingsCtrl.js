@@ -5,7 +5,7 @@ App.controller('settingsCtrl', function($scope,$rootScope, $ionicModal, $timeout
   $scope.gallery = function () {
     var options = {sourceType: Camera.PictureSourceType.PHOTOLIBRARY, targetWidth: 400, targetHeight: 400};
     navigator.camera.getPicture(function cameraSuccess(imageUri) {
-      menuService.startLoading();
+      WebService.startLoading();
       window.resolveLocalFileSystemURL(imageUri, function (fileEntry) {
         fileEntry.file(function (file) {
           var reader = new FileReader();
@@ -57,4 +57,76 @@ App.controller('settingsCtrl', function($scope,$rootScope, $ionicModal, $timeout
         WebService.myErrorHandler(err,false);
       });
 	}
+
+  delete $http.defaults.headers.common.Authorization;
+  $scope.$on('$ionicView.beforeEnter', function (e, viewData) {
+    $scope.$root.showMenuIcon = false;
+    viewData.enableBack = true;
+  });
+  $scope.username = "";
+  $scope.password = "";
+  $scope.confirmPass = "";
+  $scope.submit = function (username) {
+    WebService.startLoading();
+    var signUpUrl = "http://192.168.1.12:8080/api/1/forget";
+    $http.post(signUpUrl, username)
+      .success(function (suc) {
+        if (suc == "201") {
+          $ionicPopup.alert({
+            title: '<span class="myText">خطا</span>',
+            template: '<div class="myText" style="text-align: right">نام کاربری اشتباه می باشد</div>'
+          });
+        } else {
+          $ionicPopup.alert({
+            title: '<span class="myText">پیام</span>',
+            template: '<div class="myText" style="text-align: right;direction: rtl">کد مورد نیاز برای تغییر کلمه عبور پیامک شد</div>'
+          });
+          $(".popup").css("width", "90%");
+          $scope.forgetPassCodeForm = true;
+        }
+        WebService.stopLoading();
+      })
+      .error(function (err) {
+        WebService.myErrorHandler(err);
+        WebService.stopLoading();
+      });
+  };
+  $scope.confirm = function (code, password) {
+    var signUpUrl = "http://192.168.1.12:8080/api/1/confirmReset";
+    $http.post(signUpUrl, JSON.stringify({code: code, password: password}))
+      .success(function (suc) {
+        WebService.stopLoading();
+        if (suc == "200") {
+          $ionicPopup.alert({
+            title: '<span class="myText">پیام</span>',
+            template: '<div class="myText" style="text-align: right;direction: rtl">کلمه عبور با موفقیت تغییر کرد</div>'
+          });
+          $ionicNativeTransitions.stateGo('menuless.login', {}, {
+            "type": "slide",
+            "direction": "right",
+            "duration": 500
+          });
+        } else if (suc == "301") {
+          $ionicPopup.alert({
+            title: '<span class="myText">پیام</span>',
+            template: '<div class="myText" style="text-align: right;direction: rtl">خطا در عملیات. لطفا مجددا تلاش کنید</div>'
+          });
+        } else {
+          $ionicPopup.alert({
+            title: '<span class="myText">پیام</span>',
+            template: '<div class="myText" style="text-align: right;direction: rtl">کد اشتباه می باشد</div>'
+          });
+        }
+        $(".popup").css("width", "90%");
+      })
+      .error(function (err) {
+        WebService.myErrorHandler(err);
+        WebService.stopLoading();
+      });
+  };
+  $scope.checkPassword = function (form, password, confirmPass) {
+    var result = password !== confirmPass;
+    $scope.result = result;
+    form.confirmPass.$setValidity("validity", !result);
+  };
 });

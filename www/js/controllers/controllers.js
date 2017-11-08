@@ -1,11 +1,6 @@
 var App = angular.module('CallAppcontrollers', []);
 
 App.controller('AppCtrl', function ($scope, $rootScope, $cordovaNetwork, $ionicModal, $timeout,$interval, $state, $ionicLoading, $ionicPopup, $http, $cordovaOauth, $cordovaSplashscreen, $ionicHistory, serv, WebService) {
-
-  //localStorage.removeItem('user_data');
-
-  //$cordovaSplashscreen.show();
-
   function set_net(status) {
     if (status == 'online') {
       $('.net-error').hide();

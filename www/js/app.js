@@ -360,6 +360,16 @@ angular.module('CallApp', ['ionic', 'ngCordova', 'CallAppcontrollers','ngMockE2E
         }
       })
 
+      .state('app.forget', {
+        url: '/forget',
+        views: {
+          'menuContent': {
+            templateUrl: 'templates/forget-pass.html',
+            controller: 'settingsCtrl'
+          }
+        }
+      })
+
       .state('app.settings', {
         url: '/settings',
         views: {
