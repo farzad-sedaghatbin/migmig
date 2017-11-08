@@ -393,7 +393,6 @@ angular.module('CallApp', ['ionic', 'ngCordova', 'CallAppcontrollers','ngMockE2E
               } else {
                 result = results.rows.item(0).log;
               }
-              $rootScope.type = result;
               if (result === "2") {
                 $location.path('app/landing');
               } else {

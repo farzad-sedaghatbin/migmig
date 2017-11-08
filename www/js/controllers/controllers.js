@@ -137,7 +137,6 @@ App.controller('AppCtrl', function ($scope, $rootScope, $cordovaNetwork, $ionicM
     }
 
   };
-
   $scope.signUp = {};
   $scope.do_signUp = function (form) {
     WebService.startLoading();
@@ -147,22 +146,14 @@ App.controller('AppCtrl', function ($scope, $rootScope, $cordovaNetwork, $ionicM
       && $scope.signUp.pwd == $scope.signUp.c_pwd
     //true
     ) {
-      var post_data = {
-        'secret_key': secret_key,
-        'Email': $scope.signUp.mail,
-        'Password': $scope.signUp.pwd,
-        'Mobile': $scope.signUp.mobile,
-        'User_name': $scope.signUp.user_name,
-        'Name': $scope.signUp.name,
-      }
-
       var url = "http://192.168.160.172:8080/api/1/signup";
       var data = {
         firstName: $scope.signUp.name,
         lastName: $scope.signUp.name,
         username: $scope.signUp.user_name,
         mobile: $scope.signUp.mobile,
-        password: $scope.signUp.pwd
+        password: $scope.signUp.pwd,
+        pic : pic
       };
       $http.post(url, data)
         .success(function (suc) {

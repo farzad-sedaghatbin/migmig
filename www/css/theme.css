@@ -143,3 +143,14 @@
 }
 
  .pac-item { text-align: right }
+.avatar{
+  background-size: 30% 80%;
+  background-repeat: no-repeat;
+  width: 100%;
+  height: 100px;
+  background-position-x: center;
+  border-radius: 50%;
+  text-align: center;
+  font-size: 62px;
+  color: #F84E0E;
+}
