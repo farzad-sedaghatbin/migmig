@@ -172,6 +172,7 @@ App.controller('AppCtrl', function ($scope, $rootScope, $cordovaNetwork, $ionicM
   // MENU
 
   $scope.logout = function () {
+    var db = openDatabase('mydb', '1.0', 'Test DB', 1024 * 1024);
     localStorage.removeItem('user_data');
     WebService.show_loading();
 
@@ -184,6 +185,10 @@ App.controller('AppCtrl', function ($scope, $rootScope, $cordovaNetwork, $ionicM
       $interval.cancel($rootScope.interval);
       $interval.cancel($rootScope.interval2);
       $interval.cancel($rootScope.interval3);
+      db.transaction(function (tx) {
+        tx.executeSql('DELETE FROM ANIJUU', [], function (tx, results) {
+        }, null);
+      });
       $state.go('landing', {}, {reload: true});
 
     }, 1000);
