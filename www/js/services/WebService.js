@@ -1,5 +1,5 @@
 
- App.service('WebService', function( $http, $q, $ionicLoading){
+ App.service('WebService', function( $http, $q, $ionicLoading,$ionicPopup,$cordovaToast){
 
 	/* SIGN UP
 	===========================================*/
