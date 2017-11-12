@@ -1,4 +1,4 @@
-App.controller('settingsCtrl', function($scope,$rootScope, $ionicModal, $timeout,$state,$ionicLoading, $ionicPopup,serv, WebService,$http) {
+App.controller('settingsCtrl', function($scope,$rootScope, $ionicModal, $timeout,$state,$ionicLoading, $ionicPopup,serv, WebService,$http,$cordovaToast) {
 
 	$scope.signUp = {};
   $scope.pic;
