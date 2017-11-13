@@ -129,4 +129,9 @@ App.controller('settingsCtrl', function($scope,$rootScope, $ionicModal, $timeout
     $scope.result = result;
     form.confirmPass.$setValidity("validity", !result);
   };
+
+  $scope.setType = function (type) {
+    $rootScope.projectType = type;
+    $state.go("app.landing");
+  };
 });

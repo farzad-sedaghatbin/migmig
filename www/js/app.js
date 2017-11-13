@@ -57,7 +57,7 @@ angular.module('CallApp', ['ionic', 'ngCordova', 'CallAppcontrollers','ngMockE2E
   })
 
 
-  .run(function ($rootScope, $ionicPlatform, $ionicHistory, $state) {
+  .run(function ($rootScope, $ionicPlatform, $ionicHistory, $state,$http) {
     //$cordovaSplashScreen.hide();
     $ionicPlatform.ready(function () {
       // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
@@ -112,88 +112,89 @@ angular.module('CallApp', ['ionic', 'ngCordova', 'CallAppcontrollers','ngMockE2E
           $("#num").val(--num);
         }
       };
+      var db = openDatabase('mydb', '1.0', 'Test DB', 1024 * 1024);
+      db.transaction(function (tx) {
+        tx.executeSql('SELECT d.log FROM ANIJUU d WHERE d.name="username"', [], function (tx, results) {
+          var len = results.rows.length, i, result = '';
+          if (!results.rows || results.rows.length == 0) {
+            result = null;
+          } else {
+            result = results.rows.item(0).log;
+          }
+          setUsername(result)
+        }, null);
+      });
+      var setUsername = function (result) {
+        $rootScope.username = result;
+      };
+      db.transaction(function (tx) {
+        tx.executeSql('SELECT d.log FROM ANIJUU d WHERE d.name="userid"', [], function (tx, results) {
+          var len = results.rows.length, i, result = '';
+          if (!results.rows || results.rows.length == 0) {
+            result = null;
+          } else {
+            result = results.rows.item(0).log;
+          }
+          setUserid(result)
+        }, null);
+      });
+      var setUserid = function (result) {
+        $rootScope.userid = result;
+      };
+      db.transaction(function (tx) {
+        tx.executeSql('SELECT d.log FROM ANIJUU d WHERE d.name="name"', [], function (tx, results) {
+          var len = results.rows.length, i, result = '';
+          if (!results.rows || results.rows.length == 0) {
+            result = null;
+          } else {
+            result = results.rows.item(0).log;
+          }
+          setUserName(result)
+        }, null);
+      });
+      var setUserName = function (result) {
+        $rootScope.name = result;
+      };
+      db.transaction(function (tx) {
+        tx.executeSql('SELECT d.log FROM ANIJUU d WHERE d.name="tel"', [], function (tx, results) {
+          var len = results.rows.length, i, result = '';
+          if (!results.rows || results.rows.length == 0) {
+            result = null;
+          } else {
+            result = results.rows.item(0).log;
+          }
+          setUserTel(result)
+        }, null);
+      });
+      var setUserTel = function (result) {
+        $rootScope.tel = result;
+      };
+      db.transaction(function (tx) {
+        tx.executeSql('SELECT d.log FROM ANIJUU d WHERE d.name="myToken"', [], function (tx, results) {
+          var len = results.rows.length, i, result = '';
+          if (!results.rows || results.rows.length == 0) {
+            result = null;
+          } else {
+            result = results.rows.item(0).log;
+          }
+          setToken(result)
+        }, null);
+      });
+      var setToken = function (result) {
+        alert(result)
+        if (result) {
+          $http.defaults.headers.common.Authorization = result;
+        } else {
+          try {
+            delete $http.defaults.headers.common.Authorization;
+          } catch (e){}
+        }
+      }
     });
   })
   .run(function ($ionicPopup, $rootScope, $ionicPlatform, $httpBackend, $http) {
     $httpBackend.whenGET(/.*/).passThrough();
     $httpBackend.whenPOST(/.*/).passThrough();
-    var db = openDatabase('mydb', '1.0', 'Test DB', 1024 * 1024);
-    db.transaction(function (tx) {
-      tx.executeSql('SELECT d.log FROM ANIJUU d WHERE d.name="username"', [], function (tx, results) {
-        var len = results.rows.length, i, result = '';
-        if (!results.rows || results.rows.length == 0) {
-          result = null;
-        } else {
-          result = results.rows.item(0).log;
-        }
-        setUsername(result)
-      }, null);
-    });
-    var setUsername = function (result) {
-      $rootScope.username = result;
-    };
-    db.transaction(function (tx) {
-      tx.executeSql('SELECT d.log FROM ANIJUU d WHERE d.name="userid"', [], function (tx, results) {
-        var len = results.rows.length, i, result = '';
-        if (!results.rows || results.rows.length == 0) {
-          result = null;
-        } else {
-          result = results.rows.item(0).log;
-        }
-        setUserid(result)
-      }, null);
-    });
-    var setUserid = function (result) {
-      $rootScope.userid = result;
-    };
-    db.transaction(function (tx) {
-      tx.executeSql('SELECT d.log FROM ANIJUU d WHERE d.name="name"', [], function (tx, results) {
-        var len = results.rows.length, i, result = '';
-        if (!results.rows || results.rows.length == 0) {
-          result = null;
-        } else {
-          result = results.rows.item(0).log;
-        }
-        setUserName(result)
-      }, null);
-    });
-    var setUserName = function (result) {
-      $rootScope.name = result;
-    };
-    db.transaction(function (tx) {
-      tx.executeSql('SELECT d.log FROM ANIJUU d WHERE d.name="tel"', [], function (tx, results) {
-        var len = results.rows.length, i, result = '';
-        if (!results.rows || results.rows.length == 0) {
-          result = null;
-        } else {
-          result = results.rows.item(0).log;
-        }
-        setUserTel(result)
-      }, null);
-    });
-    var setUserTel = function (result) {
-      $rootScope.tel = result;
-    };
-    db.transaction(function (tx) {
-      tx.executeSql('SELECT d.log FROM ANIJUU d WHERE d.name="myToken"', [], function (tx, results) {
-        var len = results.rows.length, i, result = '';
-        if (!results.rows || results.rows.length == 0) {
-          result = null;
-        } else {
-          result = results.rows.item(0).log;
-        }
-        setToken(result)
-      }, null);
-    });
-    var setToken = function (result) {
-      if (result) {
-        $http.defaults.headers.common.Authorization = result;
-      } else {
-        try {
-          delete $http.defaults.headers.common.Authorization;
-        } catch (e){}
-      }
-    }
   })
   .directive('ionicRatings', function ($compile) {
   return {
@@ -370,6 +371,16 @@ angular.module('CallApp', ['ionic', 'ngCordova', 'CallAppcontrollers','ngMockE2E
         }
       })
 
+      .state('app.select', {
+        url: '/select',
+        views: {
+          'menuContent': {
+            templateUrl: 'templates/select.html',
+            controller: 'settingsCtrl'
+          }
+        }
+      })
+
       .state('app.settings', {
         url: '/settings',
         views: {
@@ -404,7 +415,7 @@ angular.module('CallApp', ['ionic', 'ngCordova', 'CallAppcontrollers','ngMockE2E
                 result = results.rows.item(0).log;
               }
               if (result === "2") {
-                $location.path('app/landing');
+                $location.path('app/select');
               } else {
                 $location.path('app/photographer');
               }

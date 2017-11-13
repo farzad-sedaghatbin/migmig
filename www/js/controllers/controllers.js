@@ -118,9 +118,9 @@ App.controller('AppCtrl', function ($scope, $rootScope, $cordovaNetwork, $ionicM
         });
         $scope.modal.sign_in.hide();
         if (data.type === "2") {
-          $state.go('app.landing', {}, {reload: true});
+          $state.go('app.select');
         } else {
-          $state.go('app.photographer', {}, {reload: true});
+          $state.go('app.photographer');
         }
       }).catch(function (err) {
         WebService.stopLoading();
