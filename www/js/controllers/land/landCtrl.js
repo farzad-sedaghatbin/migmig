@@ -63,12 +63,6 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
       $scope.start_box.lng = pos.coords.longitude;
 
       codeLatLng(pos.coords.latitude, pos.coords.longitude);
-      var marker = new google.maps.Marker({
-        position: myLatlng,
-        map: $scope.map,
-        title: '',
-        icon: image
-      });
       $scope.map.setCenter(myLatlng);
       $ionicLoading.hide();
     }, function (error) {
@@ -124,11 +118,18 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
       case "aroundme":
         data.aroundmeDTOs.forEach(function (value, key) {
           var loc = new google.maps.LatLng(value.lat, value.longitude);
+          var pinIcon = new google.maps.MarkerImage(
+            image,
+            null,
+            null,
+            null,
+            new google.maps.Size(70, 70)
+          );
           var marker = new google.maps.Marker({
             position: loc,
             map: $scope.map,
             title: '',
-            icon: image
+            icon: pinIcon
           });
           marker.setVisible(true);
           markers.push(marker);
@@ -158,10 +159,17 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
           });
         } else {
           var loc = new google.maps.LatLng(data.deliveryLocationDTO.lat, data.deliveryLocationDTO.lng);
+          var pinIcon = new google.maps.MarkerImage(
+            image,
+            null,
+            null,
+            null,
+            new google.maps.Size(70, 70)
+          );
           var marker = new google.maps.Marker({
             position: loc,
             map: $scope.map,
-            icon: image
+            icon: pinIcon
           });
           marker.name = data.deliveryLocationDTO.name;
           marker.tel = data.deliveryLocationDTO.tel;
@@ -245,8 +253,6 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
     $("#footer").css("height", "44px");
   }
 
-  var fromInfowindow = new google.maps.InfoWindow();
-  var toInfowindow = new google.maps.InfoWindow();
   var rate;
   $scope.ratingsObject = {
     iconOn: 'ion-ios-star',
@@ -284,20 +290,19 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
       if ($scope.fromMarker) {
         return;
       }
+      var pinIcon = new google.maps.MarkerImage(
+        startImage,
+        null,
+        null,
+        null,
+        new google.maps.Size(70, 70)
+      );
       $scope.fromMarker = new google.maps.Marker({
         map: $scope.map,
-        icon: startImage
+        icon: pinIcon
       });
       $scope.fromMarker.setPosition(event.latLng);
       $scope.fromMarker.setVisible(true);
-      var contentString = '<div ng-click="deleteFrom()" class="myText">لغو درخواست</div>';
-      var compiled = $compile(contentString)($scope);
-      fromInfowindow.setContent(compiled[0]);
-      fromInfowindow.open($scope.map, $scope.fromMarker);
-      $scope.fromMarker.addListener('click', function () {
-        toInfowindow.close();
-        fromInfowindow.open($scope.map, $scope.fromMarker);
-      });
       $scope.$apply(function () {
         $scope.start_box.location = '';
         $scope.start_box.lat = event.latLng.lat();
@@ -720,12 +725,6 @@ App.controller('photographerCtrl', function ($rootScope, $state, $scope, $q, $co
       codeLatLng(pos.coords.latitude, pos.coords.longitude);
       if (marker)
         marker.setMap(null);
-      marker = new google.maps.Marker({
-        position: myLatlng,
-        map: $rootScope.map,
-        title: '',
-        icon: image
-      });
       $rootScope.map.setCenter(myLatlng);
       $ionicLoading.hide();
     }, function (error) {
@@ -779,18 +778,32 @@ App.controller('photographerCtrl', function ($rootScope, $state, $scope, $q, $co
             $rootScope.pop_status = 1;
           });
           var start = new google.maps.LatLng(data.tripInfo.slat, data.tripInfo.slng);
+          var pinIcon = new google.maps.MarkerImage(
+            startImage,
+            null,
+            null,
+            null,
+            new google.maps.Size(70, 70)
+          );
           $rootScope.startMarker = new google.maps.Marker({
             position: start,
             map: $rootScope.map,
             title: '',
-            icon: startImage
+            icon: pinIcon
           });
           var end = new google.maps.LatLng(data.tripInfo.dlat, data.tripInfo.dlng);
+          var pinIcon2 = new google.maps.MarkerImage(
+            endImage,
+            null,
+            null,
+            null,
+            new google.maps.Size(70, 70)
+          );
           $rootScope.endMarker = new google.maps.Marker({
             position: end,
             map: $rootScope.map,
             title: '',
-            icon: endImage
+            icon: pinIcon2
           });
           bound.extend(start);
           bound.extend(end);
@@ -973,18 +986,32 @@ App.controller('photographerCtrl', function ($rootScope, $state, $scope, $q, $co
             $scope.tripInfo = resp.data;
             oldUid = resp.data.uid;
             var start = new google.maps.LatLng(lat, lng);
+            var pinIcon = new google.maps.MarkerImage(
+              startImage,
+              null,
+              null,
+              null,
+              new google.maps.Size(70, 70)
+            );
             $rootScope.startMarker = new google.maps.Marker({
               position: start,
               map: $rootScope.map,
               title: '',
-              icon: startImage
+              icon: pinIcon
             });
             var end = new google.maps.LatLng(resp.data.dlat, resp.data.dlng);
+            var pinIcon2 = new google.maps.MarkerImage(
+              endImage,
+              null,
+              null,
+              null,
+              new google.maps.Size(70, 70)
+            );
             $rootScope.endMarker = new google.maps.Marker({
               position: end,
               map: $rootScope.map,
               title: '',
-              icon: endImage
+              icon: pinIcon2
             });
             bound.extend(start);
             bound.extend(end);
