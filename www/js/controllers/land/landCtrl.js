@@ -21,14 +21,34 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
     };
     var map = new google.maps.Map(document.getElementById("map"),
       mapOptions);
-    map.mapTypes.set('map_style', styledMap);
-    map.setMapTypeId('map_style');
+    // map.mapTypes.set('map_style', styledMap);
+    // map.setMapTypeId('map_style');
     $scope.map = map;
     $scope.init_status = true;
     setAutocompleteBoxes();
+    var input = document.getElementById('autocompletefrom');
+    var options = {
+      componentRestrictions: {country: "ir"}
+    };
+    var autocomplete = new google.maps.places.Autocomplete(input, options);
+    var container = $(".pac-container");
+    if (container.length > 1)
+      container[0].remove();
+    autocomplete.bindTo('bounds', map);
+    input.style.display = "block";
+    autocomplete.addListener('place_changed', function () {
+      var place = autocomplete.getPlace();
+      if (!place.geometry) {
+        return;
+      }
+      if (place.geometry.viewport) {
+        map.fitBounds(place.geometry.viewport);
+      } else {
+        map.setCenter(place.geometry.location);
+      }
+      map.setZoom(16);
+    });
   }
-
-
   /* Function For Get place from LatLng
    ==================================================*/
   function codeLatLng(lat, lng) {
