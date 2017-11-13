@@ -320,11 +320,38 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
         animateMyPop();
         $scope.ph = resp.data;
         WebService.stopLoading();
+        var date = new Date();
+        var jalali = toJalaali(date.getFullYear(), date.getMonth() + 1, date.getDate());
+        // $("#year").val(jalali.jy);
+        setMonth(jalali.jm);
+        setDay(jalali.jd);
       }, function (err) {
         WebService.stopLoading();
         WebService.myErrorHandler(err, false);
       });
     });
+    function setDay(day) {
+      for (var i = 0; i < 32; i++) {
+        var d = $("#0" + i);
+        if (day > parseInt(d.val())){
+          d.css("display","none")
+        }
+        if (day === parseInt(d.val())){
+        d.attr('selected','selected');
+        }
+      }
+    }
+    function setMonth(month) {
+      for (var i = 0; i < 13; i++) {
+        var d = $("#" + i);
+        if (month > parseInt(d.val())){
+          d.css("display","none")
+        }
+        if (month === parseInt(d.val())){
+          d.attr('selected','selected');
+        }
+      }
+    }
     var options = {
       // componentRestrictions: {country: "in"}
       componentRestrictions: {country: "ir"}

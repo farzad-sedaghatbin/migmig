@@ -15,7 +15,7 @@
 	-webkit-appearance: none;
 }
 
-.main-container{ width: 80%; margin:0 auto; max-width: 650px;height: 100%; }
+.main-container{ width: 100%; margin:0 auto; max-width: 650px;height: 100%; }
 /* #sign-up-page .main-container{ margin-top: 30px; } */
 .logo{ width: 100px}
 #logo-box{ height: 40%;text-align: center }
