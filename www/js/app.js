@@ -57,7 +57,7 @@ angular.module('CallApp', ['ionic', 'ngCordova', 'CallAppcontrollers','ngMockE2E
   })
 
 
-  .run(function ($rootScope, $ionicPlatform, $ionicHistory, $state,$http) {
+  .run(function ($rootScope, $ionicPlatform, $ionicHistory, $state,$http,$timeout) {
     //$cordovaSplashScreen.hide();
     $ionicPlatform.ready(function () {
       // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
@@ -73,27 +73,22 @@ angular.module('CallApp', ['ionic', 'ngCordova', 'CallAppcontrollers','ngMockE2E
         StatusBar.styleDefault();
       }
 
-
+      var backbutton = 0;
       $ionicPlatform.registerBackButtonAction(function (e) {
         //alert($ionicHistory.currentStateName())
-        if ($ionicHistory.currentStateName() == 'landing' || $ionicHistory.currentStateName() == 'app.landing') {
-          // alert('exit');
-          // ionic.Platform.exitApp();
-
-          navigator.app.clearCache();
-          navigator.app.exitApp();
-        }
-        else if ($ionicHistory.backView()) {
+        if ($ionicHistory.currentStateName() == 'landing' || $ionicHistory.currentStateName() == 'app.select' || $ionicHistory.currentStateName() == 'app.photographer') {
+          if (backbutton == 0) {
+            backbutton++;
+            window.plugins.toast.showShortBottom('برای خروج دوباره لمس کنید');
+            $timeout(function () {
+              backbutton = 0;
+            }, 2000);
+          } else {
+            navigator.app.clearCache();
+            navigator.app.exitApp();
+          }
+        } else {
           $ionicHistory.goBack();
-        } else if ($ionicHistory.backTitle()) {
-          $ionicHistory.goBack();
-        }
-        else {
-          $state.go('app.landing');
-          $ionicHistory.nextViewOptions({
-            historyRoot: true
-          });
-
         }
         e.preventDefault();
         return false;

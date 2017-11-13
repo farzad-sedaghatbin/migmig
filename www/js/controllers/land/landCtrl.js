@@ -98,7 +98,7 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
   client.onopen = function () {
     client.send("join," + $rootScope.userid);
   };
-  var image = 'img/motorcycle.png';
+  var image = 'img/destination.png';
   var bound = new google.maps.LatLngBounds(null);
   var markers = [];
   var ids = [];
