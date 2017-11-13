@@ -181,7 +181,6 @@ angular.module('CallApp', ['ionic', 'ngCordova', 'CallAppcontrollers','ngMockE2E
         }, null);
       });
       var setToken = function (result) {
-        alert(result)
         if (result) {
           $http.defaults.headers.common.Authorization = result;
         } else {

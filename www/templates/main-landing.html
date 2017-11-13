@@ -290,10 +290,14 @@
 
   <ion-footer-bar class="bg-dark" id="footer">
     <div class='footer-box bg-dark color-yellow'>
-      <div id="request" class='my-button h-100-p text-center myText' ng-if="!showDriverInfo" style="display: none"
-           ng-click='ride("now")'>
-        درخواست
+      <div id="request" style="display: none" class='footer-box bg-dark color-yellow' ng-if="!showDriverInfo">
+        <div class='w-50-p pull-left my-button h-100-p text-center border-r-yellow' ng-click='deleteFrom()'>لغو</div>
+        <div class='my-button h-100-p text-center myText'
+             ng-click='ride("now")'>
+          درخواست
+        </div>
       </div>
+
       <div class='my-button h-100-p text-center myText' ng-if="showDriverInfo">
         پرداخت
       </div>
