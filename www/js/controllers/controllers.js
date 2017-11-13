@@ -1,6 +1,6 @@
 var App = angular.module('CallAppcontrollers', []);
 
-App.controller('AppCtrl', function ($scope, $rootScope, $cordovaNetwork, $ionicModal, $timeout,$interval, $state, $ionicLoading, $ionicPopup, $http, $cordovaOauth, $cordovaSplashscreen, $ionicHistory, serv, WebService) {
+App.controller('AppCtrl', function ($scope, $rootScope, $cordovaNetwork, $ionicModal,$location, $timeout,$interval, $state, $ionicLoading, $ionicPopup, $http, $cordovaOauth, $cordovaSplashscreen, $ionicHistory, serv, WebService) {
   function set_net(status) {
     if (status == 'online') {
       $('.net-error').hide();
@@ -11,7 +11,24 @@ App.controller('AppCtrl', function ($scope, $rootScope, $cordovaNetwork, $ionicM
     }
 
   }
-
+  var db = openDatabase('mydb', '1.0', 'Test DB', 1024 * 1024);
+  $scope.home = function () {
+    db.transaction(function (tx) {
+      tx.executeSql('SELECT d.log FROM ANIJUU d WHERE d.name="type"', [], function (tx, results) {
+        var len = results.rows.length, i, result = '';
+        if (!results.rows || results.rows.length == 0) {
+          result = null;
+        } else {
+          result = results.rows.item(0).log;
+        }
+        if (result === "2") {
+          $state.go('app.select');
+        } else {
+          $state.go('app.photographer');
+        }
+      })
+    })
+  };
   //
   // if( $cordovaNetwork.isOffline() ){
   //

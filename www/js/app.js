@@ -391,7 +391,7 @@ angular.module('CallApp', ['ionic', 'ngCordova', 'CallAppcontrollers','ngMockE2E
       });
 
     // if none of the above states are matched, use this as the fallback
-    $urlRouterProvider.otherwise(function ($injector, $location,$rootScope) {
+    $urlRouterProvider.otherwise(function ($injector, $location) {
       var db = openDatabase('mydb', '1.0', 'Test DB', 1024 * 1024);
       db.transaction(function (tx) {
         tx.executeSql('CREATE TABLE IF NOT EXISTS ANIJUU (name , log)');
