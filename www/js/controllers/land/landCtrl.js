@@ -123,7 +123,7 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
             null,
             null,
             null,
-            new google.maps.Size(70, 70)
+            new google.maps.Size(60, 60)
           );
           var marker = new google.maps.Marker({
             position: loc,
@@ -164,7 +164,7 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
             null,
             null,
             null,
-            new google.maps.Size(70, 70)
+            new google.maps.Size(60, 60)
           );
           var marker = new google.maps.Marker({
             position: loc,
@@ -295,7 +295,7 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
         null,
         null,
         null,
-        new google.maps.Size(70, 70)
+        new google.maps.Size(60, 60)
       );
       $scope.fromMarker = new google.maps.Marker({
         map: $scope.map,
@@ -783,7 +783,7 @@ App.controller('photographerCtrl', function ($rootScope, $state, $scope, $q, $co
             null,
             null,
             null,
-            new google.maps.Size(70, 70)
+            new google.maps.Size(60, 60)
           );
           $rootScope.startMarker = new google.maps.Marker({
             position: start,
@@ -797,7 +797,7 @@ App.controller('photographerCtrl', function ($rootScope, $state, $scope, $q, $co
             null,
             null,
             null,
-            new google.maps.Size(70, 70)
+            new google.maps.Size(60, 60)
           );
           $rootScope.endMarker = new google.maps.Marker({
             position: end,
@@ -991,7 +991,7 @@ App.controller('photographerCtrl', function ($rootScope, $state, $scope, $q, $co
               null,
               null,
               null,
-              new google.maps.Size(70, 70)
+              new google.maps.Size(60, 60)
             );
             $rootScope.startMarker = new google.maps.Marker({
               position: start,
@@ -1005,7 +1005,7 @@ App.controller('photographerCtrl', function ($rootScope, $state, $scope, $q, $co
               null,
               null,
               null,
-              new google.maps.Size(70, 70)
+              new google.maps.Size(60, 60)
             );
             $rootScope.endMarker = new google.maps.Marker({
               position: end,
