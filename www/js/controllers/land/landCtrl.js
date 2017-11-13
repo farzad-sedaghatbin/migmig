@@ -694,11 +694,33 @@ App.controller('photographerCtrl', function ($rootScope, $state, $scope, $q, $co
     };
     var map = new google.maps.Map(document.getElementById("map"),
       mapOptions);
-    map.mapTypes.set('map_style', styledMap);
-    map.setMapTypeId('map_style');
+    // map.mapTypes.set('map_style', styledMap);
+    // map.setMapTypeId('map_style');
     $rootScope.map = map;
     $rootScope.init_status = true;
     $ionicLoading.hide();
+    var input = document.getElementById('autocompletefrom');
+    var options = {
+      componentRestrictions: {country: "ir"}
+    };
+    var autocomplete = new google.maps.places.Autocomplete(input, options);
+    var container = $(".pac-container");
+    if (container.length > 1)
+      container[0].remove();
+    autocomplete.bindTo('bounds', map);
+    input.style.display = "block";
+    autocomplete.addListener('place_changed', function () {
+      var place = autocomplete.getPlace();
+      if (!place.geometry) {
+        return;
+      }
+      if (place.geometry.viewport) {
+        map.fitBounds(place.geometry.viewport);
+      } else {
+        map.setCenter(place.geometry.location);
+      }
+      map.setZoom(16);
+    });
   }
 
 
