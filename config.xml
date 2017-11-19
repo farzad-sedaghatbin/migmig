@@ -35,7 +35,4 @@
     <plugin name="cordova-plugin-statusbar" spec="~2.2.0" />
     <plugin name="ionic-plugin-keyboard" spec="~2.2.1" />
     <plugin name="cordova-plugin-barcodescanner" spec="^0.7.3" />
-    <plugin name="phonegap-plugin-barcodescanner" spec="https://github.com/phonegap/phonegap-plugin-barcodescanner.git">
-        <variable name="CAMERA_USAGE_DESCRIPTION" value="To scan barcodes" />
-    </plugin>
 </widget>
