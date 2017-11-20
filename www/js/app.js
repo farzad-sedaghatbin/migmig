@@ -178,6 +178,7 @@ angular.module('CallApp', ['ionic', 'ngCordova', 'CallAppcontrollers','ngMockE2E
       var setToken = function (result) {
         if (result) {
           $http.defaults.headers.common.Authorization = result;
+          $rootScope.token = result;
         } else {
           try {
             delete $http.defaults.headers.common.Authorization;
@@ -386,7 +387,7 @@ angular.module('CallApp', ['ionic', 'ngCordova', 'CallAppcontrollers','ngMockE2E
       });
 
     // if none of the above states are matched, use this as the fallback
-    $urlRouterProvider.otherwise(function ($injector, $location) {
+    $urlRouterProvider.otherwise(function ($injector, $location,$interval) {
       var db = openDatabase('mydb', '1.0', 'Test DB', 1024 * 1024);
       db.transaction(function (tx) {
         tx.executeSql('CREATE TABLE IF NOT EXISTS ANIJUU (name , log)');
@@ -398,6 +399,10 @@ angular.module('CallApp', ['ionic', 'ngCordova', 'CallAppcontrollers','ngMockE2E
             result = results.rows.item(0).log;
           }
           if (!result) {
+            db.transaction(function (tx) {
+              tx.executeSql('DELETE FROM ANIJUU', [], function (tx, results) {
+              }, null);
+            });
             $location.path('landing');
           }
           else {

@@ -124,6 +124,7 @@ App.controller('AppCtrl', function ($scope, $rootScope, $cordovaNetwork, $ionicM
         $rootScope.name = data.name;
         $rootScope.tel = data.tel;
         $http.defaults.headers.common.Authorization = "Bearer " + data.token;
+        $rootScope.token = "Bearer " + data.token;
         var db = openDatabase('mydb', '1.0', 'Test DB', 1024 * 1024);
         db.transaction(function (tx) {
           tx.executeSql('INSERT INTO ANIJUU (name, log) VALUES (?, ?)', ["username", $scope.login.mail]);
@@ -190,7 +191,6 @@ App.controller('AppCtrl', function ($scope, $rootScope, $cordovaNetwork, $ionicM
 
   $scope.logout = function () {
     var db = openDatabase('mydb', '1.0', 'Test DB', 1024 * 1024);
-    localStorage.removeItem('user_data');
     WebService.show_loading();
 
     $timeout(function () {

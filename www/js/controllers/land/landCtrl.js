@@ -108,7 +108,7 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
   };
 
   var numOfClick = 0;
-  var client = new WebSocket("wss://spot.cfapps.io/myHandler");
+  var client = new WebSocket("wss://spot.cfapps.io:4443/myHandler");
   client.onopen = function () {
     client.send("join," + $rootScope.userid);
   };
@@ -288,6 +288,7 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
   };
   $scope.submitRate = function () {
     WebService.startLoading();
+    $http.defaults.headers.common.Authorization = $rootScope.token;
     $http({
       method: "POST",
       url: "https://spot.cfapps.io/api/1/rating",
@@ -338,6 +339,7 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
         WebService.myErrorHandler(err, false);
       });
       WebService.startLoading();
+      $http.defaults.headers.common.Authorization = $rootScope.token;
       $http({
         method: "POST",
         url: "https://spot.cfapps.io/api/1/listService"
@@ -445,6 +447,7 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
     cordova.plugins.barcodeScanner.scan(
       function (result) {
         WebService.startLoading();
+        $http.defaults.headers.common.Authorization = $rootScope.token;
         $http({
           method: "POST",
           url: "https://spot.cfapps.io/api/1/arrived",
@@ -471,6 +474,7 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
     cordova.plugins.barcodeScanner.scan(
       function (result) {
         WebService.startLoading();
+        $http.defaults.headers.common.Authorization = $rootScope.token;
         $http({
           method: "POST",
           url: "https://spot.cfapps.io/api/1/endOfShooting",
@@ -498,6 +502,7 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
   };
   $scope.ride = function (time) {
     WebService.startLoading();
+    $http.defaults.headers.common.Authorization = $rootScope.token;
     $http({
       method: "POST",
       url: "https://spot.cfapps.io/api/1/submitRequest",
@@ -548,6 +553,7 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
     google.maps.event.clearListeners($scope.toMarker, 'click');
     $scope.enableBox = false;
     $ionicLoading.show();
+    $http.defaults.headers.common.Authorization = $rootScope.token;
     $http({
       method: "POST",
       url: "https://spot.cfapps.io/api/1/calculate",
@@ -566,6 +572,7 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
   $scope.cancelTrip = function () {
     resetAllThingsWithoutApply();
     $ionicLoading.hide();
+    $http.defaults.headers.common.Authorization = $rootScope.token;
     $http({
       method: "POST",
       url: "https://spot.cfapps.io/api/1/rejectUser",
@@ -594,6 +601,7 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
         cost: $scope.selected_cab.cost,
         description: $("#moreInfo").val()
       };
+      $http.defaults.headers.common.Authorization = $rootScope.token;
       $http({
         method: "POST",
         url: "https://spot.cfapps.io/api/1/confirmRequest",
@@ -628,6 +636,7 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
         hour: $scope.date_data.Trip_Date.getHours(),
         minute: $scope.date_data.Trip_Date.getMinutes()
       };
+      $http.defaults.headers.common.Authorization = $rootScope.token;
       $http({
         method: "POST",
         url: "https://spot.cfapps.io/api/1/confirmReserve",
@@ -774,7 +783,7 @@ App.controller('photographerCtrl', function ($rootScope, $state, $scope, $q, $co
     });
   };
   function prepareSocket() {
-    $rootScope.socket = new WebSocket("wss://spot.cfapps.io/photgraphHandler");
+    $rootScope.socket = new WebSocket("wss://spot.cfapps.io:4443/photgraphHandler");
     $rootScope.interval;
     $rootScope.socket.onopen = function () {
       if (!$rootScope.userid) {
@@ -999,6 +1008,7 @@ App.controller('photographerCtrl', function ($rootScope, $state, $scope, $q, $co
   var available = false;
   var oldUid = null;
   $rootScope.availableOrNot = function () {
+    $http.defaults.headers.common.Authorization = $rootScope.token;
     $http({
       method: "POST",
       url: "https://spot.cfapps.io/api/1/changeStatus"
@@ -1017,6 +1027,7 @@ App.controller('photographerCtrl', function ($rootScope, $state, $scope, $q, $co
         $rootScope.socket.send("mylocation," + $rootScope.userid + "," + lat + "," + lng)
       }, 3600000);
       $rootScope.interval2 = $interval(function () {
+        $http.defaults.headers.common.Authorization = $rootScope.token;
         $http({
           method: "POST",
           url: "https://spot.cfapps.io/api/1/current"
@@ -1092,6 +1103,7 @@ App.controller('photographerCtrl', function ($rootScope, $state, $scope, $q, $co
     WebService.startLoading();
     $rootScope.tripInfo.state = "arrived";
     $rootScope.pop_status = 3;
+    $http.defaults.headers.common.Authorization = $rootScope.token;
     $http({
       method: "POST",
       url: "https://spot.cfapps.io/api/1/arrived",
@@ -1107,6 +1119,7 @@ App.controller('photographerCtrl', function ($rootScope, $state, $scope, $q, $co
     WebService.startLoading();
     $rootScope.tripInfo.state = "accept";
     animateMyPop();
+    $http.defaults.headers.common.Authorization = $rootScope.token;
     $http({
       method: "POST",
       url: "https://spot.cfapps.io/api/1/approvedDriver",
@@ -1136,6 +1149,7 @@ App.controller('photographerCtrl', function ($rootScope, $state, $scope, $q, $co
     $rootScope.tripInfo.state = "rejectBeforeAccept";
     resetAllThings();
     animateMyPop();
+    $http.defaults.headers.common.Authorization = $rootScope.token;
     $http({
       method: "POST",
       url: "https://spot.cfapps.io/api/1/rejectBeforeDriver",
@@ -1151,6 +1165,7 @@ App.controller('photographerCtrl', function ($rootScope, $state, $scope, $q, $co
     WebService.startLoading();
     $rootScope.tripInfo.state = "cancelAfterAccept";
     resetAllThings();
+    $http.defaults.headers.common.Authorization = $rootScope.token;
     $http({
       method: "POST",
       url: "https://spot.cfapps.io/api/1/rejectAfterDriver",
@@ -1182,6 +1197,7 @@ App.controller('photographerCtrl', function ($rootScope, $state, $scope, $q, $co
     nextElementAfterRemove($rootScope.active_cab);
     $rootScope.trips.splice($rootScope.active_cab, 1);
     resetAllThings();
+    $http.defaults.headers.common.Authorization = $rootScope.token;
     $http({
       method: "POST",
       url: "https://spot.cfapps.io/api/1/endOfTrip",

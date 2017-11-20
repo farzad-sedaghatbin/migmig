@@ -68,7 +68,7 @@ App.controller('settingsCtrl', function($scope,$rootScope, $ionicModal, $timeout
   $scope.confirmPass = "";
   $scope.submit = function (username) {
     WebService.startLoading();
-    var signUpUrl = "https://192.168.1.12:8080/api/1/forget";
+    var signUpUrl = "https://spot.cfapps.io/api/1/forget";
     $http.post(signUpUrl, username)
       .success(function (suc) {
         if (suc == "201") {
@@ -92,7 +92,7 @@ App.controller('settingsCtrl', function($scope,$rootScope, $ionicModal, $timeout
       });
   };
   $scope.confirm = function (code, password) {
-    var signUpUrl = "https://192.168.1.12:8080/api/1/confirmReset";
+    var signUpUrl = "https://spot.cfapps.io/api/1/confirmReset";
     $http.post(signUpUrl, JSON.stringify({code: code, password: password}))
       .success(function (suc) {
         WebService.stopLoading();
