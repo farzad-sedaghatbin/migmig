@@ -63,14 +63,6 @@
     "is_top_level": false,
     "variables": {}
   },
-  "cordova-plugin-nativeaudio": {
-    "source": {
-      "type": "registry",
-      "id": "cordova-plugin-nativeaudio"
-    },
-    "is_top_level": true,
-    "variables": {}
-  },
   "org.apache.cordova.speech.speechrecognition": {
     "source": {
       "type": "git",
@@ -84,14 +76,6 @@
     "source": {
       "type": "registry",
       "id": "cordova-plugin-vibration"
-    },
-    "is_top_level": true,
-    "variables": {}
-  },
-  "phonegap-plugin-barcodescanner": {
-    "source": {
-      "type": "registry",
-      "id": "https://github.com/phonegap/phonegap-plugin-barcodescanner.git"
     },
     "is_top_level": true,
     "variables": {}
