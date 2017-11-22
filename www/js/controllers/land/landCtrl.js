@@ -778,7 +778,12 @@ App.controller('photographerCtrl', function ($rootScope, $state, $scope, $q, $co
         marker.setMap(null);
       $rootScope.map.setCenter(myLatlng);
       $ionicLoading.hide();
+      prepareSocket();
     }, function (error) {
+      $ionicPopup.alert({
+        title: '<p class="text-center color-yellow">' + ("پیام") + '</p>',
+        template: '<p class="text-center color-gery">' + ("لطفا موقعیت جغرافیایی دستگاه خود را روشن کنید") + '</p>'
+      });
       $ionicLoading.hide();
     });
   };
@@ -1223,7 +1228,6 @@ App.controller('photographerCtrl', function ($rootScope, $state, $scope, $q, $co
     });
   }
   function initialMainPage() {
-    prepareSocket();
     set_map();
     initialVars();
     $rootScope.getCurrentLocation();
