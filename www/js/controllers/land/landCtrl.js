@@ -111,7 +111,7 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
   };
 
   var numOfClick = 0;
-  var client = new WebSocket("ws://192.168.160.172:8080/myHandler");
+  var client = new WebSocket("wss://spot.cfapps.io:4443/myHandler");
   client.onopen = function () {
     client.send("join," + $rootScope.userid);
   };
@@ -294,7 +294,7 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
     $http.defaults.headers.common.Authorization = $rootScope.token;
     $http({
       method: "POST",
-      url: "http://192.168.160.172:8080/api/1/rating",
+      url: "https://spot.cfapps.io/api/1/rating",
       data: $scope.selected_ph.uid + "," + rate
     }).then(function (resp) {
       WebService.stopLoading();
@@ -345,7 +345,7 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
       $http.defaults.headers.common.Authorization = $rootScope.token;
       $http({
         method: "POST",
-        url: "http://192.168.160.172:8080/api/1/listService"
+        url: "https://spot.cfapps.io/api/1/listService"
       }).then(function (resp) {
         animateMyPop();
         $scope.ph = resp.data;
@@ -453,7 +453,7 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
         $http.defaults.headers.common.Authorization = $rootScope.token;
         $http({
           method: "POST",
-          url: "http://192.168.160.172:8080/api/1/arrived",
+          url: "https://spot.cfapps.io/api/1/arrived",
           data: result.text
         }).then(function (resp) {
           WebService.stopLoading();
@@ -480,7 +480,7 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
         $http.defaults.headers.common.Authorization = $rootScope.token;
         $http({
           method: "POST",
-          url: "http://192.168.160.172:8080/api/1/endOfShooting",
+          url: "https://spot.cfapps.io/api/1/endOfShooting",
           data: result.text
         }).then(function (resp) {
           WebService.stopLoading();
@@ -508,7 +508,7 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
     $http.defaults.headers.common.Authorization = $rootScope.token;
     $http({
       method: "POST",
-      url: "http://192.168.160.172:8080/api/1/submitRequest",
+      url: "https://spot.cfapps.io/api/1/submitRequest",
       data: {
         slat: $scope.start_box.lat,
         slong: $scope.start_box.lng,
@@ -559,7 +559,7 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
     $http.defaults.headers.common.Authorization = $rootScope.token;
     $http({
       method: "POST",
-      url: "http://192.168.160.172:8080/api/1/calculate",
+      url: "https://spot.cfapps.io/api/1/calculate",
       data: $scope.start_box.lat + "," + $scope.start_box.lng + "," + $scope.end_box.lat + "," + $scope.end_box.lng + "," + distance + "," + duration
     }).then(function (resp) {
       $ionicLoading.hide();
@@ -578,7 +578,7 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
     $http.defaults.headers.common.Authorization = $rootScope.token;
     $http({
       method: "POST",
-      url: "http://192.168.160.172:8080/api/1/rejectUser",
+      url: "https://spot.cfapps.io/api/1/rejectUser",
       data: uid
     }).then(function (resp) {
     }, function (err) {
@@ -607,7 +607,7 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
       $http.defaults.headers.common.Authorization = $rootScope.token;
       $http({
         method: "POST",
-        url: "http://192.168.160.172:8080/api/1/confirmRequest",
+        url: "https://spot.cfapps.io/api/1/confirmRequest",
         data: data
       }).then(function (resp) {
         uid = resp.data;
@@ -642,7 +642,7 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
       $http.defaults.headers.common.Authorization = $rootScope.token;
       $http({
         method: "POST",
-        url: "http://192.168.160.172:8080/api/1/confirmReserve",
+        url: "https://spot.cfapps.io/api/1/confirmReserve",
         data: data
       }).then(function (resp) {
       }, function (err) {
@@ -791,7 +791,7 @@ App.controller('photographerCtrl', function ($rootScope, $state, $scope, $q, $co
     });
   };
   function prepareSocket() {
-    $rootScope.socket = new WebSocket("ws://192.168.160.172:8080/photgraphHandler");
+    $rootScope.socket = new WebSocket("wss://spot.cfapps.io:4443/photgraphHandler");
     $rootScope.interval;
     $rootScope.socket.onopen = function () {
       if (!$rootScope.userid) {
@@ -1019,7 +1019,7 @@ App.controller('photographerCtrl', function ($rootScope, $state, $scope, $q, $co
     $http.defaults.headers.common.Authorization = $rootScope.token;
     $http({
       method: "POST",
-      url: "http://192.168.160.172:8080/api/1/changeStatus"
+      url: "https://spot.cfapps.io/api/1/changeStatus"
     }).then(function (resp) {
     }, function (err) {
     });
@@ -1038,7 +1038,7 @@ App.controller('photographerCtrl', function ($rootScope, $state, $scope, $q, $co
         $http.defaults.headers.common.Authorization = $rootScope.token;
         $http({
           method: "POST",
-          url: "http://192.168.160.172:8080/api/1/current"
+          url: "https://spot.cfapps.io/api/1/current"
         }).then(function (resp) {
           if (resp.data.uid !== oldUid) {
             $rootScope.interval3 = $interval(function () {
@@ -1116,7 +1116,7 @@ App.controller('photographerCtrl', function ($rootScope, $state, $scope, $q, $co
     $http.defaults.headers.common.Authorization = $rootScope.token;
     $http({
       method: "POST",
-      url: "http://192.168.160.172:8080/api/1/arrived",
+      url: "https://spot.cfapps.io/api/1/arrived",
       data: $rootScope.tripInfo.uid
     }).then(function (resp) {
       WebService.stopLoading();
@@ -1132,7 +1132,7 @@ App.controller('photographerCtrl', function ($rootScope, $state, $scope, $q, $co
     $http.defaults.headers.common.Authorization = $rootScope.token;
     $http({
       method: "POST",
-      url: "http://192.168.160.172:8080/api/1/approvedDriver",
+      url: "https://spot.cfapps.io/api/1/approvedDriver",
       data: $rootScope.tripInfo.uid
     }).then(function (resp) {
       $rootScope.pop_status = 2;
@@ -1162,7 +1162,7 @@ App.controller('photographerCtrl', function ($rootScope, $state, $scope, $q, $co
     $http.defaults.headers.common.Authorization = $rootScope.token;
     $http({
       method: "POST",
-      url: "http://192.168.160.172:8080/api/1/rejectBeforeDriver",
+      url: "https://spot.cfapps.io/api/1/rejectBeforeDriver",
       data: $rootScope.tripInfo.uid
     }).then(function (resp) {
       WebService.stopLoading();
@@ -1178,7 +1178,7 @@ App.controller('photographerCtrl', function ($rootScope, $state, $scope, $q, $co
     $http.defaults.headers.common.Authorization = $rootScope.token;
     $http({
       method: "POST",
-      url: "http://192.168.160.172:8080/api/1/rejectAfterDriver",
+      url: "https://spot.cfapps.io/api/1/rejectAfterDriver",
       data: $rootScope.tripInfo.uid
     }).then(function (resp) {
       WebService.stopLoading();
@@ -1210,7 +1210,7 @@ App.controller('photographerCtrl', function ($rootScope, $state, $scope, $q, $co
     $http.defaults.headers.common.Authorization = $rootScope.token;
     $http({
       method: "POST",
-      url: "http://192.168.160.172:8080/api/1/endOfTrip",
+      url: "https://spot.cfapps.io/api/1/endOfTrip",
       data: $rootScope.tripInfo.uid
     }).then(function (resp) {
       WebService.stopLoading();

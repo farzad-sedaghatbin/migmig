@@ -110,7 +110,7 @@ App.controller('AppCtrl', function ($scope, $rootScope, $cordovaNetwork, $ionicM
         delete $http.defaults.headers.common.Authorization;
       }catch (e){
       }
-      var url = "http://192.168.160.172:8080/api/1/user_authenticate";
+      var url = "https://spot.cfapps.io/api/1/user_authenticate";
       var data = {
         username: $scope.login.mail,
         password: $scope.login.pwd,
@@ -159,7 +159,7 @@ App.controller('AppCtrl', function ($scope, $rootScope, $cordovaNetwork, $ionicM
       && $scope.signUp.pwd == $scope.signUp.c_pwd
     //true
     ) {
-      var url = "http://192.168.160.172:8080/api/1/signup";
+      var url = "https://spot.cfapps.io/api/1/signup";
       var data = {
         firstName: $scope.signUp.name,
         lastName: $scope.signUp.name,
@@ -221,7 +221,7 @@ App.controller('AppCtrl', function ($scope, $rootScope, $cordovaNetwork, $ionicM
     WebService.startLoading();
     $http({
       method: "POST",
-      url: "http://192.168.160.172:8080/api/1/clientOrders"
+      url: "https://spot.cfapps.io/api/1/clientOrders"
     }).then(function (resp) {
       WebService.stopLoading();
       $rootScope.complete = resp.data.completedOrders;
