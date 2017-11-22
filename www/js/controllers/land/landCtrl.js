@@ -95,6 +95,9 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
       animateMyPop();
     }
   };
+  $scope.cleanAdr = function () {
+    document.getElementById('autocompletefrom').value = "";
+  };
   $scope.deleteFrom = function () {
     $scope.fromMarker.setMap(null);
     $scope.fromMarker = null;
