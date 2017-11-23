@@ -95,9 +95,6 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
       animateMyPop();
     }
   };
-  $scope.cleanAdr = function () {
-    document.getElementById('autocompletefrom').value = "";
-  };
   $scope.deleteFrom = function () {
     $scope.fromMarker.setMap(null);
     $scope.fromMarker = null;
@@ -299,8 +296,8 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
     }).then(function (resp) {
       WebService.stopLoading();
       $ionicPopup.alert({
-        title: '<p class="text-center color-yellow">' + $filter('langTranslate')("پیام") + '</p>',
-        template: '<p class="text-center color-gery">' + $filter('langTranslate')("امتیاز شما با موفقیت ثبت شد") + '</p>'
+        title: '<p class="text-center color-yellow">' + ("پیام") + '</p>',
+        template: '<p class="text-center color-gery">' + ("امتیاز شما با موفقیت ثبت شد") + '</p>'
       });
     }, function (err) {
       WebService.stopLoading();
@@ -674,12 +671,28 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
   };
 
   $scope.disableTapFrom = function () {
+    document.getElementById('autocompletefrom').value = "";
     container = document.getElementsByClassName('pac-container');
     // disable ionic data tab
     angular.element(container).attr('data-tap-disabled', 'true');
     // leave input field if google-address-entry is selected
     angular.element(container).on("click", function () {
       document.getElementById('autocompletefrom').blur();
+    });
+  };
+  $scope.buy = function () {
+    WebService.startLoading();
+    var url = "https://dagala.cfapps.io/api/1/factor";
+    $http.post(url, $scope.selected_ph.price + "," + $rootScope.username + "," + $scope.selected_ph.id).success(function (data, status, headers, config) {
+      WebService.stopLoading();
+      window.open(
+        "http://dagala.ir/bank.html?res=" + data + "&amount=" + parseInt($scope.selected_ph.price),
+        "_system",
+        "hidden=no,location=no,clearsessioncache=yes,clearcache=yes"
+      );
+    }).catch(function (err) {
+      WebService.stopLoading();
+      WebService.handleError(err);
     });
   }
 });

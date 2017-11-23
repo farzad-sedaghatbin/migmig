@@ -11,7 +11,7 @@
           <label class=" item-input">
             <i class="icon ion-ios-search placeholder-icon color-yellow "></i>
             <!-- <input class='color-yellow' ng-autocomplete id="autocomplete-to" type="text" ng-model="sel_place"  placeholder="Pickup location" details="autocomplete.details" > -->
-            <input style="direction: rtl;text-align: right" ng-disabled='!enableBox' ng-focus="cleanAdr()" class='color-yellow myText'
+            <input style="direction: rtl;text-align: right" ng-disabled='!enableBox' class='color-yellow myText'
                    id="autocompletefrom" ng-model='start_box.location' type="text" ng-focus='disableTapFrom()'
                    placeholder="آدرس"/>
           </label>
@@ -240,7 +240,7 @@
         </div>
       </div>
 
-      <div class='my-button h-100-p text-center myText' ng-if="showDriverInfo">
+      <div class='my-button h-100-p text-center myText' ng-click="buy()" ng-if="showDriverInfo">
         پرداخت
       </div>
     </div>

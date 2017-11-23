@@ -217,6 +217,10 @@ App.controller('AppCtrl', function ($scope, $rootScope, $cordovaNetwork, $ionicM
     $state.go("app.peyk");
   };
 
+  $scope.settings = function () {
+    $state.go("app.settings");
+  };
+
   $scope.load_trips = function () {
     WebService.startLoading();
     $http({

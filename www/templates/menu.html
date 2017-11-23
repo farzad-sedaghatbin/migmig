@@ -31,11 +31,11 @@
 			</ion-list> -->
 			<div id='profile-box' >
 				<div class='list'>
-					<a menu-close  class="item item-icon-right item-icon-left color-yellow bg-dark" ng-style="{'line-height': '20px'}" href="#/app/settings">
+					<a menu-close  class="item item-icon-right item-icon-left color-yellow bg-dark" ng-style="{'line-height': '20px'}">
 						<!-- <img class='icon-30' src='img/logo.png'/>	 -->
-						<span>{{user_data.User_name}}</span>
+						<span>{{username}}</span>
 						<p class='color-gery'>{{user_data.Mobile}}</p>
-						<i class="icon ion-gear-b  color-yellow"></i>
+						<i class="icon  color-yellow"></i>
 					</a>
 				</div>
 			</div>
@@ -66,6 +66,11 @@
             <i class="icon ion-ios-arrow-back f-size-25"></i>
             پروژه های من
             <i class="icon ion-speedometer f-size-25"></i>
+          </a>
+          <a  menu-close mainmenu ng-click="settings()" class="item item-icon-left item-icon-right color-gery ">
+            <i class="icon ion-ios-arrow-back f-size-25"></i>
+            تنظیمات
+            <i class="icon ion-settings f-size-25"></i>
           </a>
 				  <!--<a menu-close mainmenu  ng-click='load_card_rate()' class="item item-icon-left item-icon-right color-gery " href="#/app/rateCard">-->
             <!--<i class="icon ion-ios-arrow-back f-size-25 color-d-gery"></i>-->
