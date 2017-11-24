@@ -1,25 +1,10 @@
 BarcodeScanner
 ==============
 
-[![Build Status](https://travis-ci.org/hypery2k/cordova-barcodescanner-plugin.svg?branch=master)](https://travis-ci.org/hypery2k/cordova-barcodescanner-plugin) [![Build status](https://ci.appveyor.com/api/projects/status/298mrueury1ntrf4?svg=true)](https://ci.appveyor.com/project/hypery2k/cordova-barcodescanner-plugin)
- [![Bountysource](https://www.bountysource.com/badge/tracker?tracker_id=12908089)](https://www.bountysource.com/trackers/12908089-hypery2k-cordova-barcodescanner-plugin?utm_source=12908089&utm_medium=shield&utm_campaign=TRACKER_BADGE)
+## Description
 
-> cross-platform barcode scanner for cordova
+Cross-platform BarcodeScanner for Cordova / PhoneGap.
 
-
-Plugin is still **WIP**
-
-[![NPM](https://nodei.co/npm/cordova-plugin-barcodescanner.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/cordova-plugin-barcodescanner/)
-
-> Feel free to **donate**
->
-> <a href='http://www.pledgie.com/campaigns/33053'><img alt='Click here to lend your support and make a donation at www.pledgie.com !' src='http://www.pledgie.com/campaigns/33053.png?skin_name=chrome' border='0' /></a>
-> <a target="_blank" href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=AGPGLZYNV6Y5S">
-> <img alt="" border="0" src="https://www.paypalobjects.com/de_DE/DE/i/btn/btn_donateCC_LG.gif"/>
-> </img></a>
-> Or donate [Bitcoins](bitcoin:3NKtxw1SRYgess5ev4Ri54GekoAgkR213D).
->
-> Also via [greenaddress](https://greenaddress.it/pay/GA3ZPfh7As3Gc2oP6pQ1njxMij88u/)
 
 ## Supported Platforms
 
@@ -31,40 +16,14 @@ Plugin is still **WIP**
 
 ## Installation
 
+### Automatically (CLI / Plugman)
+
 ```
 cordova plugin add cordova-plugin-barcodescanner
 ```
-Or if you want to use the development version (nightly build), which maybe not stable!:
 
-```
-cordova plugin add cordova-plugin-barcodescanner@next
-```
 
-On Android you have to the following entry to config.xml
-
-```
-<config-file target="AndroidManifest.xml" parent="/*" mode="merge">
-    <uses-permission android:name="android.permission.CAMERA" />
-    <uses-feature android:name="android.hardware.camera" />
-    <uses-feature android:name="android.hardware.camera.autofocus" />
-</config-file>
-```
-
-## Development
-
-### Running integration tests
-
-execute the `runIntegrationTests.sh` script for a specific platform:
-
-```
-PLATFORM='android' ./runIntegrationTests.sh
-```
-
-```
-PLATFORM='ios' ./runIntegrationTests.sh
-```
-
-### Details
+## Details
 
 
 >The Android source for this project includes an Android Library Project.
@@ -73,7 +32,7 @@ prebuilt as a jar library. Any updates to the Library Project should be
 committed with an updated jar.
 
 ## Using the plugin ##
-The plugin creates the object `cordova/plugin/BarcodeScanner` with the method `scan(success, fail)`.
+The plugin creates the object `cordova/plugin/BarcodeScanner` with the method `scan(success, fail)`. 
 
 The following barcode types are currently supported:
 ### Android
@@ -151,7 +110,7 @@ A full example could be:
                 "Result: " + result.text + "\n" +
                 "Format: " + result.format + "\n" +
                 "Cancelled: " + result.cancelled);
-      },
+      }, 
       function (error) {
           alert("Scanning failed: " + error);
       }

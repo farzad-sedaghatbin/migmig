@@ -12,20 +12,13 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.Manifest;
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
-import android.provider.Settings;
 import android.util.Log;
 
 import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.CallbackContext;
-import org.apache.cordova.PermissionHelper;
 import org.apache.cordova.PluginResult;
-
-import java.lang.reflect.Method;
 
 /**
  * This calls out to the ZXing barcode reader and returns the result.
@@ -33,11 +26,6 @@ import java.lang.reflect.Method;
  * @sa https://github.com/apache/cordova-android/blob/master/framework/src/org/apache/cordova/CordovaPlugin.java
  */
 public class BarcodeScanner extends CordovaPlugin {
-
-    public static String[] permissions = {
-            Manifest.permission.CAMERA
-    };
-
     public static final int REQUEST_CODE = 0x0ba7c0de;
 
     private static final String SCAN = "scan";
@@ -58,11 +46,7 @@ public class BarcodeScanner extends CordovaPlugin {
 
     private static final String LOG_TAG = "BarcodeScanner";
 
-    private String action;
-    private JSONArray rawArgs;
     private CallbackContext callbackContext;
-
-    private Boolean writeSettings;
 
     /**
      * Constructor.
@@ -87,50 +71,7 @@ public class BarcodeScanner extends CordovaPlugin {
      * @sa https://github.com/apache/cordova-android/blob/master/framework/src/org/apache/cordova/CordovaPlugin.java
      */
     @Override
-    public boolean execute(String action, JSONArray rawArgs, CallbackContext callbackContext) {
-      this.callbackContext = callbackContext;
-      this.action = action;
-      this.rawArgs = rawArgs;
-      if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP + 1) {
-          Class systemClass = Settings.System.class;
-          try {
-              Method canWriteMethod = systemClass.getDeclaredMethod("canWrite", Context.class);
-              boolean retVal = (Boolean) canWriteMethod.invoke(null, this.cordova.getActivity());
-              Log.d(LOG_TAG, "Can Write Settings: " + retVal);
-              if (!retVal && !action.equals("requestWriteSettings") && !action.equals("getWriteSettings")) {
-                  //can't write Settings
-                  this.callbackContext.error("write settings: false");
-                  return false;
-              }
-              this.writeSettings = retVal;
-          } catch (Exception ignored) {
-              Log.e(LOG_TAG, "Could not perform permission check");
-              this.callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.ILLEGAL_ACCESS_EXCEPTION));
-          }
-      }
-      if (!this.hasPermissions()) {
-          PermissionHelper.requestPermissions(this, 0, BarcodeScanner.permissions);
-          return true;
-      } else {
-          // pre Android 6 behaviour
-          return executeInternal(action, rawArgs, callbackContext);
-      }
-      // Returning false results in a "MethodNotFound" error.
-    }
-
-    public boolean hasPermissions() {
-        for (String p : permissions) {
-            if (!PermissionHelper.hasPermission(this, p)) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    /**
-     * Internal execution method invoked after permissions check
-     */
-    private boolean executeInternal(String action, JSONArray args, CallbackContext callbackContext) {
+    public boolean execute(String action, JSONArray args, CallbackContext callbackContext) {
         this.callbackContext = callbackContext;
 
         if (action.equals(ENCODE)) {
@@ -194,6 +135,7 @@ public class BarcodeScanner extends CordovaPlugin {
                 } catch (JSONException e) {
                     Log.d(LOG_TAG, "This should never happen");
                 }
+                //this.success(new PluginResult(PluginResult.Status.OK, obj), this.callback);
                 this.callbackContext.success(obj);
             } else if (resultCode == Activity.RESULT_CANCELED) {
                 JSONObject obj = new JSONObject();
@@ -204,8 +146,10 @@ public class BarcodeScanner extends CordovaPlugin {
                 } catch (JSONException e) {
                     Log.d(LOG_TAG, "This should never happen");
                 }
+                //this.success(new PluginResult(PluginResult.Status.OK, obj), this.callback);
                 this.callbackContext.success(obj);
             } else {
+                //this.error(new PluginResult(PluginResult.Status.ERROR), this.callback);
                 this.callbackContext.error("Unexpected error");
             }
         }
