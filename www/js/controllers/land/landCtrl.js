@@ -211,6 +211,9 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
           });
           ids.push(data.deliveryLocationDTO.id);
           markers.push(marker);
+          if($scope.start_box.lat){
+            bound.extend(new google.maps.LatLng($scope.start_box.lat, $scope.start_box.lng));
+          }
           bound.extend(loc);
           $scope.map.fitBounds(bound);
         }
@@ -682,7 +685,7 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
   };
   $scope.buy = function () {
     WebService.startLoading();
-    var url = "https://dagala.cfapps.io/api/1/factor";
+    var url = "https://spot.cfapps.io/api/1/factor";
     $http.post(url, $scope.selected_ph.price + "," + $rootScope.username + "," + $scope.selected_ph.id).success(function (data, status, headers, config) {
       WebService.stopLoading();
       window.open(
