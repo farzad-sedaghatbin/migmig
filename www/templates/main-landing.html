@@ -34,7 +34,7 @@
         <div>
           <div class='head-box text-center'>
             <div class='vertical-middle'>
-              <span class='color-yellow d-block '>{{selected_ph.price}}</span>
+              <span class='color-yellow d-block ' style="direction: rtl"> تومان {{selected_ph.price}}</span>
               <span class='color-gery d-block myText'>{{selected_ph.description}}</span>
             </div>
           </div>
@@ -217,12 +217,21 @@
     </div>
     <div id='my-pop2' class='animation-styles bg-dark1'>
       <div class='bg-dark1 visible'>
-        <div class='head-box text-center' style="height: 90px;">
+        <div class='head-box text-center' style="height: 120px;">
           <div class='vertical-middle'>
-            <span class='color-yellow d-block myText' style="padding-top: 25px">نام</span>
+            <span class='color-yellow d-block myText' style="padding-top: 40px">نام</span>
             <span class='color-yellow d-block myText'>{{driver.name}}</span>
             <span class='color-gery d-block myText'>شماره</span>
             <span class='color-gery d-block myText'>{{driver.mobile}}</span>
+            <span class='input-box'>
+              <input name='moreInfo' id="takhfif" placeholder="کد تخفیف"
+                     class='color-yellow myText'
+                     type='text' style="direction: rtl;width: 100%;
+    background: transparent;
+    padding: 10px;
+    text-align: center;"/>
+            </span>
+
           </div>
         </div>
       </div>

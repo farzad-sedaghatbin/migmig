@@ -49,6 +49,7 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
       map.setZoom(16);
     });
   }
+
   /* Function For Get place from LatLng
    ==================================================*/
   function codeLatLng(lat, lng) {
@@ -195,9 +196,9 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
           marker.tel = data.deliveryLocationDTO.tel;
           marker.setVisible(true);
           marker.myId = data.deliveryLocationDTO.id;
-          google.maps.event.addListener(marker, 'click', function() {
+          google.maps.event.addListener(marker, 'click', function () {
             $("#my-pop").removeClass("my-active");
-            if (!$("#my-pop2").hasClass("my-active")){
+            if (!$("#my-pop2").hasClass("my-active")) {
               $("#my-pop2").addClass("my-active");
             }
             $scope.showDriverInfo = true;
@@ -211,7 +212,7 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
           });
           ids.push(data.deliveryLocationDTO.id);
           markers.push(marker);
-          if($scope.start_box.lat){
+          if ($scope.start_box.lat) {
             bound.extend(new google.maps.LatLng($scope.start_box.lat, $scope.start_box.lng));
           }
           bound.extend(loc);
@@ -363,25 +364,27 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
     function setDay(day) {
       for (var i = 0; i < 32; i++) {
         var d = $("#0" + i);
-        if (day > parseInt(d.val())){
-          d.css("display","none")
+        if (day > parseInt(d.val())) {
+          d.css("display", "none")
         }
-        if (day === parseInt(d.val())){
-        d.attr('selected','selected');
+        if (day === parseInt(d.val())) {
+          d.attr('selected', 'selected');
         }
       }
     }
+
     function setMonth(month) {
       for (var i = 0; i < 13; i++) {
         var d = $("#" + i);
-        if (month > parseInt(d.val())){
-          d.css("display","none")
+        if (month > parseInt(d.val())) {
+          d.css("display", "none")
         }
-        if (month === parseInt(d.val())){
-          d.attr('selected','selected');
+        if (month === parseInt(d.val())) {
+          d.attr('selected', 'selected');
         }
       }
     }
+
     var options = {
       // componentRestrictions: {country: "in"}
       componentRestrictions: {country: "ir"}
@@ -514,11 +517,11 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
         slong: $scope.start_box.lng,
         desc: $("#moreInfo").val(),
         number: $("#num").val(),
-        year : $("#year").val(),
-        month : $("#month").val(),
-        day : $("#day").val(),
-        hour : $("#hour").val(),
-        minute : $("#minute").val(),
+        year: $("#year").val(),
+        month: $("#month").val(),
+        day: $("#day").val(),
+        hour: $("#hour").val(),
+        minute: $("#minute").val(),
         id: $scope.selected_ph.id
       }
     }).then(function (resp) {
@@ -686,8 +689,15 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
   $scope.buy = function () {
     WebService.startLoading();
     var url = "https://spot.cfapps.io/api/1/factor";
-    $http.post(url, $scope.selected_ph.price + "," + $rootScope.username + "," + $scope.selected_ph.id).success(function (data, status, headers, config) {
+    $http.post(url, $scope.selected_ph.price + "," + $rootScope.username + "," + $scope.selected_ph.id + "," + $("#takhfif").val()).success(function (data, status, headers, config) {
       WebService.stopLoading();
+      if (!data || data === "") {
+        $ionicPopup.alert({
+          title: '<p class="text-center color-yellow">' + ("پیام") + '</p>',
+          template: '<p class="text-center color-gery">' + ("کد تخفیف اشتباه می باشد") + '</p>'
+        });
+        return;
+      }
       window.open(
         "http://dagala.ir/bank.html?res=" + data + "&amount=" + parseInt($scope.selected_ph.price),
         "_system",
@@ -736,7 +746,8 @@ App.controller('photographerCtrl', function ($rootScope, $state, $scope, $q, $co
     if (container.length > 1)
       container[0].remove();
     autocomplete.bindTo('bounds', map);
-    input.style.display = "block";
+    if (input)
+      input.style.display = "block";
     autocomplete.addListener('place_changed', function () {
       var place = autocomplete.getPlace();
       if (!place.geometry) {
@@ -1213,7 +1224,7 @@ App.controller('photographerCtrl', function ($rootScope, $state, $scope, $q, $co
     $rootScope.getCurrentLocation();
     $rootScope.interval = $interval(function () {
       $rootScope.socket.send("mylocation," + $rootScope.userid + "," + lat + "," + lng)
-    }, 1000);
+    }, 60000);
   }
 
   $rootScope.endOfTrip = function () {
