@@ -42,7 +42,7 @@
 #login-page .bar{background: none;}
 
 .head-bar{ padding-top: 10px; height:54px;position: relative;}
-.head-bar .close-icon{ position: absolute; right: 0; top: 0; z-index: 100; padding: 0 10px ;height: 100%;}
+.head-bar .close-icon{ position: absolute; right: 0; top: 0; z-index: 100; padding: 0 10px ;height: 100%;margin-top: 20px;}
 .big-font{ font-size: 17px; }
 
 .content-box{ height: calc( 100% - 44px); }
