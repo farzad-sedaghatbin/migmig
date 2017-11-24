@@ -7,16 +7,10 @@
         "files": {}
     },
     "installed_plugins": {
-        "cordova-plugin-barcodescanner": {
-            "PACKAGE_NAME": "com.ionicframework.myapp960421"
-        },
         "cordova-plugin-console": {
             "PACKAGE_NAME": "com.ionicframework.myapp960421"
         },
         "cordova-plugin-device": {
-            "PACKAGE_NAME": "com.ionicframework.myapp960421"
-        },
-        "cordova-plugin-geolocation": {
             "PACKAGE_NAME": "com.ionicframework.myapp960421"
         },
         "cordova-plugin-splashscreen": {
@@ -34,8 +28,17 @@
         "ionic-plugin-keyboard": {
             "PACKAGE_NAME": "com.ionicframework.myapp960421"
         },
-        "org.apache.cordova.speech.speechrecognition": {
+        "cordova-plugin-barcodescanner": {
             "PACKAGE_NAME": "com.ionicframework.myapp960421"
+        },
+        "cordova-plugin-geolocation": {
+            "PACKAGE_NAME": "com.ionicframework.myapp960421"
+        },
+        "cordova-plugin-inappbrowser": {
+            "PACKAGE_NAME": "com.ionicframework.myapp960421"
+        },
+        "cordova-plugin-camera": {
+            "PACKAGE_NAME": "ir.redmind.spot"
         }
     },
     "dependent_plugins": {
