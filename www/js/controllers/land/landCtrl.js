@@ -1059,7 +1059,7 @@ App.controller('photographerCtrl', function ($rootScope, $state, $scope, $q, $co
           if (resp.data.uid !== oldUid) {
             $rootScope.interval3 = $interval(function () {
               $rootScope.socket.send("delivery," + $rootScope.userid + "," + lat + "," + lng + "," + resp.data.clientId + "," + $rootScope.name + "," + $rootScope.tel)
-            }, 60000);
+            }, 15000);
             $scope.tripInfo = resp.data;
             oldUid = resp.data.uid;
             var start = new google.maps.LatLng(lat, lng);
