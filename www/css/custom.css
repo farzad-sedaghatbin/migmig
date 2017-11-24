@@ -1,10 +1,7 @@
 @font-face {
   font-family: 'myFont';
-  src:        url('../lib/ionic/css/font/Far_TwoLight.eot');
   src:
-    url('../lib/ionic/css/font/Far_TwoLight.woff') format('woff'),
-    url('../lib/ionic/css/font/Far_TwoLight.ttf') format('truetype'),
-    url('../lib/ionic/css/font/Far_TwoLight.svg') format('svg');
+    url('../lib/ionic/css/font/IRANSans_Medium.ttf') format('truetype');
   font-weight: 900;
   font-style: normal;
 }

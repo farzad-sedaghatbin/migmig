@@ -1,4 +1,4 @@
-var server_domain = 'http://tchwr.in/NewCallmycab';
+var server_domain = '';
 var secret_key = "My_key";
 var wordpress = false;
 

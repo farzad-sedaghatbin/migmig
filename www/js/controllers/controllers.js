@@ -223,6 +223,7 @@ App.controller('AppCtrl', function ($scope, $rootScope, $cordovaNetwork, $ionicM
 
   $scope.load_trips = function () {
     WebService.startLoading();
+    $http.defaults.headers.common.Authorization = $rootScope.token;
     $http({
       method: "POST",
       url: "https://spot.cfapps.io/api/1/clientOrders"

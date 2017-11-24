@@ -46,7 +46,7 @@
 
 /* BUTTON
 =====================*/
-.btn{ border-radius: 20px; display: block; height: 35px; width: 100%}
+.btn{ border-radius: 20px; display: block; height: 35px; width: 80%;margin-left: 10%;}
 .border-white{ border: 1px solid #fff; }
 .a{ font-weight: normal !important; color: #000 !important;display: block}
 

@@ -33,6 +33,7 @@ App.controller('myTripCtrl', function($scope,$rootScope, $ionicLoading, $compile
 	};
 	$scope.show_details = function(uid){
     WebService.startLoading();
+    $http.defaults.headers.common.Authorization = $rootScope.token;
     $http({
       method: "POST",
       url: "https://spot.cfapps.io/api/1/detail",

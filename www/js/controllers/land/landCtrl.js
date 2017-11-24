@@ -87,7 +87,17 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
       $scope.map.setCenter(myLatlng);
       $ionicLoading.hide();
     }, function (error) {
-      WebService.handleMyLocationError();
+      $ionicPopup.alert({
+        title: '<p class="text-center color-yellow">' + ("پیام") + '</p>',
+        template: '<p class="text-center color-gery">' + ("لطفا موقعیت جغرافیایی دستگاه خود را روشن کنید") + '</p>'
+      });
+      var myLatlng = new google.maps.LatLng(35.796844, 51.453692);
+      $scope.start_box.lat = pos.coords.latitude;
+      $scope.start_box.lng = pos.coords.longitude;
+
+      codeLatLng(pos.coords.latitude, pos.coords.longitude);
+      $scope.map.setCenter(myLatlng);
+      $ionicLoading.hide();
     });
   };
   $scope.newTrip = function () {
@@ -427,13 +437,6 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
 
     WebService.show_loading();
 
-    var promise = WebService.send_data(link, post_data);
-
-    promise.then(function (data) {
-      //alert(JSON.stringify(data,null,4));
-      setAutocompleteBoxes(data);
-
-    });
   }
   $scope.CallNumber = function (number) {
     window.plugins.CallNumber.callNumber(function () {
@@ -513,8 +516,8 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
       method: "POST",
       url: "https://spot.cfapps.io/api/1/submitRequest",
       data: {
-        slat: $scope.start_box.lat,
-        slong: $scope.start_box.lng,
+        dlat: $scope.start_box.lat,
+        dlong: $scope.start_box.lng,
         desc: $("#moreInfo").val(),
         number: $("#num").val(),
         year: $("#year").val(),
@@ -522,15 +525,23 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
         day: $("#day").val(),
         hour: $("#hour").val(),
         minute: $("#minute").val(),
-        id: $scope.selected_ph.id
+        id: $scope.selected_ph.id,
+        description: $("#autocompletefrom").val()
       }
     }).then(function (resp) {
       WebService.stopLoading();
+      if (resp === 201 || resp === "201"){
+        $ionicPopup.alert({
+          title: '<p class="text-center color-yellow">' + ("پیام") + '</p>',
+          template: '<p class="text-center color-gery">' + ("در حال حاضر یک درخواست ثبت کرده اید") + '</p>'
+        });
+        return;
+      }
       $("#request").css("display", "none");
       $scope.deleteFrom();
       $ionicPopup.alert({
-        title: '<p class="text-center color-yellow">' + $filter('langTranslate')("پیام") + '</p>',
-        template: '<p class="text-center color-gery">' + $filter('langTranslate')("درخواست شما با موفقیت ثبت شد. به زودی عکاس شما معرفی می شود") + '</p>'
+        title: '<p class="text-center color-yellow">' + ("پیام") + '</p>',
+        template: '<p class="text-center color-gery">' + ("درخواست شما با موفقیت ثبت شد. به زودی عکاس شما معرفی می شود") + '</p>'
       });
     }, function (err) {
       WebService.stopLoading();
@@ -814,7 +825,13 @@ App.controller('photographerCtrl', function ($rootScope, $state, $scope, $q, $co
         title: '<p class="text-center color-yellow">' + ("پیام") + '</p>',
         template: '<p class="text-center color-gery">' + ("لطفا موقعیت جغرافیایی دستگاه خود را روشن کنید") + '</p>'
       });
+      var myLatlng = new google.maps.LatLng(35.796844, 51.453692);
+      codeLatLng(pos.coords.latitude, pos.coords.longitude);
+      if (marker)
+        marker.setMap(null);
+      $rootScope.map.setCenter(myLatlng);
       $ionicLoading.hide();
+      prepareSocket();
     });
   };
   function prepareSocket() {

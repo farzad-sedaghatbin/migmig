@@ -1,8 +1,3 @@
-if (wordpress == true) {
-  var base_url = server_domain + '/wp-admin/admin-ajax.php';
-} else {
-  var base_url = server_domain + '/index.php/web_service/';
-}
 
 var user_data = null;
 
