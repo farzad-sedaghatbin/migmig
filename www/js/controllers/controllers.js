@@ -1,6 +1,6 @@
 var App = angular.module('CallAppcontrollers', []);
 
-App.controller('AppCtrl', function ($scope, $rootScope, $cordovaNetwork, $ionicModal,$location, $timeout,$interval, $state, $ionicLoading, $ionicPopup, $http, $cordovaOauth, $cordovaSplashscreen, $ionicHistory, serv, WebService) {
+App.controller('AppCtrl', function ($scope, $rootScope, $cordovaNetwork, $ionicModal, $location, $timeout, $interval, $state, $ionicLoading, $ionicPopup, $http, $cordovaOauth, $cordovaSplashscreen, $ionicHistory, serv, WebService) {
   function set_net(status) {
     if (status == 'online') {
       $('.net-error').hide();
@@ -11,6 +11,7 @@ App.controller('AppCtrl', function ($scope, $rootScope, $cordovaNetwork, $ionicM
     }
 
   }
+
   var db = openDatabase('mydb', '1.0', 'Test DB', 1024 * 1024);
   $scope.home = function () {
     db.transaction(function (tx) {
@@ -80,6 +81,13 @@ App.controller('AppCtrl', function ($scope, $rootScope, $cordovaNetwork, $ionicM
     $scope.modal.sign_up = modal;
   });
 
+  $ionicModal.fromTemplateUrl('templates/confirm-mobile.html', {
+    scope: $scope,
+    animation: 'slide-in-up'
+  }).then(function (modal) {
+    $scope.modal.verify = modal;
+  });
+
   // Triggered in the login modal to close it
   $scope.closeLogin = function () {
     $scope.modal.sign_in.hide();
@@ -101,6 +109,11 @@ App.controller('AppCtrl', function ($scope, $rootScope, $cordovaNetwork, $ionicM
     $scope.modal.sign_up.show();
   };
 
+  $scope.verify = function () {
+    $scope.verify = {};
+    $scope.modal.verify.show();
+  };
+
 
   // Perform the login action when the user submits the login form
   $scope.doLogin = function (form) {
@@ -108,7 +121,7 @@ App.controller('AppCtrl', function ($scope, $rootScope, $cordovaNetwork, $ionicM
     if (form.$valid) {
       try {
         delete $http.defaults.headers.common.Authorization;
-      }catch (e){
+      } catch (e) {
       }
       var url = "https://spot.cfapps.io/api/1/user_authenticate";
       var data = {
@@ -142,7 +155,7 @@ App.controller('AppCtrl', function ($scope, $rootScope, $cordovaNetwork, $ionicM
         }
       }).catch(function (err) {
         WebService.stopLoading();
-        WebService.myErrorHandler(err,true);
+        WebService.myErrorHandler(err, true);
       });
     } else {
       form.mail.$setDirty();
@@ -166,15 +179,15 @@ App.controller('AppCtrl', function ($scope, $rootScope, $cordovaNetwork, $ionicM
         username: $scope.signUp.user_name,
         mobile: $scope.signUp.mobile,
         password: $scope.signUp.pwd,
-        pic : pic
+        pic: pic
       };
       $http.post(url, data)
         .success(function (suc) {
           WebService.stopLoading();
-          $state.go("app.landing");
+          $state.go("app.verify");
         }).error(function (err) {
         WebService.stopLoading();
-        WebService.myErrorHandler(err,false);
+        WebService.myErrorHandler(err, false);
       });
     } else {
       form.pwd.$setDirty();
@@ -184,6 +197,24 @@ App.controller('AppCtrl', function ($scope, $rootScope, $cordovaNetwork, $ionicM
       form.user_name.$setDirty();
 
     }
+
+  };
+$scope.do_checkCode = function (form) {
+    WebService.startLoading();
+    //$state.go('view', {movieid: 1});
+
+      var url = "https://spot.cfapps.io/api/1/verify";
+      var data = {
+        code: $scope.signUp.name
+      };
+      $http.post(url, data)
+        .success(function (suc) {
+          WebService.stopLoading();
+          $state.go("app.landing");
+        }).error(function (err) {
+        WebService.stopLoading();
+        WebService.myErrorHandler(err, false);
+      });
 
   };
 
@@ -235,7 +266,7 @@ App.controller('AppCtrl', function ($scope, $rootScope, $cordovaNetwork, $ionicM
       $state.go("app.mytrip")
     }, function (err) {
       WebService.stopLoading();
-      WebService.myErrorHandler(err,false);
+      WebService.myErrorHandler(err, false);
     });
   };
 });

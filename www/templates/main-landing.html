@@ -48,61 +48,76 @@
                 <div class='main-container'>
                   <div class="input-box ">
                     <div class='input-box row'>
-                      <div class="col col-10">
-                                <span ng-click="decrement_val('Adults')">
-                                   <i class="ion-minus" style="color: #ddd"></i>
-                                </span>
-                      </div>
+
                       <div class="col col-80">
                         <label style="height: 30px" class="item item-input">
-                          <input class="myText color-yellow" placeholder="تعداد عکاس" id="num"
-                                 onkeydown="limitSize(event,'num',2)" type="number" style="text-align: center"
-                                 value="{{valueAdults}}">
+                          <select id="num" style="min-width: 100%;background-color: #2e2f32" class="color-yellow">
+                            <option id="1p" style="min-width: 100%" class="myText color-yellow" value="1p">یک نفر 200000 تومان
+                            </option>
+                            <option id="2p" style="min-width: 100%" class="myText color-yellow" value="2p">دو نفر 300000 تومان
+                            </option>
+                            <option id="3p" style="min-width: 100%" class="myText color-yellow" value="3p">سه نفر 390000 تومان
+                            </option>
+                          </select>
+
                         </label>
                       </div>
-                      <div class="col col-10">
-                                <span ng-click="increment_val('Adults')">
-                                   <i class="ion-plus" style="color: #ddd"></i>
-                                </span>
-                      </div>
+
                     </div>
                     <div ng-if="projectType === 're'">
                       <div class='text-center m-top-10'>
-                        <hr class='yellow-hr'></hr>
+                        <hr class='yellow-hr'/>
                         <span class='mid-item bg-grey color-white myText'>در</span>
                       </div>
                       <div class='input-box row'>
                         <div class="col col-33">
                           <label class="item item-input item-select" style="height: 30px">
                             <select id="year" style="min-width: 100%;background-color: #2e2f32" class="color-yellow">
-                              <option id="1396" style="min-width: 100%" class="myText color-yellow" value="1396">1396</option>
-                              <option id="1397" style="min-width: 100%" class="myText color-yellow" value="1397">1397</option>
-                              <option id="1398" style="min-width: 100%" class="myText color-yellow" value="1398">1398</option>
-                              <option id="1399" style="min-width: 100%" class="myText color-yellow" value="1399">1399</option>
-                              <option id="1400" style="min-width: 100%" class="myText color-yellow" value="1400">1400</option>
-                              <option id="1401" style="min-width: 100%" class="myText color-yellow" value="1401">1401</option>
-                              <option id="1402" style="min-width: 100%" class="myText color-yellow" value="1402">1402</option>
-                              <option id="1403" style="min-width: 100%" class="myText color-yellow" value="1403">1403</option>
-                              <option id="1404" style="min-width: 100%" class="myText color-yellow" value="1404">1404</option>
-                              <option id="1405" style="min-width: 100%" class="myText color-yellow" value="1405">1405</option>
+                              <option id="1396" style="min-width: 100%" class="myText color-yellow" value="1396">1396
+                              </option>
+                              <option id="1397" style="min-width: 100%" class="myText color-yellow" value="1397">1397
+                              </option>
+                              <option id="1398" style="min-width: 100%" class="myText color-yellow" value="1398">1398
+                              </option>
+                              <option id="1399" style="min-width: 100%" class="myText color-yellow" value="1399">1399
+                              </option>
+                              <option id="1400" style="min-width: 100%" class="myText color-yellow" value="1400">1400
+                              </option>
+                              <option id="1401" style="min-width: 100%" class="myText color-yellow" value="1401">1401
+                              </option>
+                              <option id="1402" style="min-width: 100%" class="myText color-yellow" value="1402">1402
+                              </option>
+                              <option id="1403" style="min-width: 100%" class="myText color-yellow" value="1403">1403
+                              </option>
+                              <option id="1404" style="min-width: 100%" class="myText color-yellow" value="1404">1404
+                              </option>
+                              <option id="1405" style="min-width: 100%" class="myText color-yellow" value="1405">1405
+                              </option>
                             </select>
                           </label>
                         </div>
                         <div class="col col-33">
                           <label style="height: 30px" class="item item-input item-select">
                             <select id="month" style="min-width: 100%;background-color: #2e2f32" class="color-yellow">
-                              <option id="1" style="min-width: 100%" class="myText color-yellow" value="1">فروردین</option>
-                              <option id="2" style="min-width: 100%" class="myText color-yellow" value="2">اردیبهشت</option>
-                              <option id="3" style="min-width: 100%" class="myText color-yellow" value="3">خرداد</option>
+                              <option id="1" style="min-width: 100%" class="myText color-yellow" value="1">فروردین
+                              </option>
+                              <option id="2" style="min-width: 100%" class="myText color-yellow" value="2">اردیبهشت
+                              </option>
+                              <option id="3" style="min-width: 100%" class="myText color-yellow" value="3">خرداد
+                              </option>
                               <option id="4" style="min-width: 100%" class="myText color-yellow" value="4">تیر</option>
-                              <option id="5" style="min-width: 100%" class="myText color-yellow" value="5">مرداد</option>
-                              <option id="6" style="min-width: 100%" class="myText color-yellow" value="6">شهریور</option>
+                              <option id="5" style="min-width: 100%" class="myText color-yellow" value="5">مرداد
+                              </option>
+                              <option id="6" style="min-width: 100%" class="myText color-yellow" value="6">شهریور
+                              </option>
                               <option id="7" style="min-width: 100%" class="myText color-yellow" value="7">مهر</option>
                               <option id="8" style="min-width: 100%" class="myText color-yellow" value="8">آبان</option>
                               <option id="9" style="min-width: 100%" class="myText color-yellow" value="9">آذر</option>
                               <option id="10" style="min-width: 100%" class="myText color-yellow" value="10">دی</option>
-                              <option id="11" style="min-width: 100%" class="myText color-yellow" value="11">بهمن</option>
-                              <option id="12" style="min-width: 100%" class="myText color-yellow" value="12">اسفند</option>
+                              <option id="11" style="min-width: 100%" class="myText color-yellow" value="11">بهمن
+                              </option>
+                              <option id="12" style="min-width: 100%" class="myText color-yellow" value="12">اسفند
+                              </option>
                             </select>
                           </label>
                         </div>
@@ -118,28 +133,50 @@
                               <option id="07" style="min-width: 100%" class="myText color-yellow" value="7">7</option>
                               <option id="08" style="min-width: 100%" class="myText color-yellow" value="8">8</option>
                               <option id="09" style="min-width: 100%" class="myText color-yellow" value="9">9</option>
-                              <option id="010" style="min-width: 100%" class="myText color-yellow" value="10">10</option>
-                              <option id="011" style="min-width: 100%" class="myText color-yellow" value="11">11</option>
-                              <option id="012" style="min-width: 100%" class="myText color-yellow" value="12">12</option>
-                              <option id="013" style="min-width: 100%" class="myText color-yellow" value="13">13</option>
-                              <option id="014" style="min-width: 100%" class="myText color-yellow" value="14">14</option>
-                              <option id="015" style="min-width: 100%" class="myText color-yellow" value="15">15</option>
-                              <option id="016" style="min-width: 100%" class="myText color-yellow" value="16">16</option>
-                              <option id="017" style="min-width: 100%" class="myText color-yellow" value="17">17</option>
-                              <option id="018" style="min-width: 100%" class="myText color-yellow" value="18">18</option>
-                              <option id="019" style="min-width: 100%" class="myText color-yellow" value="19">19</option>
-                              <option id="020" style="min-width: 100%" class="myText color-yellow" value="20">20</option>
-                              <option id="021" style="min-width: 100%" class="myText color-yellow" value="21">21</option>
-                              <option id="022" style="min-width: 100%" class="myText color-yellow" value="22">22</option>
-                              <option id="023" style="min-width: 100%" class="myText color-yellow" value="23">23</option>
-                              <option id="024" style="min-width: 100%" class="myText color-yellow" value="24">24</option>
-                              <option id="025" style="min-width: 100%" class="myText color-yellow" value="25">25</option>
-                              <option id="026" style="min-width: 100%" class="myText color-yellow" value="26">26</option>
-                              <option id="027" style="min-width: 100%" class="myText color-yellow" value="27">27</option>
-                              <option id="028" style="min-width: 100%" class="myText color-yellow" value="28">28</option>
-                              <option id="029" style="min-width: 100%" class="myText color-yellow" value="29">29</option>
-                              <option id="030" style="min-width: 100%" class="myText color-yellow" value="30">30</option>
-                              <option id="031" style="min-width: 100%" class="myText color-yellow" value="31">31</option>
+                              <option id="010" style="min-width: 100%" class="myText color-yellow" value="10">10
+                              </option>
+                              <option id="011" style="min-width: 100%" class="myText color-yellow" value="11">11
+                              </option>
+                              <option id="012" style="min-width: 100%" class="myText color-yellow" value="12">12
+                              </option>
+                              <option id="013" style="min-width: 100%" class="myText color-yellow" value="13">13
+                              </option>
+                              <option id="014" style="min-width: 100%" class="myText color-yellow" value="14">14
+                              </option>
+                              <option id="015" style="min-width: 100%" class="myText color-yellow" value="15">15
+                              </option>
+                              <option id="016" style="min-width: 100%" class="myText color-yellow" value="16">16
+                              </option>
+                              <option id="017" style="min-width: 100%" class="myText color-yellow" value="17">17
+                              </option>
+                              <option id="018" style="min-width: 100%" class="myText color-yellow" value="18">18
+                              </option>
+                              <option id="019" style="min-width: 100%" class="myText color-yellow" value="19">19
+                              </option>
+                              <option id="020" style="min-width: 100%" class="myText color-yellow" value="20">20
+                              </option>
+                              <option id="021" style="min-width: 100%" class="myText color-yellow" value="21">21
+                              </option>
+                              <option id="022" style="min-width: 100%" class="myText color-yellow" value="22">22
+                              </option>
+                              <option id="023" style="min-width: 100%" class="myText color-yellow" value="23">23
+                              </option>
+                              <option id="024" style="min-width: 100%" class="myText color-yellow" value="24">24
+                              </option>
+                              <option id="025" style="min-width: 100%" class="myText color-yellow" value="25">25
+                              </option>
+                              <option id="026" style="min-width: 100%" class="myText color-yellow" value="26">26
+                              </option>
+                              <option id="027" style="min-width: 100%" class="myText color-yellow" value="27">27
+                              </option>
+                              <option id="028" style="min-width: 100%" class="myText color-yellow" value="28">28
+                              </option>
+                              <option id="029" style="min-width: 100%" class="myText color-yellow" value="29">29
+                              </option>
+                              <option id="030" style="min-width: 100%" class="myText color-yellow" value="30">30
+                              </option>
+                              <option id="031" style="min-width: 100%" class="myText color-yellow" value="31">31
+                              </option>
                             </select>
                           </label>
                         </div>
@@ -192,7 +229,13 @@
                       </div>
                     </div>
                     <div class='input-box'>
-                      <input name='moreInfo' id="moreInfo" ng-model='moreInfo' placeholder="آدرس دقیقتر یا توضیحات"
+                      <input name='moreInfo' id="address" ng-model='moreInfo' placeholder="آدرس دقیقتر، پلاک ، طبقه "
+                             class='color-yellow myText'
+                             type='text' style="text-align: right;direction: rtl"/>
+                      <!--<img class='input-icon icon-20' src='img/icons/user.png'/>-->
+                    </div>
+                    <div class='input-box'>
+                      <input name='moreInfo' id="moreInfo" ng-model='moreInfo' placeholder="نوع مراسم ، شرایط خاص "
                              class='color-yellow myText'
                              type='text' style="text-align: right;direction: rtl"/>
                       <!--<img class='input-icon icon-20' src='img/icons/user.png'/>-->

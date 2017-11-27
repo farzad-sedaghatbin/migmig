@@ -1,0 +1,28 @@
+<ion-view class="myText bg-grey">
+  <ion-content class="padding">
+    <div id='login-from-box' class='m-top-20' ng-form='confirm_form'>
+
+      <div class="list" style="text-align: center">
+        <div>
+          <md-input-container style="margin: 1% 0;width: 80%" md-no-float>
+            <input type="text" id="code" name="code" ng-model="code" ng-maxlength="20" class="color-yellow myText"
+                   placeholder="کد"
+                   required
+                   style="text-align: center;width: 100%;background: transparent;border-color: rgb(255,215,198)">
+            <!--<p class="error-message myText" ng-show="confirmForm.code.$invalid && confirmForm.code.$touched">فیلد کد الزامی است</p>-->
+            <p class="error-message myText" ng-show="confirmForm.code.$error.maxlength && confirmForm.code.$touched">
+              برای فیلد کد حداکثر 20 کاراکتر وارد کنید</p>
+          </md-input-container>
+        </div>
+
+
+        <div style="text-align: center" class="padding-bottom">
+          <input ng-click='do_checkCode(confirm_form)' style="margin-right: 10%"
+                 class='btn bg-grey color-white border-white myText m-top-30' type='button' value="ثبت "/>
+        </div>
+      </div>
+  </ion-content>
+</ion-view>
+
+
+
