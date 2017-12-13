@@ -4,7 +4,7 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
 
   /* Funtion For set Map
    =========================================================== */
-
+  var geoloccontrol;
   function set_map() {
     // Create an array of styles.
     var styles = landInit.mapStyles();
@@ -16,13 +16,20 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
     var mapOptions = {
       center: myLatlng,
       zoom: 16,
-      disableDefaultUI: true,
+      zoomControl: false,
+      mapTypeControl: false,
+      scaleControl: false,
+      streetViewControl: false,
+      rotateControl: false,
+      fullscreenControl: false,
       mapTypeId: google.maps.MapTypeId.ROADMAP,
     };
     var map = new google.maps.Map(document.getElementById("map"),
       mapOptions);
     // map.mapTypes.set('map_style', styledMap);
     // map.setMapTypeId('map_style');
+    geoloccontrol = new klokantech.GeolocationControl(map, null,null);
+    ed(geoloccontrol);
     $scope.map = map;
     $scope.init_status = true;
     setAutocompleteBoxes();
@@ -339,6 +346,8 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
     google.maps.event.trigger($scope.map, 'resize');
     var timer1;
     var l1 = $scope.map.addListener("drag", function (event) {
+      if (geoloccontrol.enabled)
+        ed(geoloccontrol);
       $scope.fromMarker.setPosition($scope.map.getCenter());
     });
     var l2 = $scope.map.addListener("center_changed", function (event) {

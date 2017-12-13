@@ -41,7 +41,6 @@
   "cordovaPlatforms": [],
   "cordova": {
     "plugins": {
-
       "cordova-plugin-barcodescanner": {}
     }
   }
