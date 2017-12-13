@@ -338,6 +338,7 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
     );
     $scope.fromMarker = new google.maps.Marker({
       position: $scope.map.getCenter(),
+      animation: google.maps.Animation.DROP,
       map: $scope.map,
       visible: true,
       icon: pinIcon
