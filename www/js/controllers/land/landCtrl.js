@@ -17,7 +17,7 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
       center: myLatlng,
       zoom: 16,
       disableDefaultUI: true,
-      mapTypeId: google.maps.MapTypeId.ROADMAP
+      mapTypeId: google.maps.MapTypeId.ROADMAP,
     };
     var map = new google.maps.Map(document.getElementById("map"),
       mapOptions);
@@ -331,50 +331,60 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
     );
     $scope.fromMarker = new google.maps.Marker({
       position: $scope.map.getCenter(),
+      map: $scope.map,
       visible: true,
       icon: pinIcon
     });
-    $scope.fromMarker.setMap($scope.map);
+    // $scope.fromMarker.setMap($scope.map);
     google.maps.event.trigger($scope.map, 'resize');
     var timer1;
-    var listener = $scope.map.addListener("center_changed", function (event) {
+    var l1 = $scope.map.addListener("drag", function (event) {
       $scope.fromMarker.setPosition($scope.map.getCenter());
-      var click = $scope.fromMarker.addListener('click', function() {
-        clearTimeout(timer1);
-        timer1 = setTimeout(function() {
-          google.maps.event.removeListener(listener);
-          google.maps.event.removeListener(click);
-          $http({
-            method: "POST",
-            url: "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + $scope.map.getCenter().lat() + "," + $scope.map.getCenter().lng() + "&sensor=true&language=fa"
-          }).then(function (resp) {
-            if (resp.data.result && resp.data.result.length > 0) {
-              from_el.value = resp.data.results[1].formatted_address;
-              $scope.fromAddress = resp.data.results[1].formatted_address;
-            }
-          }, function (err) {
-            WebService.myErrorHandler(err, false);
-          });
-          WebService.startLoading();
-          $http.defaults.headers.common.Authorization = $rootScope.token;
-          $http({
-            method: "POST",
-            url: "https://spot.cfapps.io/api/1/listService"
-          }).then(function (resp) {
-            animateMyPop();
-            $scope.ph = resp.data;
-            WebService.stopLoading();
-            var date = new Date();
-            var jalali = toJalaali(date.getFullYear(), date.getMonth() + 1, date.getDate());
-            // $("#year").val(jalali.jy);
-            setMonth(jalali.jm);
-            setDay(jalali.jd);
-          }, function (err) {
-            WebService.stopLoading();
-            WebService.myErrorHandler(err, false);
-          });
-        }, 500);
-      });
+    });
+    var l2 = $scope.map.addListener("center_changed", function (event) {
+      $scope.fromMarker.setPosition($scope.map.getCenter());
+    });
+    var l3 = $scope.map.addListener("bounds_changed", function (event) {
+      $scope.fromMarker.setPosition($scope.map.getCenter());
+    });
+    var click = $scope.fromMarker.addListener('click', function() {
+      clearTimeout(timer1);
+      timer1 = setTimeout(function() {
+        google.maps.event.removeListener(l1);
+        google.maps.event.removeListener(l2);
+        google.maps.event.removeListener(l3);
+        google.maps.event.removeListener(click);
+        $http({
+          method: "POST",
+          url: "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + $scope.map.getCenter().lat() + "," + $scope.map.getCenter().lng() + "&sensor=true&language=fa"
+        }).then(function (resp) {
+          if (resp.data.result && resp.data.result.length > 0) {
+            from_el.value = resp.data.results[1].formatted_address;
+            $scope.fromAddress = resp.data.results[1].formatted_address;
+          }
+        }, function (err) {
+          WebService.myErrorHandler(err, false);
+        });
+        WebService.startLoading();
+        $http.defaults.headers.common.Authorization = $rootScope.token;
+        $http({
+          method: "POST",
+          url: "https://spot.cfapps.io/api/1/listService"
+        }).then(function (resp) {
+          animateMyPop();
+          $scope.ph = resp.data;
+          WebService.stopLoading();
+          var date = new Date();
+          var jalali = toJalaali(date.getFullYear(), date.getMonth() + 1, date.getDate());
+          // $("#year").val(jalali.jy);
+          setMonth(jalali.jm);
+          setDay(jalali.jd);
+        }, function (err) {
+          WebService.stopLoading();
+          WebService.myErrorHandler(err, false);
+        });
+      }, 500);
+
     });
     function setDay(day) {
       for (var i = 0; i < 32; i++) {
