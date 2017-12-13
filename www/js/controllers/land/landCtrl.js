@@ -112,6 +112,7 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
     document.getElementById('autocompletefrom').value = "";
     animateMyPop();
     $("#request").css("display", "none");
+    setAutocompleteBoxes();
   };
   $scope.deleteTo = function () {
     $scope.toMarker.setMap(null);
@@ -321,54 +322,58 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
   function setAutocompleteBoxes(data) {
     var from_el = document.getElementById('autocompletefrom');
     var startImage = 'img/source.png';
-    $scope.map.addListener("click", function (event) {
-      if ($scope.fromMarker) {
-        return;
-      }
-      var pinIcon = new google.maps.MarkerImage(
-        startImage,
-        null,
-        null,
-        null,
-        new google.maps.Size(60, 60)
-      );
-      $scope.fromMarker = new google.maps.Marker({
-        map: $scope.map,
-        icon: pinIcon
-      });
-      $scope.fromMarker.setPosition(event.latLng);
-      $scope.fromMarker.setVisible(true);
-      $scope.$apply(function () {
-        $scope.start_box.location = '';
-        $scope.start_box.lat = event.latLng.lat();
-        $scope.start_box.lng = event.latLng.lng();
-      });
-      $http({
-        method: "POST",
-        url: "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + event.latLng.lat() + "," + event.latLng.lng() + "&sensor=true&language=fa"
-      }).then(function (resp) {
-        from_el.value = resp.data.results[1].formatted_address;
-        $scope.fromAddress = resp.data.results[1].formatted_address;
-      }, function (err) {
-        WebService.myErrorHandler(err, false);
-      });
-      WebService.startLoading();
-      $http.defaults.headers.common.Authorization = $rootScope.token;
-      $http({
-        method: "POST",
-        url: "https://spot.cfapps.io/api/1/listService"
-      }).then(function (resp) {
-        animateMyPop();
-        $scope.ph = resp.data;
-        WebService.stopLoading();
-        var date = new Date();
-        var jalali = toJalaali(date.getFullYear(), date.getMonth() + 1, date.getDate());
-        // $("#year").val(jalali.jy);
-        setMonth(jalali.jm);
-        setDay(jalali.jd);
-      }, function (err) {
-        WebService.stopLoading();
-        WebService.myErrorHandler(err, false);
+    var pinIcon = new google.maps.MarkerImage(
+      startImage,
+      null,
+      null,
+      null,
+      new google.maps.Size(60, 60)
+    );
+    $scope.fromMarker = new google.maps.Marker({
+      position: $scope.map.getCenter(),
+      visible: true,
+      icon: pinIcon
+    });
+    $scope.fromMarker.setMap($scope.map);
+    google.maps.event.trigger($scope.map, 'resize');
+    var timer1;
+    var listener = $scope.map.addListener("center_changed", function (event) {
+      $scope.fromMarker.setPosition($scope.map.getCenter());
+      var click = $scope.fromMarker.addListener('click', function() {
+        clearTimeout(timer1);
+        timer1 = setTimeout(function() {
+          google.maps.event.removeListener(listener);
+          google.maps.event.removeListener(click);
+          $http({
+            method: "POST",
+            url: "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + $scope.map.getCenter().lat() + "," + $scope.map.getCenter().lng() + "&sensor=true&language=fa"
+          }).then(function (resp) {
+            if (resp.data.result && resp.data.result.length > 0) {
+              from_el.value = resp.data.results[1].formatted_address;
+              $scope.fromAddress = resp.data.results[1].formatted_address;
+            }
+          }, function (err) {
+            WebService.myErrorHandler(err, false);
+          });
+          WebService.startLoading();
+          $http.defaults.headers.common.Authorization = $rootScope.token;
+          $http({
+            method: "POST",
+            url: "https://spot.cfapps.io/api/1/listService"
+          }).then(function (resp) {
+            animateMyPop();
+            $scope.ph = resp.data;
+            WebService.stopLoading();
+            var date = new Date();
+            var jalali = toJalaali(date.getFullYear(), date.getMonth() + 1, date.getDate());
+            // $("#year").val(jalali.jy);
+            setMonth(jalali.jm);
+            setDay(jalali.jd);
+          }, function (err) {
+            WebService.stopLoading();
+            WebService.myErrorHandler(err, false);
+          });
+        }, 500);
       });
     });
     function setDay(day) {
