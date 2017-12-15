@@ -47,16 +47,12 @@
               <div id='login-from-box' class='m-top-20'>
                 <div class='main-container'>
                   <div class="input-box ">
-                    <div class='input-box row'>
+                    <div class='input-box row' ng-if="projectType !== 'pa'">
 
                       <div class="col col-80">
                         <label style="height: 30px" class="item item-input">
-                          <select id="num" style="min-width: 100%;background-color: #2e2f32" class="color-yellow">
-                            <option id="1p" style="min-width: 100%" class="myText color-yellow" value="1p">یک نفر 200000 تومان
-                            </option>
-                            <option id="2p" style="min-width: 100%" class="myText color-yellow" value="2p">دو نفر 300000 تومان
-                            </option>
-                            <option id="3p" style="min-width: 100%" class="myText color-yellow" value="3p">سه نفر 390000 تومان
+                          <select id="pak" style="min-width: 100%;background-color: #2e2f32" class="color-yellow">
+                            <option ng-repeat="p in selected_ph.options" id="1p" style="min-width: 100%" class="myText color-yellow" value="{{p.value}}">{{p.name}}
                             </option>
                           </select>
 

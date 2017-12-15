@@ -377,9 +377,10 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
         });
         WebService.startLoading();
         $http.defaults.headers.common.Authorization = $rootScope.token;
+        var url = $rootScope.projectType === 'pa' ? "https://spot.cfapps.io/api/1/listPakage" : "https://spot.cfapps.io/api/1/listService";
         $http({
           method: "POST",
-          url: "https://spot.cfapps.io/api/1/listService"
+          url: url
         }).then(function (resp) {
           animateMyPop();
           $scope.ph = resp.data;
@@ -551,7 +552,8 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
         hour: $("#hour").val(),
         minute: $("#minute").val(),
         id: $scope.selected_ph.id,
-        description: $("#autocompletefrom").val()
+        description: $("#autocompletefrom").val(),
+        pack : $("#pak").val()
       }
     }).then(function (resp) {
       WebService.stopLoading();
