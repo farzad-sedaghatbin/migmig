@@ -1,7 +1,6 @@
-
 var user_data = null;
 
-angular.module('CallApp', ['ionic', 'ngCordova', 'CallAppcontrollers','ngMockE2E'])
+angular.module('CallApp', ['ionic', 'ngCordova', 'CallAppcontrollers', 'ngMockE2E'])
 
   .filter("langTranslate", function () {
     return function (englishInput, translatedLang) {
@@ -52,7 +51,7 @@ angular.module('CallApp', ['ionic', 'ngCordova', 'CallAppcontrollers','ngMockE2E
   })
 
 
-  .run(function ($rootScope, $ionicPlatform, $ionicHistory, $state,$http,$timeout) {
+  .run(function ($rootScope, $ionicPlatform, $ionicHistory, $state, $http, $timeout) {
     //$cordovaSplashScreen.hide();
     $ionicPlatform.ready(function () {
       // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
@@ -91,7 +90,7 @@ angular.module('CallApp', ['ionic', 'ngCordova', 'CallAppcontrollers','ngMockE2E
       $rootScope.increment_val = function (type) {
         var numInput = $("#num");
         var num = numInput.val() === "" ? 0 : parseInt(numInput.val());
-        if (type == 'Adults' && num >= 0 && num < 90){
+        if (type == 'Adults' && num >= 0 && num < 90) {
           numInput.val(++num);
         }
       };
@@ -177,7 +176,8 @@ angular.module('CallApp', ['ionic', 'ngCordova', 'CallAppcontrollers','ngMockE2E
         } else {
           try {
             delete $http.defaults.headers.common.Authorization;
-          } catch (e){}
+          } catch (e) {
+          }
         }
       }
     });
@@ -187,72 +187,72 @@ angular.module('CallApp', ['ionic', 'ngCordova', 'CallAppcontrollers','ngMockE2E
     $httpBackend.whenPOST(/.*/).passThrough();
   })
   .directive('ionicRatings', function ($compile) {
-  return {
-    restrict: 'AE',
-    replace: true,
-    template: '<div class="text-right ionic_ratings">' +
-    '<span class="icon {{iconOff}} ionic_rating_icon_off" ng-style="iconOffColor" ng-click="ratingsClicked(1)" ng-show="rating < 1" ng-class="{\'read_only\':(readOnly)}"></span>' +
-    '<span class="icon {{iconOn}} ionic_rating_icon_on" ng-style="iconOnColor" ng-click="ratingsUnClicked(1)" ng-show="rating > 0" ng-class="{\'read_only\':(readOnly)}"></span>' +
-    '<span class="icon {{iconOff}} ionic_rating_icon_off" ng-style="iconOffColor" ng-click="ratingsClicked(2)" ng-show="rating < 2" ng-class="{\'read_only\':(readOnly)}"></span>' +
-    '<span class="icon {{iconOn}} ionic_rating_icon_on" ng-style="iconOnColor" ng-click="ratingsUnClicked(2)" ng-show="rating > 1" ng-class="{\'read_only\':(readOnly)}"></span>' +
-    '<span class="icon {{iconOff}} ionic_rating_icon_off" ng-style="iconOffColor" ng-click="ratingsClicked(3)" ng-show="rating < 3" ng-class="{\'read_only\':(readOnly)}"></span>' +
-    '<span class="icon {{iconOn}} ionic_rating_icon_on" ng-style="iconOnColor" ng-click="ratingsUnClicked(3)" ng-show="rating > 2" ng-class="{\'read_only\':(readOnly)}"></span>' +
-    '<span class="icon {{iconOff}} ionic_rating_icon_off" ng-style="iconOffColor" ng-click="ratingsClicked(4)" ng-show="rating < 4" ng-class="{\'read_only\':(readOnly)}"></span>' +
-    '<span class="icon {{iconOn}} ionic_rating_icon_on" ng-style="iconOnColor" ng-click="ratingsUnClicked(4)" ng-show="rating > 3" ng-class="{\'read_only\':(readOnly)}"></span>' +
-    '<span class="icon {{iconOff}} ionic_rating_icon_off" ng-style="iconOffColor" ng-click="ratingsClicked(5)" ng-show="rating < 5" ng-class="{\'read_only\':(readOnly)}"></span>' +
-    '<span class="icon {{iconOn}} ionic_rating_icon_on" ng-style="iconOnColor" ng-click="ratingsUnClicked(5)" ng-show="rating > 4" ng-class="{\'read_only\':(readOnly)}"></span>' +
-    '</div>',
-    scope: {
-      ratingsObj: '=ratingsobj'
-    },
-    link: function (scope, element, attrs) {
+    return {
+      restrict: 'AE',
+      replace: true,
+      template: '<div class="text-right ionic_ratings">' +
+      '<span class="icon {{iconOff}} ionic_rating_icon_off" ng-style="iconOffColor" ng-click="ratingsClicked(1)" ng-show="rating < 1" ng-class="{\'read_only\':(readOnly)}"></span>' +
+      '<span class="icon {{iconOn}} ionic_rating_icon_on" ng-style="iconOnColor" ng-click="ratingsUnClicked(1)" ng-show="rating > 0" ng-class="{\'read_only\':(readOnly)}"></span>' +
+      '<span class="icon {{iconOff}} ionic_rating_icon_off" ng-style="iconOffColor" ng-click="ratingsClicked(2)" ng-show="rating < 2" ng-class="{\'read_only\':(readOnly)}"></span>' +
+      '<span class="icon {{iconOn}} ionic_rating_icon_on" ng-style="iconOnColor" ng-click="ratingsUnClicked(2)" ng-show="rating > 1" ng-class="{\'read_only\':(readOnly)}"></span>' +
+      '<span class="icon {{iconOff}} ionic_rating_icon_off" ng-style="iconOffColor" ng-click="ratingsClicked(3)" ng-show="rating < 3" ng-class="{\'read_only\':(readOnly)}"></span>' +
+      '<span class="icon {{iconOn}} ionic_rating_icon_on" ng-style="iconOnColor" ng-click="ratingsUnClicked(3)" ng-show="rating > 2" ng-class="{\'read_only\':(readOnly)}"></span>' +
+      '<span class="icon {{iconOff}} ionic_rating_icon_off" ng-style="iconOffColor" ng-click="ratingsClicked(4)" ng-show="rating < 4" ng-class="{\'read_only\':(readOnly)}"></span>' +
+      '<span class="icon {{iconOn}} ionic_rating_icon_on" ng-style="iconOnColor" ng-click="ratingsUnClicked(4)" ng-show="rating > 3" ng-class="{\'read_only\':(readOnly)}"></span>' +
+      '<span class="icon {{iconOff}} ionic_rating_icon_off" ng-style="iconOffColor" ng-click="ratingsClicked(5)" ng-show="rating < 5" ng-class="{\'read_only\':(readOnly)}"></span>' +
+      '<span class="icon {{iconOn}} ionic_rating_icon_on" ng-style="iconOnColor" ng-click="ratingsUnClicked(5)" ng-show="rating > 4" ng-class="{\'read_only\':(readOnly)}"></span>' +
+      '</div>',
+      scope: {
+        ratingsObj: '=ratingsobj'
+      },
+      link: function (scope, element, attrs) {
 
-      //Setting the default values, if they are not passed
-      scope.iconOn = scope.ratingsObj.iconOn || 'ion-ios-star';
-      scope.iconOff = scope.ratingsObj.iconOff || 'ion-ios-star-outline';
-      scope.iconOnColor = scope.ratingsObj.iconOnColor || 'rgb(200, 200, 100)';
-      scope.iconOffColor = scope.ratingsObj.iconOffColor || 'rgb(200, 100, 100)';
-      scope.rating = scope.ratingsObj.rating || attrs.rating || 0;
-      scope.minRating = scope.ratingsObj.minRating || 0;
-      scope.readOnly = scope.ratingsObj.readOnly || false;
-      scope.iconOnColor = {
-        color: scope.iconOnColor
-      };
-      scope.iconOffColor = {
-        color: scope.iconOffColor
-      };
-      scope.rating = (scope.rating > scope.minRating) ? scope.rating : scope.minRating;
-      scope.prevRating = 0;
-      scope.ratingsClicked = function (val) {
-        if (scope.minRating !== 0 && val < scope.minRating) {
-          scope.rating = scope.minRating;
-        } else {
-          scope.rating = val;
-        }
-        scope.prevRating = val;
-        scope.ratingsObj.callback(scope.rating);
-      };
-      scope.ratingsUnClicked = function (val) {
-        if (scope.minRating !== 0 && val < scope.minRating) {
-          scope.rating = scope.minRating;
-        } else {
-          scope.rating = val;
-        }
-        if (scope.prevRating == val) {
-          if (scope.minRating !== 0) {
+        //Setting the default values, if they are not passed
+        scope.iconOn = scope.ratingsObj.iconOn || 'ion-ios-star';
+        scope.iconOff = scope.ratingsObj.iconOff || 'ion-ios-star-outline';
+        scope.iconOnColor = scope.ratingsObj.iconOnColor || 'rgb(200, 200, 100)';
+        scope.iconOffColor = scope.ratingsObj.iconOffColor || 'rgb(200, 100, 100)';
+        scope.rating = scope.ratingsObj.rating || attrs.rating || 0;
+        scope.minRating = scope.ratingsObj.minRating || 0;
+        scope.readOnly = scope.ratingsObj.readOnly || false;
+        scope.iconOnColor = {
+          color: scope.iconOnColor
+        };
+        scope.iconOffColor = {
+          color: scope.iconOffColor
+        };
+        scope.rating = (scope.rating > scope.minRating) ? scope.rating : scope.minRating;
+        scope.prevRating = 0;
+        scope.ratingsClicked = function (val) {
+          if (scope.minRating !== 0 && val < scope.minRating) {
             scope.rating = scope.minRating;
           } else {
-            scope.rating = 0;
+            scope.rating = val;
           }
+          scope.prevRating = val;
+          scope.ratingsObj.callback(scope.rating);
+        };
+        scope.ratingsUnClicked = function (val) {
+          if (scope.minRating !== 0 && val < scope.minRating) {
+            scope.rating = scope.minRating;
+          } else {
+            scope.rating = val;
+          }
+          if (scope.prevRating == val) {
+            if (scope.minRating !== 0) {
+              scope.rating = scope.minRating;
+            } else {
+              scope.rating = 0;
+            }
+          }
+          scope.prevRating = val;
+          scope.ratingsObj.callback(scope.rating);
         }
-        scope.prevRating = val;
-        scope.ratingsObj.callback(scope.rating);
       }
     }
-  }
-})
+  })
 
-// .config(function($ionicConfigProvider) {
+  // .config(function($ionicConfigProvider) {
   // if(!ionic.Platform.isIOS())$ionicConfigProvider.scrolling.jsScrolling(false);
   // })
   .config(function ($stateProvider, $urlRouterProvider, $cordovaInAppBrowserProvider) {
@@ -272,6 +272,11 @@ angular.module('CallApp', ['ionic', 'ngCordova', 'CallAppcontrollers','ngMockE2E
         url: '/landing',
         templateUrl: 'templates/landing.html',
         controller: 'AppCtrl'
+      })
+      .state('walkthrough', {
+        url: '/walkthrough',
+        templateUrl: 'templates/walk-through.html',
+        controller: 'IntroCtrl'
       })
 
       .state('app', {
@@ -382,7 +387,7 @@ angular.module('CallApp', ['ionic', 'ngCordova', 'CallAppcontrollers','ngMockE2E
       });
 
     // if none of the above states are matched, use this as the fallback
-    $urlRouterProvider.otherwise(function ($injector, $location,$interval) {
+    $urlRouterProvider.otherwise(function ($injector, $location, $interval) {
       var db = openDatabase('mydb', '1.0', 'Test DB', 1024 * 1024);
       db.transaction(function (tx) {
         tx.executeSql('CREATE TABLE IF NOT EXISTS ANIJUU (name , log)');
@@ -398,10 +403,10 @@ angular.module('CallApp', ['ionic', 'ngCordova', 'CallAppcontrollers','ngMockE2E
               tx.executeSql('DELETE FROM ANIJUU', [], function (tx, results) {
               }, null);
             });
-            $location.path('landing');
+            $location.path('walkthrough');
           }
           else {
-            tx.executeSql('SELECT d.log FROM ANIJUU d WHERE d.name="type"', [], function (tx, results){
+            tx.executeSql('SELECT d.log FROM ANIJUU d WHERE d.name="type"', [], function (tx, results) {
               var len = results.rows.length, i, result = '';
               if (!results.rows || results.rows.length == 0) {
                 result = null;
