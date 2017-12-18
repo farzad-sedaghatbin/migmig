@@ -140,7 +140,6 @@ App.controller('settingsCtrl', function($scope,$rootScope, $ionicModal, $timeout
 });
 App.controller('packageCtrl', function ($scope, $rootScope, $state,$timeout,WebService,$http,$ionicModal,$ionicPopup) {
   $timeout(function () {
-    $("ion-header-bar").css("background-color","rgb(19,106,125) !important")
     WebService.startLoading();
     $http.defaults.headers.common.Authorization = $rootScope.token;
     $http({
