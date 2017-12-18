@@ -1,6 +1,6 @@
 <ion-modal-view >
   <ion-content  scroll="false">
-	<div id='login-page' class='set-bg myText' full-height>
+	<div id='login-page' class='login-page myText' full-height>
 	   <!-- <ion-header-bar>
 			<h1 class="title">Login</h1>
 			<div class="buttons">
@@ -17,29 +17,23 @@
 		<div class='content-box'>
 			<div id='login-from-box' class='vertical-middle' ng-form='login_form'>
 				<div class='main-container'>
-
+          <div id='logo-box'>
+            <img class='logo vertical-middle' src='img/logo.png'/>
+          </div>
 					<div class="error-container " ng-show="login.message.length" >
 						<p class="error	text-center " >{{login.message}}</p>
 					</div>
 
-					<div class='input-box' style="direction: rtl">
-						<div class="error-container " ng-show="login_form.mail.$dirty && login_form.mail.$invalid" >
-							<small class="error	 " ng-show="login_form.mail.$error.required">نام کاربری</small>
-							<!-- <small class="error	pull-left m-left-30" ng-show="sign_in_form.mail.$error.email">Enter valid email</small>-->
-						</div>
+					<div class='login-input input-box' style="direction: rtl">
 						<input name='mail' ng-model='login.mail' required placeholder="نام کاربری" class='color-yellow myText' type='text' />
 						<img class='input-icon icon-20' src='img/icons/user.png'/>
 					</div>
 					</br>
-					<div class='input-box' style="direction: rtl">
-						<div class="error-container" ng-show="login_form.pwd.$dirty && login_form.pwd.$invalid">
-							<small class="error  " ng-show="login_form.pwd.$error.required">رمز عبور</small>
-						</div>
-
+					<div class='login-input input-box' style="direction: rtl">
 						<input name='pwd' ng-model='login.pwd' required placeholder="رمز عبور" class='color-yellow myText m-top-20' type='password' />
 						<img class='input-icon icon-20' src='img/icons/lock.png'/>
 					</div>
-					<input ng-click='doLogin(login_form)'  class='btn bg-grey color-white border-white myText m-top-30' type='button' value="ورود" />
+					<input ng-click='doLogin(login_form)'  class='btn login-btn-color color-white border-white myText m-top-30' type='button' value="ورود" />
 				</div>
 			</div>
 		</div>

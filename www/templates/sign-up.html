@@ -1,4 +1,4 @@
-<ion-modal-view id='sign-up-page' class='bg-grey set-bg'>
+<ion-modal-view id='sign-up-page' class='login-page'>
 
 <ion-content  style="direction: rtl" >
 	<div  style='height: 100%;' class="myText">
@@ -12,76 +12,67 @@
 		<div class='content-box'>
 			<div id='login-from-box' class='m-top-20' ng-form='sign_up_form'>
 				<div class='main-container'>
-
+          <div id='logo-box'>
+            <img class='logo vertical-middle' src='img/logo.png'/>
+          </div>
 					<!-- <div ng-show='signUp.error_list.length' class='text-center  m-top-20'>
 						<span ng-repeat='error in signUp.error_list' class="error d-block">{{error.message}}</span>
 					</div> -->
 
-					<div class='input-box'>
-						<div class="error-container " ng-show="sign_up_form.name.$dirty && sign_up_form.name.$invalid" >
-							<small class="error	 " ng-show="sign_up_form.name.$error.required">نام خود را وارد کنید</small>
-						</div>
-
+					<div class='login-input input-box'>
 						<input name='name' ng-model='signUp.name' placeholder="نام" class='color-yellow myText' type='text' required/>
 						<img class='input-icon icon-20' src='img/icons/user.png'/>
 					</div>
 					</br>
 
-					<div class='input-box'>
-						<div class="error-container " ng-show="sign_up_form.user_name.$dirty && sign_up_form.user_name.$invalid" >
-							<small class="error	 " ng-show="sign_up_form.user_name.$error.required">نام کاربری خود را وارد کنید</small>
-							<small class="error	 " ng-show="sign_up_form.user_name.$error.minlength">حداقل ۶ کراکتر</small>
-
-						</div>
-
+					<div class='login-input input-box'>
 					<input name='user_name' ng-model='signUp.user_name' placeholder="نام کاربری" class='color-yellow myText' type='text' ng-minlength='6' required/>
 						<img class='input-icon icon-20' src='img/icons/user.png'/>
 					</div>
+          <div class="error-container " ng-show="sign_up_form.user_name.$dirty && sign_up_form.user_name.$invalid" >
+            <small class="error	 " ng-show="sign_up_form.user_name.$error.minlength">حداقل ۶ کراکتر</small>
+
+          </div>
 					</br>
 
-					<div class='input-box'>
-						<div class="error-container " ng-show="sign_up_form.number.$dirty && sign_up_form.number.$invalid" >
-							<small class="error	 " ng-show="sign_up_form.number.$error.required">شماره موبایل خود را وارد کنید</small>
-							<small class="error	 " ng-show="sign_up_form.number.$error.number">یک شماره معتبر وارد کنید</small>
-							<small class="error	 " ng-show="sign_up_form.number.$error.minlength">یک شماره معتبر وارد کنید</small>
-							<small class="error	 " ng-show="sign_up_form.number.$error.maxlength">یک شماره معتبر وارد کنید</small>
-						</div>
-
-						<input name='number' placeholder="شماره موبایل" ng-model='signUp.mobile' type='number' class='color-yellow myText' type='text' ng-minlength="10" ng-maxlength="10" required />
+					<div class='login-input input-box'>
+						<input name='number' placeholder="شماره موبایل" ng-model='signUp.mobile' type='number' class='color-yellow myText' type='text' ng-minlength="11" ng-maxlength="11" required />
 						<img class='input-icon icon-20' src='img/icons/mobile.png'/>
 
 					</div>
+          <div class="error-container " ng-show="sign_up_form.number.$dirty && sign_up_form.number.$invalid" >
+            <small class="error	 " ng-show="sign_up_form.number.$error.number">یک شماره معتبر وارد کنید</small>
+            <small class="error	 " ng-show="sign_up_form.number.$error.minlength">یک شماره معتبر وارد کنید</small>
+            <small class="error	 " ng-show="sign_up_form.number.$error.maxlength">یک شماره معتبر وارد کنید</small>
+          </div>
 					</br>
 
-					<div class='input-box'>
-						<div class="error-container " ng-show="sign_up_form.mail.$dirty && sign_up_form.mail.$invalid" >
-							<small class="error	 " ng-show="sign_up_form.mail.$error.required">ایمیل خود را وارد کنید</small>
-							<small class="error	 " ng-show="sign_up_form.mail.$error.email">یک ایمیل معتبر وارد کنید</small>
-						</div>
-
+					<div class='login-input input-box'>
 						<input name='mail' type='email' required ng-model='signUp.mail' placeholder="ایمیل" class='color-yellow myText' type='text' />
 						<img class='input-icon icon-20' src='img/icons/mail.png'/>
 					</div>
+          <div class="error-container " ng-show="sign_up_form.mail.$dirty && sign_up_form.mail.$invalid" >
+            <small class="error	 " ng-show="sign_up_form.mail.$error.email">یک ایمیل معتبر وارد کنید</small>
+          </div>
 					</br>
 
-					<div class='input-box'>
-						<div class="error-container " ng-show="sign_up_form.pwd.$dirty && sign_up_form.pwd.$invalid" >
-							<small class="error	 " ng-show="sign_up_form.pwd.$error.required">رمز عبور</small>
-							<small class="error	 " ng-show="sign_up_form.pwd.$error.minlength">حداقل ۶ کراکتر</small>
-						</div>
+					<div class='login-input input-box'>
 						<input name='pwd' ng-model='signUp.pwd' placeholder="رمز عبور" class='color-yellow myText' ng-minlength='6' type='password' required/>
 						<img class='input-icon icon-20' src='img/icons/lock.png'/>
 					</div>
+          <div class="error-container " ng-show="sign_up_form.pwd.$dirty && sign_up_form.pwd.$invalid" >
+            <small class="error	 " ng-show="sign_up_form.pwd.$error.minlength">حداقل ۶ کراکتر</small>
+          </div>
 					</br>
 
-					<div class='input-box'>
-						<div class="error-container" ng-show="sign_up_form.pwd.$dirty ">
-							<small class="error " ng-show="(signUp.pwd != signUp.c_pwd) ">رمز عبور یکسان نیست</small>
-
-						</div>
+					<div class='login-input input-box'>
 						<input name='c_pwd' ng-model='signUp.c_pwd' placeholder="تایید رمز عبور" class='color-yellow myText' type='password' required/>
 						<img class='input-icon icon-20' src='img/icons/lockTick.png'/>
 					</div>
+          <div class="error-container" ng-show="sign_up_form.pwd.$dirty ">
+            <small class="error " ng-show="(signUp.pwd != signUp.c_pwd) ">رمز عبور یکسان نیست</small>
+
+          </div>
 
           <div ng-click="isPhotographer()" class="item item-toggle toggle-large ng-valid"
                toggle-class="toggle-calm" style="padding-right: 15px;border-style: none;margin-top: 10px">
@@ -96,7 +87,7 @@
             </label>
           </div>
 
-					<input ng-click='verify()' style="margin-right: 10%"  class='btn bg-grey color-white border-white myText m-top-30' type='button' value="ثبت " />
+					<input ng-click='verify()' style="margin-right: 10%"  class='btn login-btn-color color-white border-white myText m-top-30' type='button' value="ثبت " />
 
 				</div>
 			</div>

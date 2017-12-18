@@ -28,9 +28,10 @@
 
 
 
-#login-page{
+.login-page{
   /*background-image: url('../img/login_bg.jpg');*/
-  background: #2e2f32;
+  background: url('../img/3.png') !important;
+  background-size: contain !important;
 }
 #sign-up-page{
   /*background-image: url('../img/sign_up_bg.jpg');*/

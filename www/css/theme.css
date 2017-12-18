@@ -12,6 +12,14 @@
 
 .color-white {color: #ddd !important;}
 .bg-grey{  background-color: #212224}
+.login-btn-color{  background-color: rgb(23,104,123)}
+.login-input{
+  direction: rtl;
+  width: 80%;
+  margin: 0 auto;
+  border-radius: 15px;
+  background-color: rgb(23,104,123) !important;
+}
 
 /* common color */
 .color-yellow{ color:  #F84E0E !important;}
