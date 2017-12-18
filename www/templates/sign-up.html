@@ -83,6 +83,19 @@
 						<img class='input-icon icon-20' src='img/icons/lockTick.png'/>
 					</div>
 
+          <div ng-click="isPhotographer()" class="item item-toggle toggle-large ng-valid"
+               toggle-class="toggle-calm" style="padding-right: 15px;border-style: none;margin-top: 10px">
+            <div style="direction: rtl;color: whitesmoke"><span id="availableText" class="myText">من عکاس هستم</span></div>
+            <label class="toggle disable-user-behavior" style="right: inherit;left: 5px;">
+              <input type="checkbox"
+                     class="ng-untouched ng-valid ng-dirty ng-valid-parse"
+                     value="on" style="">
+              <div class="track">
+                <div class="handle"></div>
+              </div>
+            </label>
+          </div>
+
 					<input ng-click='verify()' style="margin-right: 10%"  class='btn bg-grey color-white border-white myText m-top-30' type='button' value="ثبت " />
 
 				</div>

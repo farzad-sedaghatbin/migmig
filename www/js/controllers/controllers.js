@@ -163,6 +163,10 @@ App.controller('AppCtrl', function ($scope, $rootScope, $cordovaNetwork, $ionicM
     }
 
   };
+  var isCustomer = true;
+  $scope.isPhotographer = function () {
+    isCustomer = !isCustomer;
+  };
   $scope.signUp = {};
   $scope.do_signUp = function (form) {
     WebService.startLoading();
@@ -179,7 +183,8 @@ App.controller('AppCtrl', function ($scope, $rootScope, $cordovaNetwork, $ionicM
         username: $scope.signUp.user_name,
         mobile: $scope.signUp.mobile,
         password: $scope.signUp.pwd,
-        pic: pic
+        pic: pic,
+        customer: isCustomer
       };
       $http.post(url, data)
         .success(function (suc) {

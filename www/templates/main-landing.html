@@ -49,10 +49,10 @@
                   <div class="input-box ">
                     <div class='input-box row' ng-if="projectType !== 'pa'">
 
-                      <div class="col col-80">
+                      <div class="col col-80" style="margin: 0 auto">
                         <label style="height: 30px" class="item item-input">
-                          <select id="pak" style="min-width: 100%;background-color: #2e2f32" class="color-yellow">
-                            <option ng-repeat="p in selected_ph.options" id="1p" style="min-width: 100%" class="myText color-yellow" value="{{p.value}}">{{p.name}}
+                          <select id="pak" style="min-width: 100%;background-color: #2e2f32;direction: rtl" class="color-yellow">
+                            <option ng-repeat="p in selected_ph.options" id="1p" style="min-width: 100%" class="myText color-yellow" value="{{p.key}}">{{p.value}}
                             </option>
                           </select>
 
@@ -92,31 +92,7 @@
                             </select>
                           </label>
                         </div>
-                        <div class="col col-33">
-                          <label style="height: 30px" class="item item-input item-select">
-                            <select id="month" style="min-width: 100%;background-color: #2e2f32" class="color-yellow">
-                              <option id="1" style="min-width: 100%" class="myText color-yellow" value="1">فروردین
-                              </option>
-                              <option id="2" style="min-width: 100%" class="myText color-yellow" value="2">اردیبهشت
-                              </option>
-                              <option id="3" style="min-width: 100%" class="myText color-yellow" value="3">خرداد
-                              </option>
-                              <option id="4" style="min-width: 100%" class="myText color-yellow" value="4">تیر</option>
-                              <option id="5" style="min-width: 100%" class="myText color-yellow" value="5">مرداد
-                              </option>
-                              <option id="6" style="min-width: 100%" class="myText color-yellow" value="6">شهریور
-                              </option>
-                              <option id="7" style="min-width: 100%" class="myText color-yellow" value="7">مهر</option>
-                              <option id="8" style="min-width: 100%" class="myText color-yellow" value="8">آبان</option>
-                              <option id="9" style="min-width: 100%" class="myText color-yellow" value="9">آذر</option>
-                              <option id="10" style="min-width: 100%" class="myText color-yellow" value="10">دی</option>
-                              <option id="11" style="min-width: 100%" class="myText color-yellow" value="11">بهمن
-                              </option>
-                              <option id="12" style="min-width: 100%" class="myText color-yellow" value="12">اسفند
-                              </option>
-                            </select>
-                          </label>
-                        </div>
+sele
                         <div class="col col-33">
                           <label class="item item-input item-select" style="height: 30px">
                             <select style="min-width: 100%;background-color: #2e2f32" class="color-yellow" id="day">
@@ -262,14 +238,6 @@
             <span class='color-yellow d-block myText'>{{driver.name}}</span>
             <span class='color-gery d-block myText'>شماره</span>
             <span class='color-gery d-block myText'>{{driver.mobile}}</span>
-            <span class='input-box'>
-              <input name='moreInfo' id="takhfif" placeholder="کد تخفیف"
-                     class='color-yellow myText'
-                     type='text' style="direction: rtl;width: 100%;
-    background: transparent;
-    padding: 10px;
-    text-align: center;"/>
-            </span>
 
           </div>
         </div>
@@ -286,10 +254,6 @@
              ng-click='ride("now")'>
           درخواست
         </div>
-      </div>
-
-      <div class='my-button h-100-p text-center myText' ng-click="buy()" ng-if="showDriverInfo">
-        پرداخت
       </div>
     </div>
 

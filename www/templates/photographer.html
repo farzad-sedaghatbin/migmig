@@ -19,6 +19,10 @@
             </div>
           </label>
         </div>
+        <div class="row">
+          <span ng-if="tripInfo && !paid" style="color: #F84E0E;text-align: center;font-size: large;margin: 0 auto">پرداخت نشده</span>
+          <span ng-if="paid" style="color: #4cd964;text-align: center;font-size: large;margin: 0 auto">پرداخت شد</span>
+        </div>
       </div>
       <button id="upperText" ng-click="CallNumber()" style="bottom: 100px" ng-show='pop_status == 2'
               class="button button-fab button-fab-bottom-right expanded button-energized-900"><i

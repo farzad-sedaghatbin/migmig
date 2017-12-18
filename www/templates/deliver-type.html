@@ -1,0 +1,59 @@
+<ion-modal-view style="width: 80%;
+    min-height: 40%;
+    left: 10%;
+    top: 25%;
+    border-radius: 20px;">
+  <ion-header-bar style="background: #2e2f32">
+    <h1 class="title" style="color: whitesmoke;left: 0;text-align: center">انتخاب نوع تحویل</h1>
+  </ion-header-bar>
+  <ion-content  scroll="false">
+    <div ng-if="!finalPay" id='login-page' class='set-bg myText' full-height>
+      <div class="row">
+        <label style="height: 50px" class="item item-input item-select">
+          <select ng-model="delivery" id="delivery" style="min-width: 100%;background-color: #2e2f32" class="color-yellow" ng-change="deliveryChanged()">
+            <option id="1" selected style="min-width: 100%;direction: rtl" class="myText color-yellow" value="1">تحویل با پیک
+            </option>
+            <option id="2" style="min-width: 100%;direction: rtl" class="myText color-yellow" value="2">تحویل در محل با فلش
+            </option>
+          </select>
+        </label>
+      </div>
+      <div class="row" style="margin-top: 10px">
+        <span style="color: whitesmoke;left: 0;text-align: center;font-size: large;margin: 0 auto">هزینه تمام شده  {{finalCost}}</span>
+      </div>
+      <div class="row" style="margin-top: 10px">
+                    <span class='input-box' style="margin: 0 auto">
+              <input name='moreInfo' placeholder="کد تخفیف"
+                     class='color-yellow myText'
+                     type='text' style="direction: rtl;width: 100%;
+    background: transparent;
+    padding: 10px;
+    text-align: center;"/>
+            </span>
+      </div>
+      <div class="row">
+        <input ng-click='goToBank()' style="margin-right: 10%"  class='btn bg-grey color-white border-white myText m-top-30' type='button' value="پرداخت " />
+      </div>
+    </div>
+    <div ng-if="finalPay" class='set-bg myText' full-height>
+      <div class="row" style="margin-top: 10px">
+        <span style="color: whitesmoke;left: 0;text-align: center;font-size: large;margin: 0 auto">هزینه باقیمانده  {{finalCost}}</span>
+      </div>
+      <div class="row" style="margin-top: 10px">
+                    <span class='input-box' style="margin: 0 auto">
+              <input name='moreInfo' placeholder="کد تخفیف"
+                     class='color-yellow myText'
+                     type='text' style="direction: rtl;width: 100%;
+    background: transparent;
+    padding: 10px;
+    text-align: center;"/>
+            </span>
+      </div>
+      <div class="row">
+        <input ng-click='goToBank()' style="margin-right: 10%"  class='btn bg-grey color-white border-white myText m-top-30' type='button' value="پرداخت " />
+      </div>
+    </div>
+    <div class='color-white text-center net-error' >به اینترنت متصل نیستید</div>
+  </ion-content>
+
+</ion-modal-view>

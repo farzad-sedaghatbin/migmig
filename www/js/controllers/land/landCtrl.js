@@ -1,10 +1,11 @@
-App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoading, $compile, $ionicModal, $window, $timeout, $ionicPopup, landInit, WebService, $filter, $cordovaNativeAudio, $cordovaVibration) {
+App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoading, $compile, $cordovaToast, $ionicModal, $window, $timeout, $ionicPopup, landInit, WebService, $filter, $cordovaNativeAudio, $cordovaVibration) {
 
 
 
   /* Funtion For set Map
    =========================================================== */
   var geoloccontrol;
+
   function set_map() {
     // Create an array of styles.
     var styles = landInit.mapStyles();
@@ -28,7 +29,7 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
       mapOptions);
     // map.mapTypes.set('map_style', styledMap);
     // map.setMapTypeId('map_style');
-    geoloccontrol = new klokantech.GeolocationControl(map, null,null);
+    geoloccontrol = new klokantech.GeolocationControl(map, null, null);
     ed(geoloccontrol);
     $scope.map = map;
     $scope.init_status = true;
@@ -357,9 +358,9 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
     var l3 = $scope.map.addListener("bounds_changed", function (event) {
       $scope.fromMarker.setPosition($scope.map.getCenter());
     });
-    var click = $scope.fromMarker.addListener('click', function() {
+    var click = $scope.fromMarker.addListener('click', function () {
       clearTimeout(timer1);
-      timer1 = setTimeout(function() {
+      timer1 = setTimeout(function () {
         google.maps.event.removeListener(l1);
         google.maps.event.removeListener(l2);
         google.maps.event.removeListener(l3);
@@ -397,6 +398,7 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
       }, 500);
 
     });
+
     function setDay(day) {
       for (var i = 0; i < 32; i++) {
         var d = $("#0" + i);
@@ -515,14 +517,26 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
           url: "https://spot.cfapps.io/api/1/endOfShooting",
           data: result.text
         }).then(function (resp) {
+          $scope.finalPay = true;
           WebService.stopLoading();
-          $ionicModal.fromTemplateUrl('templates/rate.html', {
-            scope: $scope,
-            animation: 'slide-in-up'
-          }).then(function (modal) {
-            $scope.rate = modal;
-            modal.show();
-          });
+          if (resp.data === 0) {
+            $ionicModal.fromTemplateUrl('templates/rate.html', {
+              scope: $scope,
+              animation: 'slide-in-up'
+            }).then(function (modal) {
+              $scope.rate = modal;
+              modal.show();
+            });
+          } else {
+            $scope.finalCost = resp.data;
+            $ionicModal.fromTemplateUrl('templates/deliver-type.html', {
+              scope: $scope,
+              animation: 'slide-in-up'
+            }).then(function (modal) {
+              $scope.modal.payment = modal;
+              modal.show();
+            });
+          }
           $scope.showStart = false;
           $scope.showEnd = false;
         }, function (err) {
@@ -553,65 +567,62 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
         minute: $("#minute").val(),
         id: $scope.selected_ph.id,
         description: $("#autocompletefrom").val(),
-        pack : $("#pak").val()
+        pack: $("#pak").val()
       }
     }).then(function (resp) {
       WebService.stopLoading();
-      if (resp === 201 || resp === "201"){
+      $("#request").css("display", "none");
+      $scope.deleteFrom();
+      if (resp === 201 || resp === "201") {
         $ionicPopup.alert({
           title: '<p class="text-center color-yellow">' + ("پیام") + '</p>',
           template: '<p class="text-center color-gery">' + ("در حال حاضر یک درخواست ثبت کرده اید") + '</p>'
         });
         return;
       }
-      $("#request").css("display", "none");
-      $scope.deleteFrom();
-      $ionicPopup.alert({
-        title: '<p class="text-center color-yellow">' + ("پیام") + '</p>',
-        template: '<p class="text-center color-gery">' + ("درخواست شما با موفقیت ثبت شد. به زودی عکاس شما معرفی می شود") + '</p>'
+      $scope.finalCost = $scope.selected_ph.price;
+      $scope.finalPay = false;
+      $ionicModal.fromTemplateUrl('templates/deliver-type.html', {
+        scope: $scope,
+        animation: 'slide-in-up'
+      }).then(function (modal) {
+        $scope.modal.payment = modal;
+        modal.show();
       });
     }, function (err) {
       WebService.stopLoading();
       WebService.myErrorHandler(err, false);
     });
   };
+  $scope.delivery;
+  var selected = false;
+  $scope.deliveryChanged = function () {
+    selected = true;
+    if ($("#delivery").val() === "1") {
+      $scope.finalCost = $scope.selected_ph.price + 10000;
+    } else {
+      $scope.finalCost = $scope.selected_ph.price + 20000;
+    }
+  };
+  $scope.goToBank = function () {
+    if (!$scope.finalPay && !selected) {
+      $cordovaToast.showShortBottom('لطفا یکی از روش های تحویل را انتخاب کنید');
+      return;
+    }
+    selected = false;
+    $scope.modal.payment.hide();
+    $scope.buy();
+    if ($scope.finalPay) {
+      $ionicModal.fromTemplateUrl('templates/rate.html', {
+        scope: $scope,
+        animation: 'slide-in-up'
+      }).then(function (modal) {
+        $scope.rate = modal;
+        modal.show();
+      });
+    }
+  };
   $scope.enableBox = true;
-  function tripCalculations() {
-    var distance = 0;
-    var duration = 0;
-    var ser = new google.maps.DirectionsService();
-    ser.route({
-      'origin': $scope.fromMarker.getPosition(),
-      'destination': $scope.toMarker.getPosition(),
-      'travelMode': google.maps.DirectionsTravelMode.DRIVING
-    }, function (res, sts) {
-      if (sts == google.maps.DirectionsStatus.OK) {
-        distance = res.routes[0].legs[0].distance.value;
-        duration = res.routes[0].legs[0].duration_in_traffic.value;
-      }
-    });
-    fromInfowindow.close();
-    toInfowindow.close();
-    google.maps.event.clearListeners($scope.map, 'click');
-    google.maps.event.clearListeners($scope.fromMarker, 'click');
-    google.maps.event.clearListeners($scope.toMarker, 'click');
-    $scope.enableBox = false;
-    $ionicLoading.show();
-    $http.defaults.headers.common.Authorization = $rootScope.token;
-    $http({
-      method: "POST",
-      url: "https://spot.cfapps.io/api/1/calculate",
-      data: $scope.start_box.lat + "," + $scope.start_box.lng + "," + $scope.end_box.lat + "," + $scope.end_box.lng + "," + distance + "," + duration
-    }).then(function (resp) {
-      $ionicLoading.hide();
-      $scope.cabs = resp.data;
-      $scope.selected_cab = $scope.cabs[0];
-      animateMyPop();
-    }, function (err) {
-      $ionicLoading.hide();
-      WebService.myErrorHandler(err, false);
-    });
-  }
 
   $scope.cancelTrip = function () {
     resetAllThingsWithoutApply();
@@ -727,7 +738,10 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
   $scope.buy = function () {
     WebService.startLoading();
     var url = "https://spot.cfapps.io/api/1/factor";
-    $http.post(url, $scope.selected_ph.price + "," + $rootScope.username + "," + $scope.selected_ph.id + "," + $("#takhfif").val()).success(function (data, status, headers, config) {
+    var takhfif = "1";
+    if ($("#takhfif").val())
+      takhfif = $("#takhfif").val();
+    $http.post(url, $scope.finalCost + "," + $rootScope.username + "," + $scope.selected_ph.id + "," + takhfif + "," + $("#delivery").val()).success(function (data, status, headers, config) {
       WebService.stopLoading();
       if (!data || data === "") {
         $ionicPopup.alert({
@@ -737,7 +751,7 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
         return;
       }
       window.open(
-        "http://dagala.ir/bank.html?res=" + data + "&amount=" + parseInt($scope.selected_ph.price),
+        "http://dagala.ir/bank.html?res=" + data + "&amount=" + parseInt($scope.finalCost),
         "_system",
         "hidden=no,location=no,clearsessioncache=yes,clearcache=yes"
       );
@@ -898,6 +912,7 @@ App.controller('photographerCtrl', function ($rootScope, $state, $scope, $q, $co
       var data = JSON.parse(msg.data);
       switch (data.command) {
         case "request":
+          $scope.paid = false;
           if ($rootScope.startMarker) {
             $rootScope.startMarker.setMap(null);
             $rootScope.endMarker.setMap(null);
@@ -963,6 +978,9 @@ App.controller('photographerCtrl', function ($rootScope, $state, $scope, $q, $co
           nextElementAfterRemove($rootScope.active_cab);
           $rootScope.trips.splice($rootScope.active_cab, 1);
           $rootScope.$apply();
+          break;
+        case "paid":
+          $scope.paid = true;
           break;
       }
     };
