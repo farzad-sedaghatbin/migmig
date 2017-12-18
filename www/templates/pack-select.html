@@ -1,0 +1,21 @@
+<ion-modal-view style="width: 80%;
+    min-height: 40%;
+    left: 10%;
+    top: 25%;
+    border-radius: 20px;">
+  <ion-header-bar style="background: #2e2f32">
+    <h1 class="title" style="color: whitesmoke;left: 0;text-align: center">هزینه پکیج انتخاب شده</h1>
+  </ion-header-bar>
+  <ion-content  scroll="false">
+    <div class='set-bg myText' full-height>
+      <div class="row" style="margin-top: 10px">
+        <span style="color: black;left: 0;text-align: center;font-size: large;margin: 0 auto">هزینه {{selectedPack.price}}</span>
+      </div>
+      <div class="row">
+        <input ng-click='buy()' style="margin-right: 10%"  class='btn bg-grey color-white border-white myText m-top-30' type='button' value="پرداخت " />
+      </div>
+    </div>
+    <div class='color-white text-center net-error' >به اینترنت متصل نیستید</div>
+  </ion-content>
+
+</ion-modal-view>

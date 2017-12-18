@@ -134,4 +134,50 @@ App.controller('settingsCtrl', function($scope,$rootScope, $ionicModal, $timeout
     $rootScope.projectType = type;
     $state.go("app.landing");
   };
+  $scope.goToPack = function () {
+    $state.go("app.package");
+  }
+});
+App.controller('packageCtrl', function ($scope, $rootScope, $state,$timeout,WebService,$http,$ionicModal,$ionicPopup) {
+  $timeout(function () {
+    $("ion-header-bar").css("background-color","rgb(19,106,125) !important")
+    WebService.startLoading();
+    $http.defaults.headers.common.Authorization = $rootScope.token;
+    $http({
+      method: "POST",
+      url: "https://spot.cfapps.io/api/1/listService"
+    }).then(function (resp) {
+      WebService.stopLoading();
+      $rootScope.list = resp.data;
+    }, function (err) {
+      WebService.stopLoading();
+      WebService.myErrorHandler(err, false);
+    });
+  }, 600);
+  $scope.selected = function (index) {
+    $scope.selectedPack = $scope.list[index];
+    $ionicModal.fromTemplateUrl('templates/pack-select.html', {
+      scope: $scope,
+      animation: 'slide-in-up'
+    }).then(function (modal) {
+      $scope.modal.payment = modal;
+      modal.show();
+    });
+  }
+  $scope.buy = function () {
+    WebService.startLoading();
+    $http.defaults.headers.common.Authorization = $rootScope.token;
+    var url = "https://spot.cfapps.io/api/1/factor";
+    $http.post(url, $scope.selectedPack.price + "," + $rootScope.username + "," + $scope.selectedPack.id + ",1,1").success(function (data, status, headers, config) {
+      WebService.stopLoading();
+      window.open(
+        "http://dagala.ir/bank.html?res=" + data + "&amount=" + parseInt($scope.selectedPack.price),
+        "_system",
+        "hidden=no,location=no,clearsessioncache=yes,clearcache=yes"
+      );
+    }).catch(function (err) {
+      WebService.stopLoading();
+      WebService.handleError(err);
+    });
+  }
 });

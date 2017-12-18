@@ -376,6 +376,16 @@ angular.module('CallApp', ['ionic', 'ngCordova', 'CallAppcontrollers', 'ngMockE2
         }
       })
 
+      .state('app.package', {
+        url: '/package',
+        views: {
+          'menuContent': {
+            templateUrl: 'templates/package.html',
+            controller: 'packageCtrl'
+          }
+        }
+      })
+
       .state('app.settings', {
         url: '/settings',
         views: {

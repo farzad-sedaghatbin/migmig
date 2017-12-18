@@ -1,15 +1,5 @@
 <ion-view hide-back-button="true">
   <ion-content class="home_content bg-grey" id="homeCtrl">
-    <div class="home_head" style="direction: ltr!important;">
-      <ion-slide-box ng-init="enableSwipe()" pager-click="slide(index)" does-continue="true" Auto-play="true" does-continue="true">
-        <ion-slide style="background: url(img/01.jpg)no-repeat;
-            background-size: cover"></ion-slide>
-        <ion-slide style="background: url(img/02.jpg)no-repeat;
-            background-size: cover"></ion-slide>
-        <ion-slide style="background: url(img/03.jpg)no-repeat;
-            background-size: cover"></ion-slide>
-      </ion-slide-box>
-    </div>
     <a ng-click="setType('on')"
        collection-item-width="33.33333333333%"
        collection-item-height="132" >
@@ -28,7 +18,7 @@
       </div>
 
     </a>
-    <a ng-click="setType('pa')"
+    <a ng-click="goToPack()"
        collection-item-width="33.33333333333%"
        collection-item-height="132" >
       <div class="menu-items text-center animated bounceIn m-top-30">

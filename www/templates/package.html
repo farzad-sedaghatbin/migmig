@@ -1,0 +1,16 @@
+<ion-view>
+  <ion-navbar color="primary"></ion-navbar>
+  <ion-content class="home_content bg-grey" style="background: url('img/entekhab.png');background-size: 100% 100%;
+    background-repeat: no-repeat;">
+    <ion-list>
+      <ion-item ng-click="selected($index)" class="item-text-wrap card" ng-repeat="item in list" style="width: 80%;background-color: whitesmoke !important;margin: 0 auto;margin-bottom: 10px;
+    margin-top: 10px;">
+        <div class = "item item-avatar" style="direction: rtl;padding-left: 10px">
+          <img src = "img/video.png" style="right: 16px">
+          <h2>{{item.name}}</h2>
+        </div>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-view>
+
