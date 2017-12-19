@@ -144,7 +144,7 @@ App.controller('packageCtrl', function ($scope, $rootScope, $state,$timeout,WebS
     $http.defaults.headers.common.Authorization = $rootScope.token;
     $http({
       method: "POST",
-      url: "https://spot.cfapps.io/api/1/listService"
+      url: "https://spot.cfapps.io/api/1/listPakage"
     }).then(function (resp) {
       WebService.stopLoading();
       $rootScope.list = resp.data;
@@ -180,21 +180,4 @@ App.controller('packageCtrl', function ($scope, $rootScope, $state,$timeout,WebS
     });
   }
 });
-App.controller('IntroCtrl', function($scope, $state, $ionicSlideBoxDelegate) {
 
-  // Called to navigate to the main app
-  $scope.startApp = function() {
-    $state.go('main');
-  };
-  $scope.next = function() {
-    $ionicSlideBoxDelegate.next();
-  };
-  $scope.previous = function() {
-    $ionicSlideBoxDelegate.previous();
-  };
-
-  // Called each time the slide changes
-  $scope.slideChanged = function(index) {
-    $scope.slideIndex = index;
-  };
-});

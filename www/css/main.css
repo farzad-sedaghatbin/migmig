@@ -31,7 +31,7 @@
 .login-page{
   /*background-image: url('../img/login_bg.jpg');*/
   background: url('../img/3.png') !important;
-  background-size: contain !important;
+  background-size: 100% 100% !important;
 }
 #sign-up-page{
   /*background-image: url('../img/sign_up_bg.jpg');*/
