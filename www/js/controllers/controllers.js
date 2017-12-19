@@ -195,7 +195,7 @@ App.controller('AppCtrl', function ($scope, $rootScope, $cordovaNetwork, $ionicM
 
     var url = "https://spot.cfapps.io/api/1/verify";
     var data = {
-      code: $scope.signUp.name
+      code: $("#code").val()
     };
     $http.post(url, data)
       .success(function (suc) {
