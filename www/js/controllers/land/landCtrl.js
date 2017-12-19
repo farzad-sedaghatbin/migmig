@@ -880,7 +880,7 @@ App.controller('photographerCtrl', function ($rootScope, $state, $scope, $q, $co
     });
   };
   function prepareSocket() {
-    $rootScope.socket = new WebSocket("wss://127.0.0.1:8080:4443/photgraphHandler");
+    $rootScope.socket = new WebSocket("wss://spot.cfapps.io:4443/photgraphHandler");
     $rootScope.interval;
     $rootScope.socket.onopen = function () {
       if (!$rootScope.userid) {
