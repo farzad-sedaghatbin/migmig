@@ -170,56 +170,41 @@ App.controller('AppCtrl', function ($scope, $rootScope, $cordovaNetwork, $ionicM
   $scope.signUp = {};
   $scope.do_signUp = function (form) {
     WebService.startLoading();
-    //$state.go('view', {movieid: 1});
-    if (
-      form.$valid
-      && $scope.signUp.pwd == $scope.signUp.c_pwd
-    //true
-    ) {
-      var url = "https://spot.cfapps.io/api/1/signup";
-      var data = {
-        firstName: $scope.signUp.name,
-        lastName: $scope.signUp.name,
-        username: $scope.signUp.user_name,
-        mobile: $scope.signUp.mobile,
-        password: $scope.signUp.pwd,
-        pic: pic,
-        customer: isCustomer
-      };
-      $http.post(url, data)
-        .success(function (suc) {
-          WebService.stopLoading();
-          $state.go("app.verify");
-        }).error(function (err) {
+    var url = "https://spot.cfapps.io/api/1/signup";
+    var data = {
+      firstName: $scope.signUp.name,
+      username: $scope.signUp.user_name,
+      mobile: $scope.signUp.mobile,
+      password: $scope.signUp.pwd,
+      customer: isCustomer
+    };
+    $http.post(url, data)
+      .success(function (suc) {
         WebService.stopLoading();
-        WebService.myErrorHandler(err, false);
-      });
-    } else {
-      form.pwd.$setDirty();
-      form.number.$setDirty();
-      form.mail.$setDirty();
-      form.name.$setDirty();
-      form.user_name.$setDirty();
-
-    }
+        $scope.modal.sign_up.hide();
+        $state.go("verify");
+      }).error(function (err) {
+      WebService.stopLoading();
+      WebService.myErrorHandler(err, false);
+    });
 
   };
-$scope.do_checkCode = function (form) {
+  $scope.do_checkCode = function (form) {
     WebService.startLoading();
     //$state.go('view', {movieid: 1});
 
-      var url = "https://spot.cfapps.io/api/1/verify";
-      var data = {
-        code: $scope.signUp.name
-      };
-      $http.post(url, data)
-        .success(function (suc) {
-          WebService.stopLoading();
-          $state.go("app.landing");
-        }).error(function (err) {
+    var url = "https://spot.cfapps.io/api/1/verify";
+    var data = {
+      code: $scope.signUp.name
+    };
+    $http.post(url, data)
+      .success(function (suc) {
         WebService.stopLoading();
-        WebService.myErrorHandler(err, false);
-      });
+        $state.go("app.landing");
+      }).error(function (err) {
+      WebService.stopLoading();
+      WebService.myErrorHandler(err, false);
+    });
 
   };
 

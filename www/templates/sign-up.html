@@ -47,14 +47,14 @@
           </div>
 					</br>
 
-					<div class='login-input input-box'>
-						<input name='mail' type='email' required ng-model='signUp.mail' placeholder="ایمیل" class='color-yellow myText' type='text' />
-						<img class='input-icon icon-20' src='img/icons/mail.png'/>
-					</div>
-          <div class="error-container " ng-show="sign_up_form.mail.$dirty && sign_up_form.mail.$invalid" >
-            <small class="error	 " ng-show="sign_up_form.mail.$error.email">یک ایمیل معتبر وارد کنید</small>
-          </div>
-					</br>
+					<!--<div class='login-input input-box'>-->
+						<!--<input name='mail' type='email' required ng-model='signUp.mail' placeholder="ایمیل" class='color-yellow myText' type='text' />-->
+						<!--<img class='input-icon icon-20' src='img/icons/mail.png'/>-->
+					<!--</div>-->
+          <!--<div class="error-container " ng-show="sign_up_form.mail.$dirty && sign_up_form.mail.$invalid" >-->
+            <!--<small class="error	 " ng-show="sign_up_form.mail.$error.email">یک ایمیل معتبر وارد کنید</small>-->
+          <!--</div>-->
+					<!--</br>-->
 
 					<div class='login-input input-box'>
 						<input name='pwd' ng-model='signUp.pwd' placeholder="رمز عبور" class='color-yellow myText' ng-minlength='6' type='password' required/>
@@ -87,7 +87,7 @@
             </label>
           </div>
 
-					<input ng-click='verify()' style="margin-right: 10%"  class='btn login-btn-color color-white border-white myText m-top-30' type='button' value="ثبت " />
+					<input ng-click='do_signUp()' style="margin-right: 10%"  class='btn login-btn-color color-white border-white myText m-top-30' type='button' value="ثبت " />
 
 				</div>
 			</div>

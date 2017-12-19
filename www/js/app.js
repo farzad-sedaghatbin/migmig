@@ -292,6 +292,11 @@ angular.module('CallApp', ['ionic', 'ngCordova', 'CallAppcontrollers', 'ngMockE2
         templateUrl: 'templates/landing.html',
         controller: 'AppCtrl'
       })
+      .state('verify', {
+        url: '/verify',
+        templateUrl: 'templates/confirm-mobile.html',
+        controller: 'AppCtrl'
+      })
       .state('walkthrough', {
         url: '/walkthrough',
         templateUrl: 'templates/walk-through.html',
