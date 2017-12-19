@@ -558,7 +558,7 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
       data: {
         dlat: $scope.start_box.lat,
         dlong: $scope.start_box.lng,
-        desc: $("#moreInfo").val(),
+        typeDesc: $("#moreInfo").val(),
         number: $("#num").val(),
         year: $("#year").val(),
         month: $("#month").val(),

@@ -51,7 +51,7 @@ angular.module('CallApp', ['ionic', 'ngCordova', 'CallAppcontrollers', 'ngMockE2
   })
 
 
-  .run(function ($rootScope, $ionicPlatform, $ionicHistory, $state, $http, $timeout,$ionicModal) {
+  .run(function ($rootScope, $ionicPlatform, $ionicHistory, $state, $http, $timeout, $ionicModal) {
     //$cordovaSplashScreen.hide();
     $ionicPlatform.ready(function () {
       // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
@@ -297,10 +297,10 @@ angular.module('CallApp', ['ionic', 'ngCordova', 'CallAppcontrollers', 'ngMockE2
         templateUrl: 'templates/confirm-mobile.html',
         controller: 'AppCtrl'
       })
-      .state('walkthrough', {
-        url: '/walkthrough',
-        templateUrl: 'templates/walk-through.html',
-        controller: 'IntroCtrl'
+      .state('forget', {
+        url: '/forget',
+        templateUrl: 'templates/forget-pass.html',
+        controller: 'settingsCtrl'
       })
 
       .state('app', {
@@ -376,16 +376,6 @@ angular.module('CallApp', ['ionic', 'ngCordova', 'CallAppcontrollers', 'ngMockE2
           'menuContent': {
             templateUrl: 'templates/photographer.html',
             controller: 'photographerCtrl'
-          }
-        }
-      })
-
-      .state('app.forget', {
-        url: '/forget',
-        views: {
-          'menuContent': {
-            templateUrl: 'templates/forget-pass.html',
-            controller: 'settingsCtrl'
           }
         }
       })
