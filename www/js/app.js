@@ -426,7 +426,7 @@ angular.module('CallApp', ['ionic', 'ngCordova', 'CallAppcontrollers', 'ngMockE2
               tx.executeSql('DELETE FROM ANIJUU', [], function (tx, results) {
               }, null);
             });
-            $location.path('walkthrough');
+            $location.path('landing');
           }
           else {
             tx.executeSql('SELECT d.log FROM ANIJUU d WHERE d.name="type"', [], function (tx, results) {
