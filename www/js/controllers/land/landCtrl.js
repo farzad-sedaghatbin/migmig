@@ -559,7 +559,7 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
         dlat: $scope.start_box.lat,
         dlong: $scope.start_box.lng,
         typeDesc: $("#moreInfo").val(),
-        number: $("#pak").val(),
+        number: ($("#pak").val().split(","))[0],
         year: $("#year").val(),
         month: $("#month").val(),
         day: $("#day").val(),
@@ -579,8 +579,10 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
         });
         return;
       }
-      $scope.finalCost = $scope.selected_ph.price;
+      $scope.cost = parseInt(($("#pak").val().split(","))[1]);
+      $scope.finalCost = $scope.cost + 10000;
       $scope.finalPay = false;
+      $scope.delivery = "1";
       $ionicModal.fromTemplateUrl('templates/deliver-type.html', {
         scope: $scope,
         animation: 'slide-in-up'
@@ -598,10 +600,10 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
   $scope.deliveryChanged = function () {
     selected = true;
     if ($scope.delivery === "1") {
-      $scope.finalCost = parseInt($scope.selected_ph.price) + 10000;
+      $scope.finalCost = $scope.cost + 20000;
       $scope.delivery = "2";
     } else {
-      $scope.finalCost = parseInt($scope.selected_ph.price) + 20000;
+      $scope.finalCost = $scope.cost + 10000;
       $scope.delivery = "1";
     }
   };
