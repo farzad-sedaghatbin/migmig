@@ -51,7 +51,7 @@ angular.module('CallApp', ['ionic', 'ngCordova', 'CallAppcontrollers', 'ngMockE2
   })
 
 
-  .run(function ($rootScope, $ionicPlatform, $ionicHistory, $state, $http, $timeout) {
+  .run(function ($rootScope, $ionicPlatform, $ionicHistory, $state, $http, $timeout,$ionicModal) {
     //$cordovaSplashScreen.hide();
     $ionicPlatform.ready(function () {
       // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
@@ -179,6 +179,25 @@ angular.module('CallApp', ['ionic', 'ngCordova', 'CallAppcontrollers', 'ngMockE2
           } catch (e) {
           }
         }
+      };
+      db.transaction(function (tx) {
+        tx.executeSql('SELECT d.log FROM ANIJUU d WHERE d.name="intro"', [], function (tx, results) {
+          var len = results.rows.length, i, result = '';
+          if (!results.rows || results.rows.length === 0) {
+            $ionicModal.fromTemplateUrl('templates/intro.html', {
+              animation: 'slide-in-up'
+            }).then(function (modal) {
+              $rootScope.intro = modal;
+              modal.show();
+            });
+          }
+        }, null);
+      });
+      $rootScope.closeIntro = function () {
+        $rootScope.intro.hide();
+        db.transaction(function (tx) {
+          tx.executeSql('INSERT INTO ANIJUU (name, log) VALUES (?, ?)', ["intro", true]);
+        });
       }
     });
   })
@@ -375,7 +394,6 @@ angular.module('CallApp', ['ionic', 'ngCordova', 'CallAppcontrollers', 'ngMockE2
           }
         }
       })
-
       .state('app.package', {
         url: '/package',
         views: {
@@ -397,7 +415,7 @@ angular.module('CallApp', ['ionic', 'ngCordova', 'CallAppcontrollers', 'ngMockE2
       });
 
     // if none of the above states are matched, use this as the fallback
-    $urlRouterProvider.otherwise(function ($injector, $location, $interval) {
+    $urlRouterProvider.otherwise(function ($injector, $location) {
       var db = openDatabase('mydb', '1.0', 'Test DB', 1024 * 1024);
       db.transaction(function (tx) {
         tx.executeSql('CREATE TABLE IF NOT EXISTS ANIJUU (name , log)');
