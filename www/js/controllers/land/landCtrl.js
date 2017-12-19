@@ -594,14 +594,16 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
       WebService.myErrorHandler(err, false);
     });
   };
-  $scope.delivery;
+  $scope.delivery = "1";
   var selected = false;
   $scope.deliveryChanged = function () {
     selected = true;
-    if ($("#delivery").val() === "1") {
-      $scope.finalCost = $scope.selected_ph.price + 10000;
+    if ($scope.delivery === "1") {
+      $scope.finalCost = parseInt($scope.selected_ph.price) + 10000;
+      $scope.delivery = "2";
     } else {
-      $scope.finalCost = $scope.selected_ph.price + 20000;
+      $scope.finalCost = parseInt($scope.selected_ph.price) + 20000;
+      $scope.delivery = "1";
     }
   };
   $scope.goToBank = function () {
@@ -741,7 +743,7 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
     var takhfif = "1";
     if ($("#takhfif").val())
       takhfif = $("#takhfif").val();
-    $http.post(url, $scope.finalCost + "," + $rootScope.username + "," + $scope.selected_ph.id + "," + takhfif + "," + $("#delivery").val()).success(function (data, status, headers, config) {
+    $http.post(url, $scope.finalCost + "," + $rootScope.username + "," + $scope.selected_ph.id + "," + takhfif + "," + $scope.delivery).success(function (data, status, headers, config) {
       WebService.stopLoading();
       if (!data || data === "") {
         $ionicPopup.alert({
