@@ -982,6 +982,9 @@ App.controller('photographerCtrl', function ($rootScope, $state, $scope, $q, $co
           break;
         case "paid":
           animateMyPop();
+          $rootScope.startMarker.setMap(null);
+          $rootScope.endMarker.setMap(null);
+          $rootScope.ren.setMap(null);
           $scope.paid = true;
           $interval.cancel($rootScope.interval2);
           $interval.cancel($rootScope.interval3);
