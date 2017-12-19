@@ -198,6 +198,7 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
               value.setPosition(new google.maps.LatLng(data.deliveryLocationDTO.lat, data.deliveryLocationDTO.lng));
           });
         } else {
+          $rootScope.uid = data.deliveryLocationDTO.uid;
           var loc = new google.maps.LatLng(data.deliveryLocationDTO.lat, data.deliveryLocationDTO.lng);
           var pinIcon = new google.maps.MarkerImage(
             image,
@@ -315,7 +316,7 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
     $http({
       method: "POST",
       url: "https://spot.cfapps.io/api/1/rating",
-      data: $scope.selected_ph.uid + "," + rate
+      data: $rootScope.uid + "," + rate
     }).then(function (resp) {
       WebService.stopLoading();
       $ionicPopup.alert({
@@ -1140,7 +1141,7 @@ App.controller('photographerCtrl', function ($rootScope, $state, $scope, $q, $co
         }).then(function (resp) {
           if (resp.data.uid !== oldUid) {
             $rootScope.interval3 = $interval(function () {
-              $rootScope.socket.send("delivery," + $rootScope.userid + "," + lat + "," + lng + "," + resp.data.clientId + "," + $rootScope.name + "," + $rootScope.tel)
+              $rootScope.socket.send("delivery," + $rootScope.userid + "," + lat + "," + lng + "," + resp.data.clientId + "," + $rootScope.name + "," + $rootScope.tel + "," + resp.data.uid)
             }, 15000);
             $scope.tripInfo = resp.data;
             oldUid = resp.data.uid;
