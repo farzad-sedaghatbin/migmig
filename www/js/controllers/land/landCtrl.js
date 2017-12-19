@@ -566,7 +566,7 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
         hour: $("#hour").val(),
         minute: $("#minute").val(),
         id: $scope.selected_ph.id,
-        description: $("#autocompletefrom").val(),
+        description: $("#address").val(),
         pack: $("#pak").val()
       }
     }).then(function (resp) {
