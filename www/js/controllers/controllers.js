@@ -199,6 +199,13 @@ App.controller('AppCtrl', function ($scope, $rootScope, $cordovaNetwork, $ionicM
     };
     $http.post(url, data)
       .success(function (suc) {
+        if (suc.data === 201 || suc.data === "201"){
+          $ionicPopup.alert({
+            title: '<p class="text-center color-yellow">' + ("پیام") + '</p>',
+            template: '<p class="text-center color-gery">' + ("کد اشتباه می باشد") + '</p>'
+          });
+          return;
+        }
         WebService.stopLoading();
         $state.go("app.landing");
       }).error(function (err) {
