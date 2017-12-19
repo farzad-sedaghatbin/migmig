@@ -231,7 +231,7 @@ App.controller('AppCtrl', function ($scope, $rootScope, $cordovaNetwork, $ionicM
       $interval.cancel($rootScope.interval2);
       $interval.cancel($rootScope.interval3);
       db.transaction(function (tx) {
-        tx.executeSql('DELETE FROM ANIJUU', [], function (tx, results) {
+        tx.executeSql('DELETE FROM ANIJUU WHERE name != "intro"', [], function (tx, results) {
         }, null);
       });
       $state.go('landing', {}, {reload: true});
