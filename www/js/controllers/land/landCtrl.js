@@ -559,15 +559,14 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
         dlat: $scope.start_box.lat,
         dlong: $scope.start_box.lng,
         typeDesc: $("#moreInfo").val(),
-        number: $("#num").val(),
+        number: $("#pak").val(),
         year: $("#year").val(),
         month: $("#month").val(),
         day: $("#day").val(),
         hour: $("#hour").val(),
         minute: $("#minute").val(),
         id: $scope.selected_ph.id,
-        description: $("#address").val(),
-        pack: $("#pak").val()
+        description: $("#address").val()
       }
     }).then(function (resp) {
       WebService.stopLoading();
