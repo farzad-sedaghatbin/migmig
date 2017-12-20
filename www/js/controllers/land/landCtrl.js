@@ -151,6 +151,7 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
       alert(rating)
     }
   };
+  var ratingPopup;
   delivery.setVisible(false);
   client.onmessage = function (msg) {
     var data = JSON.parse(msg.data);
@@ -240,7 +241,7 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
         }
         break;
       case "reject":
-        $ionicPopup.alert({
+        ratingPopup = $ionicPopup.alert({
           title: '<p class="text-center color-yellow">' + $filter('langTranslate')("سفر پرید", $rootScope.appConvertedLang['FAILED']) + '</p>',
           template: '<p class="text-center color-gery">' + $filter('langTranslate')("سفر توسط راننده لغو شد.لطفا مجددا اقدام نمایید.", $rootScope.appConvertedLang['Enter_pickup_location']) + '</p>'
         });
@@ -319,6 +320,8 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
       data: $rootScope.uid + "," + rate
     }).then(function (resp) {
       WebService.stopLoading();
+      $("#my-pop2").removeClass("my-active");
+      ratingPopup.close();
       $ionicPopup.alert({
         title: '<p class="text-center color-yellow">' + ("پیام") + '</p>',
         template: '<p class="text-center color-gery">' + ("امتیاز شما با موفقیت ثبت شد") + '</p>'
@@ -985,12 +988,15 @@ App.controller('photographerCtrl', function ($rootScope, $state, $scope, $q, $co
           break;
         case "paid":
           animateMyPop();
+          $scope.$apply(function () {
+            $scope.paid = true;
+          });
           $rootScope.startMarker.setMap(null);
           $rootScope.endMarker.setMap(null);
           $rootScope.ren.setMap(null);
-          $scope.paid = true;
           $interval.cancel($rootScope.interval2);
           $interval.cancel($rootScope.interval3);
+          $rootScope.$apply();
           break;
       }
     };

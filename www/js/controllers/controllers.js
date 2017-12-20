@@ -12,6 +12,10 @@ App.controller('AppCtrl', function ($scope, $rootScope, $cordovaNetwork, $ionicM
 
   }
 
+  $scope.map = function () {
+    $state.go("app.landing")
+  };
+
   var db = openDatabase('mydb', '1.0', 'Test DB', 1024 * 1024);
   $scope.home = function () {
     db.transaction(function (tx) {
