@@ -2217,25 +2217,25 @@ v("klokantech.OpacityControl", dd);
 function ed(a) {
   if (navigator.geolocation) {
     var b = !a.enabled;
-    b ? ($("#geolocationIcon").css("color","#F06A21"),a.Pa = !0, a.xb = !!a.yb, a.Ha || (a.Ha = new google.maps.Marker({
+    b ? ($("#geolocationIcon").css("color","#71B0D9"),a.Pa = !0, a.xb = !!a.yb, a.Ha || (a.Ha = new google.maps.Marker({
       clickable: !1,
       position: new google.maps.LatLng(0, 0),
       map: a.map,
       icon: {
         path: google.maps.SymbolPath.CIRCLE,
         scale: 6,
-        fillColor: "#F06A21",
+        fillColor: "#71B0D9",
         fillOpacity: .9,
-        strokeColor: "#F06A21",
+        strokeColor: "#71B0D9",
         strokeWeight: 2
       },
       visible: !1
     })), a.oa || (a.oa = new google.maps.Circle({
       clickable: !1,
-      strokeColor: "#F06A21",
+      strokeColor: "#71B0D9",
       strokeOpacity: .8,
       strokeWeight: .5,
-      fillColor: "#F06A21",
+      fillColor: "#71B0D9",
       fillOpacity: .25,
       map: a.map,
       center: new google.maps.LatLng(0, 0),
@@ -2273,7 +2273,7 @@ v("klokantech.GeolocationControl", function (a, b, c) {
   navigator.geolocation && (this.Ib = $a("i", {
     // style: "color:red",
     class : "icon ion-ios-location",
-    style : "color: #F06A21;",
+    style : "color: #71B0D9;",
     id: "geolocationIcon"
   }), this.element = $a("button", {
       class: "button button-fab button-fab-bottom-right button-energized-900 ",
