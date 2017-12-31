@@ -31,9 +31,9 @@ App.controller('myTripCtrl', function ($scope, $rootScope, $ionicLoading, $compi
   }
 
   $scope.myTrip_menu = [
+    {'name': 'کامل شده'},
     {'name': 'درحال انجام'},
-    {'name': 'رزرو شده'},
-    {'name': 'کامل شده'}
+    {'name': 'رزرو شده'}
   ];
   //$scope.myTrip_menu_selected = 0;
   $scope.Trip_menu_click = function (index) {
@@ -41,11 +41,11 @@ App.controller('myTripCtrl', function ($scope, $rootScope, $ionicLoading, $compi
 
       $rootScope.myTrip_menu_selected = index;
       if (index == 0) {
-        $rootScope.active_trip = $rootScope.inProgress;
-      } else if (index == 1) {
-        $rootScope.active_trip = $rootScope.reserved;
-      } else if (index == 2) {
         $rootScope.active_trip = $rootScope.complete;
+      } else if (index == 1) {
+        $rootScope.active_trip = $rootScope.inProgress;
+      } else if (index == 2) {
+        $rootScope.active_trip = $rootScope.reserved;
       }
       animate_Trip_item();
     }

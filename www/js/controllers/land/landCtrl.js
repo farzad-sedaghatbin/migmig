@@ -554,49 +554,62 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
     );
   };
   $scope.ride = function (time) {
-    WebService.startLoading();
-    $http.defaults.headers.common.Authorization = $rootScope.token;
-    $http({
-      method: "POST",
-      url: "https://spot.cfapps.io/api/1/submitRequest",
-      data: {
-        dlat: $scope.start_box.lat,
-        dlong: $scope.start_box.lng,
-        typeDesc: $("#moreInfo").val(),
-        number: ($("#pak").val().split(","))[0],
-        year: $("#year").val(),
-        month: $("#month").val(),
-        day: $("#day").val(),
-        hour: $("#hour").val(),
-        minute: $("#minute").val(),
-        id: $scope.selected_ph.id,
-        description: $("#address").val()
-      }
-    }).then(function (resp) {
-      WebService.stopLoading();
-      $("#request").css("display", "none");
-      $scope.deleteFrom();
-      if (resp === 201 || resp === "201") {
-        $ionicPopup.alert({
-          title: '<p class="text-center color-yellow">' + ("پیام") + '</p>',
-          template: '<p class="text-center color-gery">' + ("در حال حاضر یک درخواست ثبت کرده اید") + '</p>'
-        });
-        return;
-      }
-      $scope.cost = parseInt(($("#pak").val().split(","))[1]);
-      $scope.finalCost = $scope.cost + 10000;
-      $scope.finalPay = false;
-      $scope.delivery = "1";
-      $ionicModal.fromTemplateUrl('templates/deliver-type.html', {
-        scope: $scope,
-        animation: 'slide-in-up'
-      }).then(function (modal) {
-        $scope.modal.payment = modal;
-        modal.show();
-      });
-    }, function (err) {
-      WebService.stopLoading();
-      WebService.myErrorHandler(err, false);
+    var confirmPopup = $ionicPopup.confirm({
+      title: 'پیام',
+      template: 'آیا از ارسال درخواست خود اطمینان دارید؟',
+      buttons: [
+        { text: 'خیر' },
+        {
+          text: 'بله',
+          type: 'button-positive',
+          onTap: function(e) {
+            WebService.startLoading();
+            $http.defaults.headers.common.Authorization = $rootScope.token;
+            $http({
+              method: "POST",
+              url: "https://spot.cfapps.io/api/1/submitRequest",
+              data: {
+                dlat: $scope.start_box.lat,
+                dlong: $scope.start_box.lng,
+                typeDesc: $("#moreInfo").val(),
+                number: ($("#pak").val().split(","))[0],
+                year: $("#year").val(),
+                month: $("#month").val(),
+                day: $("#day").val(),
+                hour: $("#hour").val(),
+                minute: $("#minute").val(),
+                id: $scope.selected_ph.id,
+                description: $("#address").val()
+              }
+            }).then(function (resp) {
+              WebService.stopLoading();
+              $("#request").css("display", "none");
+              $scope.deleteFrom();
+              if (resp === 201 || resp === "201") {
+                $ionicPopup.alert({
+                  title: '<p class="text-center color-yellow">' + ("پیام") + '</p>',
+                  template: '<p class="text-center color-gery">' + ("در حال حاضر یک درخواست ثبت کرده اید") + '</p>'
+                });
+                return;
+              }
+              $scope.cost = parseInt(($("#pak").val().split(","))[1]);
+              $scope.finalCost = $scope.cost + 10000;
+              $scope.finalPay = false;
+              $scope.delivery = "1";
+              $ionicModal.fromTemplateUrl('templates/deliver-type.html', {
+                scope: $scope,
+                animation: 'slide-in-up'
+              }).then(function (modal) {
+                $scope.modal.payment = modal;
+                modal.show();
+              });
+            }, function (err) {
+              WebService.stopLoading();
+              WebService.myErrorHandler(err, false);
+            });
+          }
+        }
+      ]
     });
   };
   $scope.delivery = "1";

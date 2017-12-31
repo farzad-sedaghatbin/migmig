@@ -264,6 +264,8 @@ App.controller('AppCtrl', function ($scope, $rootScope, $cordovaNetwork, $ionicM
       $rootScope.complete = resp.data.completedOrders;
       $rootScope.inProgress = resp.data.inProgressOrders;
       $rootScope.reserved = resp.data.reservedOrders;
+      $rootScope.active_trip = $rootScope.reserved;
+      $rootScope.myTrip_menu_selected = 2;
       $state.go("app.mytrip")
     }, function (err) {
       WebService.stopLoading();
