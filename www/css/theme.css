@@ -5,13 +5,13 @@
 .bg-black{ background-color: #000;}
 .bg-white{background-color: #fff;}
 
-.bg-dark{ background-color: #161616 !important;}
+.bg-dark{ background-color: #221E1B !important;}
 .bg-dark1{ background-color: #2e2f32 !important;}
 .bg-dark2{background-color: #1c1c1c !important;}
 .bg-light{background-color: #38393D !important;}
 
 .color-white {color: #ddd !important;}
-.bg-grey{  background-color: #212224}
+.bg-grey{  background-color: #221E1B}
 .login-btn-color{  background-color: #71B0D9}
 .login-input{
   direction: rtl;
