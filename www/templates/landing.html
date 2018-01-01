@@ -2,15 +2,35 @@
   <ion-content scroll="false" >
 	 <div  class="login-page full-height myText" full-height>
 			<div class='main-container'>
+        <button style="background-image: url(img/spot-en.png);
+    background-size: 100% 40%;
+    background-repeat: no-repeat;
+    top: 30%;
+    position: absolute;
+    left: 3%;
+    padding: 0;
+    margin: 0;" class="button button-icon button-clear color-yellow">
+        </button>
+        <button style="background-image: url(img/spot.png);
+    background-size: 100% 40%;
+    background-repeat: no-repeat;
+    top: 30%;
+    position: absolute;
+    right: 3%;
+    padding: 0;
+    margin: 0;" class="button button-icon button-clear color-yellow">
+        </button>
 				<div id='logo-box'>
 					<img class='logo vertical-middle' src='img/logo.png'/>
+					<img class='logo h-right' src='img/spot.png'/>
+					<img class='logo h-left' src='img/spot-en.png'/>
 				</div>
 				<div id='sign-in-box'>
 					<div class='vertical-middle'>
 						<!-- <a href='#/signin'><input id='signup-redirect-btn'  class='btn bg-yellow border-white' type='button' value='New user ? Sign Up now !' /></a> </br> -->
-						<input ng-click='sign_up()' id='signup-redirect-btn'  class='btn login-btn-color color-white border-white myText' type='button' value="ثبت نام" /></br>
+						<input ng-click='sign_up()' id='signup-redirect-btn'  class='btn login-btn-color color-dark border-white myText' type='button' value="ثبت نام" /></br>
 
-						<input ng-click='show_login1()' id='signIn-redirect-btn'  class='btn login-btn-color color-white border-white myText' type='button' value="ورود" /> </br>
+						<input ng-click='show_login1()' id='signIn-redirect-btn'  class='btn login-btn-color color-dark border-white myText' type='button' value="ورود" /> </br>
 						<a class='a m-top-10' style="color: #ddd !important;" href='/#/forget'>رمز عبورتان را فراموش کرده اید؟</a>
 					</div>
 				</div>

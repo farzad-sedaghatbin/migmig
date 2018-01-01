@@ -4,10 +4,35 @@
       <!--<ion-nav-back-button>-->
       <!--</ion-nav-back-button>-->
 
-	  <ion-nav-buttons side="right" style="right: 43%">
-        <button class="button button-icon button-clear ion-navicon color-yellow" menu-toggle="right">
+	  <ion-nav-buttons side="right" style="position:absolute;right: 43%">
+        <button style="background-image: url(img/menu.png);
+    background-size: 70% 60%;
+    background-repeat: no-repeat;
+    margin-top: 20%;" class="button button-icon button-clear color-yellow" menu-toggle="right">
         </button>
       </ion-nav-buttons>
+
+	  <ion-nav-buttons side="left" style="position:absolute;right: 0">
+      <button style="background-image: url(img/spot-en.png);
+    background-size: 100% 40%;
+    background-repeat: no-repeat;
+    top: 30%;
+    position: absolute;
+    left: 3%;
+    padding: 0;
+    margin: 0;" class="button button-icon button-clear color-yellow">
+      </button>
+      <button style="background-image: url(img/spot.png);
+    background-size: 100% 40%;
+    background-repeat: no-repeat;
+    top: 30%;
+    position: absolute;
+    right: 3%;
+    padding: 0;
+    margin: 0;" class="button button-icon button-clear color-yellow">
+      </button>
+      </ion-nav-buttons>
+
 	</ion-nav-bar>
 
 	<ion-nav-view name="menuContent"></ion-nav-view>

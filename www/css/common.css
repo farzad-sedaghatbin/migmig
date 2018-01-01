@@ -1,7 +1,27 @@
 
 .vertical-middle{
 	position: relative;
-	top: 30%;
+	top: 50%;
+	-webkit-transform: translateY(-50%);
+	-ms-transform: translateY(-50%);
+	transform: translateY(-50%);
+	/* display: inline-block; */
+ }
+.h-right{
+  width: 60px;
+	position: absolute;
+	top: 6%;
+  right: 5%;
+	-webkit-transform: translateY(-50%);
+	-ms-transform: translateY(-50%);
+	transform: translateY(-50%);
+	/* display: inline-block; */
+ }
+.h-left{
+  width: 60px;
+	position: absolute;
+	top: 6%;
+  left: 5%;
 	-webkit-transform: translateY(-50%);
 	-ms-transform: translateY(-50%);
 	transform: translateY(-50%);
