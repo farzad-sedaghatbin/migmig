@@ -1,23 +1,32 @@
 <ion-modal-view>
-  <ion-header-bar style="background: #2e2f32">
-    <h1 class="title" style="color: whitesmoke;left: 0;text-align: center">معرفی</h1>
-    <div class="buttons">
-      <button type="button" style="color: orange;background: transparent;font-size: large"
-              ng-click="$root.closeIntro()">
-        بستن
-      </button>
-    </div>
-  </ion-header-bar>
+  <button style="background-image: url(img/spot-en.png);
+    background-size: 100% 40%;
+    background-repeat: no-repeat;
+    top: 30%;
+    position: absolute;
+    left: 3%;
+    padding: 0;
+    margin: 0;" class="button button-icon button-clear color-yellow">
+  </button>
+  <button style="background-image: url(img/spot.png);
+    background-size: 100% 40%;
+    background-repeat: no-repeat;
+    top: 30%;
+    position: absolute;
+    right: 3%;
+    padding: 0;
+    margin: 0;" class="button button-icon button-clear color-yellow">
+  </button>
   <ion-content scroll="false">
     <ion-slide-box on-slide-changed="slideChanged(index)">
       <ion-slide
-        style="background: url('../img/2.png') no-repeat ;background-size: 100% 100%; width:100%; height:100%;object-fit: contain ">
+        style="background: url('img/2.png') no-repeat ;background-size: 100% 100%; width:100%; height:100%;object-fit: contain ">
         <h3 style="color: #0a9ec7">فقط کافیست روز و ساعت و زمان خود را مشخص کنید</h3>
 
 
       </ion-slide>
       <ion-slide
-        style="background: url('../img/1.png') no-repeat ;background-size: 100% 100%; width:100%; height:100%;object-fit: contain ">
+        style="background: url('img/1.png') no-repeat ;background-size: 100% 100%; width:100%; height:100%;object-fit: contain ">
         <h3 style="color: #0a9ec7">در لحظه برای هرکاری و هرجایی عکاس داشته باشید</h3>
 
       </ion-slide>
