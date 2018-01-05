@@ -39,6 +39,9 @@
         },
         "cordova-plugin-camera": {
             "PACKAGE_NAME": "ir.redmind.spot"
+        },
+        "cordova-plugin-x-toast": {
+            "PACKAGE_NAME": "ir.redmind.spot"
         }
     },
     "dependent_plugins": {
