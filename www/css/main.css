@@ -132,6 +132,10 @@ ion-header-bar .ion-ios-arrow-back{
 .yellow-hr{
 	height: 1px !important; background-color: #F84E0E !important;position: relative; ;
 }
+
+.blue-hr{
+	height: 1px !important; background-color: #71B0D9  !important;position: relative; ;
+}
 .mid-item{  display: block;
     margin: -10px auto 0;
     position: relative;
