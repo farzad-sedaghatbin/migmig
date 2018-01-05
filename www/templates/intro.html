@@ -7,7 +7,7 @@
     position: absolute;
     left: 3%;
     padding: 0;
-    margin: 0;" class="button button-icon button-clear color-yellow">
+    margin: 0;"ng-click="$root.closeIntro()" class="button button-icon button-clear color-yellow">
     </button>
     <button style="background-image: url(img/spot.png);
     background-size: 100% 40%;
@@ -16,8 +16,13 @@
     position: absolute;
     right: 3% !important;
     padding: 0;
-    margin: 0;" class="button button-icon button-clear color-yellow">
+    margin: 0;"
+            ng-click="$root.closeIntro()" class="button button-icon button-clear color-yellow">
     </button>
+    \      <button type="button" style="color: orange;background: transparent;font-size: large"
+                   ng-click="$root.closeIntro()">
+    بستن
+  </button>
   </ion-header-bar>
   <ion-content scroll="false">
     <ion-slide-box on-slide-changed="slideChanged(index)">
