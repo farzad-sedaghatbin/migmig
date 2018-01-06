@@ -410,6 +410,7 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
           animateMyPop();
           $scope.ph = resp.data;
           WebService.stopLoading();
+          $scope.clicked_item(0);
           var date = new Date();
           var jalali = toJalaali(date.getFullYear(), date.getMonth() + 1, date.getDate());
           // $("#year").val(jalali.jy);
