@@ -613,9 +613,7 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
     });
   };
   $scope.delivery = "1";
-  var selected = false;
   $scope.deliveryChanged = function () {
-    selected = true;
     if ($scope.delivery === "1") {
       $scope.finalCost = $scope.cost + 20000;
       $scope.delivery = "2";
@@ -625,11 +623,6 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
     }
   };
   $scope.goToBank = function () {
-    if (!$scope.finalPay && !selected) {
-      $cordovaToast.showShortBottom('لطفا یکی از روش های تحویل را انتخاب کنید');
-      return;
-    }
-    selected = false;
     $scope.modal.payment.hide();
     $scope.buy();
     if ($scope.finalPay) {
