@@ -355,19 +355,39 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
       if (geoloccontrol.enabled)
         ed(geoloccontrol);
       $scope.fromMarker.setPosition($scope.map.getCenter());
+      // $http({
+      //   method: "POST",
+      //   url: "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + $scope.map.getCenter().lat() + "," + $scope.map.getCenter().lng() + "&sensor=true&language=fa"
+      // }).then(function (resp) {
+      //   if (resp.data.results[1]) {
+      //     document.getElementById('autocompletefrom').value = resp.data.results[1].formatted_address;
+      //     $scope.fromAddress = resp.data.results[1].formatted_address;
+      //     $scope.Location = resp.data.results[1].formatted_address;
+      //   }
+      // }, function (err) {
+      //   WebService.myErrorHandler(err, false);
+      // });
     });
     var l2 = $scope.map.addListener("center_changed", function (event) {
       $scope.fromMarker.setPosition($scope.map.getCenter());
-    });
-    var l3 = $scope.map.addListener("bounds_changed", function (event) {
-      $scope.fromMarker.setPosition($scope.map.getCenter());
+      $http({
+        method: "POST",
+        url: "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + $scope.map.getCenter().lat() + "," + $scope.map.getCenter().lng() + "&sensor=true&language=fa"
+      }).then(function (resp) {
+        if (resp.data.results[1]) {
+          document.getElementById('autocompletefrom').value = resp.data.results[1].formatted_address;
+          $scope.fromAddress = resp.data.results[1].formatted_address;
+          $scope.Location = resp.data.results[1].formatted_address;
+        }
+      }, function (err) {
+        WebService.myErrorHandler(err, false);
+      });
     });
     var click = $scope.fromMarker.addListener('click', function () {
       clearTimeout(timer1);
       timer1 = setTimeout(function () {
         google.maps.event.removeListener(l1);
         google.maps.event.removeListener(l2);
-        google.maps.event.removeListener(l3);
         google.maps.event.removeListener(click);
         $http({
           method: "POST",
@@ -390,6 +410,7 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
           animateMyPop();
           $scope.ph = resp.data;
           WebService.stopLoading();
+          $scope.clicked_item(0);
           var date = new Date();
           var jalali = toJalaali(date.getFullYear(), date.getMonth() + 1, date.getDate());
           // $("#year").val(jalali.jy);
@@ -613,9 +634,7 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
     });
   };
   $scope.delivery = "1";
-  var selected = false;
   $scope.deliveryChanged = function () {
-    selected = true;
     if ($scope.delivery === "1") {
       $scope.finalCost = $scope.cost + 20000;
       $scope.delivery = "2";
@@ -625,11 +644,6 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
     }
   };
   $scope.goToBank = function () {
-    if (!$scope.finalPay && !selected) {
-      $cordovaToast.showShortBottom('لطفا یکی از روش های تحویل را انتخاب کنید');
-      return;
-    }
-    selected = false;
     $scope.modal.payment.hide();
     $scope.buy();
     if ($scope.finalPay) {
