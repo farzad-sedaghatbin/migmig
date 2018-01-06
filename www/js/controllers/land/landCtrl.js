@@ -606,13 +606,14 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
               WebService.stopLoading();
               $("#request").css("display", "none");
               $scope.deleteFrom();
-              if (resp === 201 || resp === "201") {
+              if (resp.data === 201 || resp.data === "201") {
                 $ionicPopup.alert({
                   title: '<p class="text-center color-yellow">' + ("پیام") + '</p>',
                   template: '<p class="text-center color-gery">' + ("در حال حاضر یک درخواست ثبت کرده اید") + '</p>'
                 });
                 return;
               }
+              $rootScope.ridemanId = resp.data;
               $scope.cost = parseInt(($("#pak").val().split(","))[1]);
               $scope.finalCost = $scope.cost + 10000;
               $scope.finalPay = false;
@@ -773,9 +774,10 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
     WebService.startLoading();
     var url = "https://spot.cfapps.io/api/1/factor";
     var takhfif = "1";
-    if ($("#takhfif").val())
-      takhfif = $("#takhfif").val();
-    $http.post(url, $scope.finalCost + "," + $rootScope.username + "," + $scope.selected_ph.id + "," + takhfif + "," + $scope.delivery).success(function (data, status, headers, config) {
+    if ($(".takhfif").val())
+      takhfif = $(".takhfif").val();
+    $http.post(url, $scope.finalCost + "," + $rootScope.username + "," + $rootScope.ridemanId + "," + takhfif + "," + $scope.delivery,{headers:{'Content-Type': 'text/plain','Accept': 'text/plain'}}).
+    success(function (data, status, headers, config) {
       WebService.stopLoading();
       if (!data || data === "") {
         $ionicPopup.alert({
@@ -942,6 +944,7 @@ App.controller('photographerCtrl', function ($rootScope, $state, $scope, $q, $co
         }, 1000);
       }
     };
+    $rootScope.tripInfo = null;
     $rootScope.socket.onmessage = function (msg) {
       var data = JSON.parse(msg.data);
       switch (data.command) {
@@ -1018,6 +1021,7 @@ App.controller('photographerCtrl', function ($rootScope, $state, $scope, $q, $co
           $scope.$apply(function () {
             $scope.paid = true;
           });
+          $rootScope.tripInfo = null;
           $rootScope.startMarker.setMap(null);
           $rootScope.endMarker.setMap(null);
           $rootScope.ren.setMap(null);

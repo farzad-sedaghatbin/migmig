@@ -51,7 +51,7 @@
 
 	 }
    this.myErrorHandler = function (err, isFromLogin) {
-     if (err == 401) {
+     if (err === 401 || err.status === 401) {
        if (isFromLogin) {
          $ionicPopup.alert({
            title: '<span class="myText">پیام</span>',
