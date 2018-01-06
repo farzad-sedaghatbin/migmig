@@ -68,8 +68,8 @@
 
 #menu-list .item{  border: none; border-bottom: 1px solid #221E1B; }
 #menu-list .wrap-it .item{ padding-top: 12px !important; padding-bottom: 12px !important;}
-a.active-menu{color: #F84E0E !important;}
-a.active-menu *{color: #F84E0E !important;}
+a.active-menu{color: #71B0D9 !important;}
+a.active-menu *{color: #71B0D9 !important;}
 .no-border{ border: none !important;}
 
 #profile-box{ margin-top: 30px;}
