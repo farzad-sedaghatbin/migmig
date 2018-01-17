@@ -1,11 +1,50 @@
 App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoading, $compile, $cordovaToast, $ionicModal, $window, $timeout, $ionicPopup, landInit, WebService, $filter, $cordovaNativeAudio, $cordovaVibration) {
 
-
+  $scope.$on("$ionicView.enter", function (scopes, states) {
+    $timeout(function () {
+      if ($rootScope.projectType === 'on'){
+        var url = "https://spot.cfapps.io/api/1/aroundPhotograph";
+        $http.defaults.headers.common.Authorization = $rootScope.token;
+        $http({
+          method: "POST",
+          url: url
+        }).then(function (resp) {
+          if (resp.data.length > 0) {
+            resp.data.forEach(function (value, key) {
+              var loc = new google.maps.LatLng(value.lat, value.longitude);
+              var pinIcon = new google.maps.MarkerImage(
+                image,
+                null,
+                null,
+                null,
+                new google.maps.Size(75, 85)
+              );
+              var marker = new google.maps.Marker({
+                position: loc,
+                map: $scope.map,
+                title: '',
+                icon: pinIcon
+              });
+              marker.setVisible(true);
+              markers.push(marker);
+              bound.extend(loc);
+            });
+            $scope.map.fitBounds(bound);
+          }
+        }, function (err) {
+          WebService.stopLoading();
+          WebService.myErrorHandler(err, false);
+        });
+      }
+    }, 400)
+  });
 
   /* Funtion For set Map
    =========================================================== */
   var geoloccontrol;
-
+  var bound = new google.maps.LatLngBounds(null);
+  var image = 'img/destination.png';
+  var markers = [];
   function set_map() {
     // Create an array of styles.
     var styles = landInit.mapStyles();
@@ -13,7 +52,7 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
     // Create a new StyledMapType object, passing it the array of styles,
     var styledMap = new google.maps.StyledMapType(styles,
       {name: "Styled Map"});
-    var myLatlng = new google.maps.LatLng(43.07493, -89.381388);
+    var myLatlng = new google.maps.LatLng(35.797097, 51.453702);
     var mapOptions = {
       center: myLatlng,
       zoom: 16,
@@ -132,9 +171,8 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
   client.onopen = function () {
     client.send("join," + $rootScope.userid);
   };
-  var image = 'img/destination.png';
-  var bound = new google.maps.LatLngBounds(null);
-  var markers = [];
+
+
   var ids = [];
   var delivery = new google.maps.Marker({
     icon: image
@@ -585,10 +623,16 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
           type: 'button-positive',
           onTap: function(e) {
             WebService.startLoading();
+            var url;
+            if ($rootScope.projectType === 'on'){
+              url = "https://spot.cfapps.io/api/1/onlineSubmitRequest";
+            } else {
+              url = "https://spot.cfapps.io/api/1/submitRequest";
+            }
             $http.defaults.headers.common.Authorization = $rootScope.token;
             $http({
               method: "POST",
-              url: "https://spot.cfapps.io/api/1/submitRequest",
+              url: url,
               data: {
                 dlat: $scope.start_box.lat,
                 dlong: $scope.start_box.lng,
@@ -949,7 +993,6 @@ App.controller('photographerCtrl', function ($rootScope, $state, $scope, $q, $co
       var data = JSON.parse(msg.data);
       switch (data.command) {
         case "request":
-          $scope.paid = false;
           if ($rootScope.startMarker) {
             $rootScope.startMarker.setMap(null);
             $rootScope.endMarker.setMap(null);
@@ -1029,9 +1072,60 @@ App.controller('photographerCtrl', function ($rootScope, $state, $scope, $q, $co
           $interval.cancel($rootScope.interval3);
           $rootScope.$apply();
           break;
+        case "order":
+          $scope.projectId = data.deliveryLocationDTO.id;
+          var start2 = new google.maps.LatLng(data.deliveryLocationDTO.lat, data.deliveryLocationDTO.lng);
+          var pinIcon3 = new google.maps.MarkerImage(
+            startImage,
+            null,
+            null,
+            null,
+            new google.maps.Size(60, 60)
+          );
+          $rootScope.projectMarker = new google.maps.Marker({
+            position: start2,
+            map: $rootScope.map,
+            title: '',
+            icon: pinIcon3
+          });
+          $scope.$apply(function () {
+            $scope.showFooter = true;
+          });
+          break;
       }
     };
   }
+
+  $scope.accept = function () {
+    WebService.startLoading();
+    $http.defaults.headers.common.Authorization = $rootScope.token;
+    $http({
+      method: "POST",
+      url: "https://spot.cfapps.io/api/1/approved",
+      data: $scope.projectId
+    }).then(function (resp) {
+      if (resp.data === 200 || resp.data === '200'){
+        $cordovaToast.showLongBottom('پروژه با موفقیت به نام شما ثبت شد.');
+      } else {
+        $cordovaToast.showLongBottom('پروژه به یکی دیگر از همکاران اختصاص یافت');
+      }
+      WebService.stopLoading();
+      cleanPage();
+    }, function (err) {
+      WebService.stopLoading();
+      WebService.myErrorHandler(err, false);
+    });
+  };
+
+  $scope.reject = function () {
+    cleanPage();
+  };
+
+  function cleanPage() {
+    $rootScope.projectMarker.setMap(null);
+    $scope.showFooter = false;
+  }
+
 
   var startImage = 'img/source.png';
   var endImage = 'img/destination.png';
@@ -1176,11 +1270,15 @@ App.controller('photographerCtrl', function ($rootScope, $state, $scope, $q, $co
           method: "POST",
           url: "https://spot.cfapps.io/api/1/current"
         }).then(function (resp) {
+          if (resp.data === 200 || resp.data === 'data'){
+            return;
+          }
           if (resp.data.uid !== oldUid) {
             $rootScope.interval3 = $interval(function () {
               $rootScope.socket.send("delivery," + $rootScope.userid + "," + lat + "," + lng + "," + resp.data.clientId + "," + $rootScope.name + "," + $rootScope.tel + "," + resp.data.uid)
             }, 15000);
             $scope.tripInfo = resp.data;
+            $scope.paid = false;
             oldUid = resp.data.uid;
             var start = new google.maps.LatLng(lat, lng);
             var pinIcon = new google.maps.MarkerImage(

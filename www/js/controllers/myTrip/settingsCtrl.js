@@ -5,12 +5,12 @@ App.controller('settingsCtrl', function($scope,$rootScope, $ionicModal, $timeout
   $scope.gallery = function () {
     var options = {sourceType: Camera.PictureSourceType.PHOTOLIBRARY, targetWidth: 400, targetHeight: 400};
     navigator.camera.getPicture(function cameraSuccess(imageUri) {
-      WebService.startLoading();
       window.resolveLocalFileSystemURL(imageUri, function (fileEntry) {
         fileEntry.file(function (file) {
           var reader = new FileReader();
           reader.onloadend = function (evt) {
             $scope.pic = evt.target.result;
+            $('.avatar').removeClass('ion-camera');
           };
           reader.readAsDataURL(file);
         });

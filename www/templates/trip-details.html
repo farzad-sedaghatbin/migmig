@@ -15,7 +15,7 @@
 				</div>
 				<div class="row" ng-click="showFrom()">
 						<div class="col col-50 col-center" >
-								<p class='color-white myText'>نام پروژه</p>
+								<p class='color-white myText'>نام سرویس</p>
 							<div class=" color-gery myText">{{details.name}}</div>
 						</div>
 				</div>
@@ -24,16 +24,30 @@
 					<span class='mid-item bg-grey color-white myText'>در</span>
 				</div>
 
-				<div class="row ">
-						<div class="col  col-center" >
-								<p class='color-white myText'>مقصد</p>
-							<div class=" color-gery myText">{{details.destination}}</div>
-						</div>
-						<div class="col   col-center" >
-							<div class="m-top-30 color-gery" ng-show='details.drop_time.length myText'>{{details.time}} , {{details.date}}</div>
-						</div>
-				</div>
-
+        <div class="row ">
+          <div class="col col-25 " >
+            <p class='color-white myText'>مقصد</p>
+          </div>
+          <div class="col col-75 " >
+            <div class="color-gery myText">{{details.destination}} </div>
+          </div>
+        </div>
+        <div class="row ">
+          <div class="col col-25 " >
+            <p class='color-white myText'>تاریخ</p>
+          </div>
+          <div class="col col-75 " >
+            <div class="color-gery myText">{{details.time}} , {{details.date}} </div>
+          </div>
+        </div>
+        <div class="row ">
+          <div class="col col-25 " >
+            <p class='color-white myText'>توضیحات</p>
+          </div>
+          <div class="col col-75 " >
+            <div class="color-gery myText">{{details.description}}</div>
+          </div>
+        </div>
 			</div>
 	<p class='text-center color-yellow bg-light p-head no-margin myText'>مشخصات عکاس</p>
 
@@ -50,15 +64,7 @@
 
 			<div id='det-box2' class='b-border-light f-size-17'>
 				<div class='row'>
-			<div class='col'><p class='color-yellow p-head no-margin myText'>جرییات هزینه</p> </div>
-				</div>
-				<div class="row p-top-5  b-border-light">
-						<div class="col  p-10 col-center" >
-							<p class='color-gery no-margin myText'>مسافت</p>
-						</div>
-						<div class="col   p-10 text-center col-center" >
-							<p class='pull-right'><span class='color-gery myText'>{{details.distance}}</span> <span class='color-yellow'>km</span></p>
-						</div>
+			<div class='col'><p class='color-yellow p-head no-margin myText'>جزییات هزینه</p> </div>
 				</div>
 				<div class="row p-top-5 b-border-light">
 						<div class="col  p-10 col-center" >

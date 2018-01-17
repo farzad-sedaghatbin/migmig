@@ -64,8 +64,36 @@
         </div>
       </div>
     </div>
+
+    <div id='my-pop2' class='animation-styles bg-dark1'>
+      <div class='bg-dark1 visible'>
+        <div class='head-box text-center' style="height: 120px;">
+          <div class='vertical-middle'>
+            <span class='color-yellow d-block myText' style="padding-top: 40px">نام</span>
+            <span class='color-yellow d-block myText'>{{driver.name}}</span>
+            <span class='color-gery d-block myText'>شماره</span>
+            <span class='color-gery d-block myText'>{{driver.mobile}}</span>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class='color-white text-center net-error myText'>به اینترنت متصل نیستید</div>
   </ion-content>
+
+  <ion-footer-bar class="bg-dark" id="footer" ng-if="showFooter">
+    <div class='footer-box bg-dark color-yellow'>
+      <div id="request" style="display: none" class='footer-box bg-dark color-yellow'>
+        <div class='w-50-p pull-left my-button h-100-p text-center border-r-yellow' ng-click='reject()'>رد</div>
+        <div class='my-button h-100-p text-center myText'
+             ng-click='accept()'>
+          قبول
+        </div>
+      </div>
+    </div>
+
+  </ion-footer-bar>
 
   <!--<ion-footer-bar style="background-color: transparent !important;height: 88px;z-index: 100;background-image: none" class="bg-dark">-->
     <!--<div style="padding-top: 40px;">-->

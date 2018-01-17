@@ -198,6 +198,9 @@ angular.module('CallApp', ['ionic', 'ngCordova', 'CallAppcontrollers', 'ngMockE2
         db.transaction(function (tx) {
           tx.executeSql('INSERT INTO ANIJUU (name, log) VALUES (?, ?)', ["intro", true]);
         });
+      };
+      $rootScope.goToLogin = function () {
+        $rootScope.intro.hide();
       }
     });
   })

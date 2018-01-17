@@ -249,26 +249,13 @@
       </div>
       <ion-scroll delegate-handle="calendarScroll" direction="x" class='bg-dark2'>
         <div class="row no-padding text-center ">
-          <div class="col col-25" ng-class="{active_cab : active_cab == $index }" ng-click='clicked_item($index)'
+          <div class="col col-33" ng-class="{active_cab : active_cab == $index }" ng-click='clicked_item($index)'
                ng-repeat="p in ph">
             <img ng-src='img/{{p.icon}}.png' style='width: 50px'/>
             <!-- <div class="col color-gery">{{day.number}}</div> -->
           </div>
         </div>
       </ion-scroll>
-    </div>
-    <div id='my-pop2' class='animation-styles bg-dark1'>
-      <div class='bg-dark1 visible'>
-        <div class='head-box text-center' style="height: 120px;">
-          <div class='vertical-middle'>
-            <span class='color-yellow d-block myText' style="padding-top: 40px">نام</span>
-            <span class='color-yellow d-block myText'>{{driver.name}}</span>
-            <span class='color-gery d-block myText'>شماره</span>
-            <span class='color-gery d-block myText'>{{driver.mobile}}</span>
-
-          </div>
-        </div>
-      </div>
     </div>
     <div class='color-white text-center net-error myText'>به اینترنت متصل نیستید</div>
   </ion-content>

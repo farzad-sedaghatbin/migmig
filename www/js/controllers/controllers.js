@@ -13,7 +13,11 @@ App.controller('AppCtrl', function ($scope, $rootScope, $cordovaNetwork, $ionicM
   }
 
   $scope.map = function () {
-    $state.go("app.landing")
+    if ($rootScope.type === "2") {
+      $state.go("app.landing")
+    } else {
+      $state.go('app.photographer');
+    }
   };
 
   var db = openDatabase('mydb', '1.0', 'Test DB', 1024 * 1024);
@@ -106,6 +110,10 @@ App.controller('AppCtrl', function ($scope, $rootScope, $cordovaNetwork, $ionicM
   $scope.show_login1 = function () {
     $scope.login = {};
     $scope.modal.sign_in.show();
+  };
+
+  $scope.goToForget = function () {
+    $state.go('forget');
   };
 
   $scope.sign_up = function () {
@@ -222,25 +230,38 @@ App.controller('AppCtrl', function ($scope, $rootScope, $cordovaNetwork, $ionicM
   // MENU
 
   $scope.logout = function () {
-    var db = openDatabase('mydb', '1.0', 'Test DB', 1024 * 1024);
-    WebService.show_loading();
+    var confirmPopup = $ionicPopup.confirm({
+      title: 'پیام',
+      template: 'آیا از خروج از حساب کاربری خود اطمینان دارید؟',
+      buttons: [
+        { text: 'خیر' },
+        {
+          text: 'بله',
+          type: 'button-positive',
+          onTap: function(e) {
+            var db = openDatabase('mydb', '1.0', 'Test DB', 1024 * 1024);
+            WebService.show_loading();
 
-    $timeout(function () {
-      $ionicLoading.hide();
-      $ionicHistory.nextViewOptions({
-        disableAnimate: true,
-        disableBack: true
-      });
-      $interval.cancel($rootScope.interval);
-      $interval.cancel($rootScope.interval2);
-      $interval.cancel($rootScope.interval3);
-      db.transaction(function (tx) {
-        tx.executeSql('DELETE FROM ANIJUU WHERE name != "intro"', [], function (tx, results) {
-        }, null);
-      });
-      $state.go('landing', {}, {reload: true});
+            $timeout(function () {
+              $ionicLoading.hide();
+              $ionicHistory.nextViewOptions({
+                disableAnimate: true,
+                disableBack: true
+              });
+              $interval.cancel($rootScope.interval);
+              $interval.cancel($rootScope.interval2);
+              $interval.cancel($rootScope.interval3);
+              db.transaction(function (tx) {
+                tx.executeSql('DELETE FROM ANIJUU WHERE name != "intro"', [], function (tx, results) {
+                }, null);
+              });
+              $state.go('landing', {}, {reload: true});
 
-    }, 1000);
+            }, 1000);
+          }
+        }
+      ]
+    });
     //$state.go('landing');
 
   };
