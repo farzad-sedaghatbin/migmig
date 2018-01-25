@@ -19,6 +19,9 @@
 }
 
 .slider-pager .slider-pager-page{
+  color: #71B0D9 !important;
+}
+.slider-pager .slider-pager-page.active{
   color: red !important;
 }
 
