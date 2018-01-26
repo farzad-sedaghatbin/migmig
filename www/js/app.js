@@ -180,19 +180,19 @@ angular.module('CallApp', ['ionic', 'ngCordova', 'CallAppcontrollers', 'ngMockE2
           }
         }
       };
-      db.transaction(function (tx) {
-        tx.executeSql('SELECT d.log FROM ANIJUU d WHERE d.name="intro"', [], function (tx, results) {
-          var len = results.rows.length, i, result = '';
-          if (!results.rows || results.rows.length === 0) {
+      // db.transaction(function (tx) {
+      //   tx.executeSql('SELECT d.log FROM ANIJUU d WHERE d.name="intro"', [], function (tx, results) {
+      //     var len = results.rows.length, i, result = '';
+      //     if (!results.rows || results.rows.length === 0) {
             $ionicModal.fromTemplateUrl('templates/intro.html', {
               animation: 'slide-in-up'
             }).then(function (modal) {
               $rootScope.intro = modal;
               modal.show();
             });
-          }
-        }, null);
-      });
+          // }
+        // }, null);
+      // });
       $rootScope.closeIntro = function () {
         $rootScope.intro.hide();
         db.transaction(function (tx) {
