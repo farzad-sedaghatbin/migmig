@@ -2,7 +2,7 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
 
   $scope.$on("$ionicView.enter", function (scopes, states) {
     $timeout(function () {
-      if ($rootScope.projectType === 'on'){
+      if ($rootScope.projectType === 'on') {
         var url = "https://spot.cfapps.io/api/1/aroundPhotograph";
         $http.defaults.headers.common.Authorization = $rootScope.token;
         $http({
@@ -45,6 +45,7 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
   var bound = new google.maps.LatLngBounds(null);
   var image = 'img/destination.png';
   var markers = [];
+
   function set_map() {
     // Create an array of styles.
     var styles = landInit.mapStyles();
@@ -95,6 +96,7 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
       }
       map.setZoom(16);
     });
+    $scope.showMyLocation = true;
   }
 
   /* Function For Get place from LatLng
@@ -383,9 +385,10 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
       position: $scope.map.getCenter(),
       animation: google.maps.Animation.DROP,
       map: $scope.map,
-      visible: true,
+      visible: false,
       icon: pinIcon
     });
+    $scope.showMyLocation = true;
     // $scope.fromMarker.setMap($scope.map);
     google.maps.event.trigger($scope.map, 'resize');
     var timer1;
@@ -421,46 +424,41 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
         WebService.myErrorHandler(err, false);
       });
     });
-    var click = $scope.fromMarker.addListener('click', function () {
-      clearTimeout(timer1);
-      timer1 = setTimeout(function () {
-        google.maps.event.removeListener(l1);
-        google.maps.event.removeListener(l2);
-        google.maps.event.removeListener(click);
-        $http({
-          method: "POST",
-          url: "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + $scope.map.getCenter().lat() + "," + $scope.map.getCenter().lng() + "&sensor=true&language=fa"
-        }).then(function (resp) {
-          if (resp.data.result && resp.data.result.length > 0) {
-            from_el.value = resp.data.results[1].formatted_address;
-            $scope.fromAddress = resp.data.results[1].formatted_address;
-          }
-        }, function (err) {
-          WebService.myErrorHandler(err, false);
-        });
-        WebService.startLoading();
-        $http.defaults.headers.common.Authorization = $rootScope.token;
-        var url = "https://spot.cfapps.io/api/1/listService";
-        $http({
-          method: "POST",
-          url: url
-        }).then(function (resp) {
-          animateMyPop();
-          $scope.ph = resp.data;
-          WebService.stopLoading();
-          $scope.clicked_item(0);
-          var date = new Date();
-          var jalali = toJalaali(date.getFullYear(), date.getMonth() + 1, date.getDate());
-          // $("#year").val(jalali.jy);
-          setMonth(jalali.jm);
-          setDay(jalali.jd);
-        }, function (err) {
-          WebService.stopLoading();
-          WebService.myErrorHandler(err, false);
-        });
-      }, 500);
+    $scope.myLocationClicked = function () {
+      $http({
+        method: "POST",
+        url: "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + $scope.map.getCenter().lat() + "," + $scope.map.getCenter().lng() + "&sensor=true&language=fa"
+      }).then(function (resp) {
+        if (resp.data.result && resp.data.result.length > 0) {
+          from_el.value = resp.data.results[1].formatted_address;
+          $scope.fromAddress = resp.data.results[1].formatted_address;
+        }
+      }, function (err) {
+        WebService.myErrorHandler(err, false);
+      });
+      WebService.startLoading();
+      $http.defaults.headers.common.Authorization = $rootScope.token;
+      var url = "https://spot.cfapps.io/api/1/listService";
+      $http({
+        method: "POST",
+        url: url
+      }).then(function (resp) {
+        $scope.showMyLocation = false;
+        animateMyPop();
+        $scope.ph = resp.data;
+        WebService.stopLoading();
+        $scope.clicked_item(0);
+        var date = new Date();
+        var jalali = toJalaali(date.getFullYear(), date.getMonth() + 1, date.getDate());
+        // $("#year").val(jalali.jy);
+        setMonth(jalali.jm);
+        setDay(jalali.jd);
+      }, function (err) {
+        WebService.stopLoading();
+        WebService.myErrorHandler(err, false);
+      });
 
-    });
+    };
 
     function setDay(day) {
       for (var i = 0; i < 32; i++) {
@@ -617,14 +615,14 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
       title: 'پیام',
       template: 'آیا از ارسال درخواست خود اطمینان دارید؟',
       buttons: [
-        { text: 'خیر' },
+        {text: 'خیر'},
         {
           text: 'بله',
           type: 'button-positive',
-          onTap: function(e) {
+          onTap: function (e) {
             WebService.startLoading();
             var url;
-            if ($rootScope.projectType === 'on'){
+            if ($rootScope.projectType === 'on') {
               url = "https://spot.cfapps.io/api/1/onlineSubmitRequest";
             } else {
               url = "https://spot.cfapps.io/api/1/submitRequest";
@@ -820,8 +818,12 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
     var takhfif = "1";
     if ($(".takhfif").val())
       takhfif = $(".takhfif").val();
-    $http.post(url, $scope.finalCost + "," + $rootScope.username + "," + $rootScope.ridemanId + "," + takhfif + "," + $scope.delivery,{headers:{'Content-Type': 'text/plain','Accept': 'text/plain'}}).
-    success(function (data, status, headers, config) {
+    $http.post(url, $scope.finalCost + "," + $rootScope.username + "," + $rootScope.ridemanId + "," + takhfif + "," + $scope.delivery, {
+      headers: {
+        'Content-Type': 'text/plain',
+        'Accept': 'text/plain'
+      }
+    }).success(function (data, status, headers, config) {
       WebService.stopLoading();
       if (!data || data === "") {
         $ionicPopup.alert({
@@ -1104,7 +1106,7 @@ App.controller('photographerCtrl', function ($rootScope, $state, $scope, $q, $co
       url: "https://spot.cfapps.io/api/1/approved",
       data: $scope.projectId
     }).then(function (resp) {
-      if (resp.data === 200 || resp.data === '200'){
+      if (resp.data === 200 || resp.data === '200') {
         $cordovaToast.showLongBottom('پروژه با موفقیت به نام شما ثبت شد.');
       } else {
         $cordovaToast.showLongBottom('پروژه به یکی دیگر از همکاران اختصاص یافت');
@@ -1270,7 +1272,7 @@ App.controller('photographerCtrl', function ($rootScope, $state, $scope, $q, $co
           method: "POST",
           url: "https://spot.cfapps.io/api/1/current"
         }).then(function (resp) {
-          if (resp.data === 200 || resp.data === 'data'){
+          if (resp.data === 200 || resp.data === 'data') {
             return;
           }
           if (resp.data.uid !== oldUid) {
