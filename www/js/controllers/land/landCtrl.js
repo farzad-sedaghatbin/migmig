@@ -94,6 +94,8 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
       } else {
         map.setCenter(place.geometry.location);
       }
+      bound.extend(map.getCenter());
+      map.fitBounds(bound);
       map.setZoom(16);
     });
     $scope.showMyLocation = true;

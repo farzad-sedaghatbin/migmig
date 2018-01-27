@@ -13,7 +13,7 @@ App.controller('AppCtrl', function ($scope, $rootScope, $cordovaNetwork, $ionicM
   }
 
   $scope.map = function () {
-    if ($rootScope.type === "2") {
+    if (!$rootScope.type || $rootScope.type === "2") {
       $state.go("app.landing")
     } else {
       $state.go('app.photographer');
