@@ -131,7 +131,7 @@ angular.module('CallApp', ['ionic', 'ngCordova', 'CallAppcontrollers', 'ngMockE2
         $rootScope.userid = result;
       };
       db.transaction(function (tx) {
-        tx.executeSql('SELECT d.log FROM ANIJUU d WHERE d.name="name"', [], function (tx, results) {
+        tx.executeSql('SELECT d.log FROM ANIJUU d WHERE d.name="myname"', [], function (tx, results) {
           var len = results.rows.length, i, result = '';
           if (!results.rows || results.rows.length == 0) {
             result = null;
@@ -199,9 +199,6 @@ angular.module('CallApp', ['ionic', 'ngCordova', 'CallAppcontrollers', 'ngMockE2
           tx.executeSql('INSERT INTO ANIJUU (name, log) VALUES (?, ?)', ["intro", true]);
         });
       };
-      $rootScope.goToLogin = function () {
-        $rootScope.intro.hide();
-      }
     });
   })
   .run(function ($ionicPopup, $rootScope, $ionicPlatform, $httpBackend, $http) {

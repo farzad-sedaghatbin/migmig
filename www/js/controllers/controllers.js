@@ -155,7 +155,7 @@ App.controller('AppCtrl', function ($scope, $rootScope, $cordovaNetwork, $ionicM
           tx.executeSql('INSERT INTO ANIJUU (name, log) VALUES (?, ?)', ["username", $scope.login.mail]);
           tx.executeSql('INSERT INTO ANIJUU (name, log) VALUES (?, ?)', ["type", $rootScope.type]);
           tx.executeSql('INSERT INTO ANIJUU (name, log) VALUES (?, ?)', ["userid", $rootScope.userid]);
-          tx.executeSql('INSERT INTO ANIJUU (name, log) VALUES (?, ?)', ["name", $rootScope.name]);
+          tx.executeSql('INSERT INTO ANIJUU (name, log) VALUES (?, ?)', ["myname", $rootScope.name]);
           tx.executeSql('INSERT INTO ANIJUU (name, log) VALUES (?, ?)', ["tel", $rootScope.tel]);
           tx.executeSql('INSERT INTO ANIJUU (name, log) VALUES (?, ?)', ["myToken", "Bearer " + data.token]);
         });

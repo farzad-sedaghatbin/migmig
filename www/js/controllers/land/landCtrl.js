@@ -31,6 +31,7 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
             });
             $scope.map.fitBounds(bound);
           }
+          $scope.getCurrentLocation()
         }, function (err) {
           WebService.stopLoading();
           WebService.myErrorHandler(err, false);
