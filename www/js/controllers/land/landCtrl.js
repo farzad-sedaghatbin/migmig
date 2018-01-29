@@ -136,6 +136,7 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
       // $scope.map.setCenter(myLatlng);
       bound.extend(myLatlng);
       $scope.map.fitBounds(bound);
+      $scope.map.setZoom(16);
       $ionicLoading.hide();
     }, function (error) {
       $ionicPopup.alert({
@@ -150,6 +151,7 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
       // $scope.map.setCenter(myLatlng);
       bound.extend(myLatlng);
       $scope.map.fitBounds(bound);
+      $scope.map.setZoom(16);
       $ionicLoading.hide();
     });
   };
