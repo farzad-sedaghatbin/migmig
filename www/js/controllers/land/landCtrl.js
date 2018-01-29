@@ -133,10 +133,14 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
       $scope.start_box.lng = pos.coords.longitude;
 
       codeLatLng(pos.coords.latitude, pos.coords.longitude);
-      // $scope.map.setCenter(myLatlng);
-      bound.extend(myLatlng);
-      $scope.map.fitBounds(bound);
+      $scope.map.setCenter(myLatlng);
+      // bound.extend(myLatlng);
+      // $scope.map.fitBounds(bound);
       $scope.map.setZoom(16);
+      // var proj = $scope.map.projectio;
+      // var aPoint = proj.fromLatLngToPoint($scope.map.getCenter());
+      // $("#selectMarker").css("left",aPoint.x + "px");
+      // $("#selectMarker").css("margin-top",aPoint.y + "px");
       $ionicLoading.hide();
     }, function (error) {
       $ionicPopup.alert({
@@ -148,9 +152,9 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
       $scope.start_box.lng = pos.coords.longitude;
 
       codeLatLng(pos.coords.latitude, pos.coords.longitude);
-      // $scope.map.setCenter(myLatlng);
-      bound.extend(myLatlng);
-      $scope.map.fitBounds(bound);
+      $scope.map.setCenter(myLatlng);
+      // bound.extend(myLatlng);
+      // $scope.map.fitBounds(bound);
       $scope.map.setZoom(16);
       $ionicLoading.hide();
     });
