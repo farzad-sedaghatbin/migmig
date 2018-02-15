@@ -831,8 +831,7 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
       takhfif = $(".takhfif").val();
     $http.post(url, $scope.finalCost + "," + $rootScope.username + "," + $rootScope.ridemanId + "," + takhfif + "," + $scope.delivery, {
       headers: {
-        'Content-Type': 'text/plain',
-        'Accept': 'text/plain'
+        'Content-Type': 'text/plain'
       }
     }).success(function (data, status, headers, config) {
       WebService.stopLoading();
@@ -844,7 +843,7 @@ App.controller('landCtrl', function ($scope, $rootScope, $q, $http, $ionicLoadin
         return;
       }
       window.open(
-        "http://dagala.ir/bank.html?res=" + data + "&amount=" + parseInt($scope.finalCost),
+        "http://spotteam.ir/bank.html?res=" + data + "&amount=" + $scope.finalCost,
         "_system",
         "hidden=no,location=no,clearsessioncache=yes,clearcache=yes"
       );
